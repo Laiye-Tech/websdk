@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "allowJs": true,
+    "downlevelIteration": true,
+    "jsxFactory": "Nerv.createElement"
+  },
+
+  "include": [
+    "src/**/*",
+    "interfaces/externals.d.ts",
+    "interfaces/RongIMLib.d.ts", "client/main.tsx"
+  ],
+
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

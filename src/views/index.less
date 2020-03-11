@@ -1,0 +1,100 @@
+.app {
+  position: fixed;
+  z-index: 9999;
+  text-align: right;
+  right: 16px;
+  bottom: 16px;
+}
+
+.container {
+  width: 375px;
+  height: 668px;
+  max-height: calc(100vh - 106px);
+  text-align: left;
+  background: #eceef0;
+  overflow: hidden;
+  flex-direction: column;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 36px 120px 0 rgba(66, 91, 109, 0.3);
+  border: 1px solid #D9DEE2;
+  position: relative;
+  display: flex;
+
+  .header {
+    height: 64px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+
+    dl {
+      margin: 0;
+      width: 80%;
+    }
+
+    dt {
+      float: left;
+      height: 64px;
+
+      img {
+        width: 36px;
+        height: 36px;
+        background: #fff;
+        margin-top: 12px;
+      }
+    }
+
+    dd {
+      float: left;
+      margin-left: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 64px;
+    }
+
+    .closeBtn {
+      width: 50px;
+      text-align: right;
+      line-height: 60px;
+      cursor: pointer;
+
+      img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .msgContainer {
+    flex: 1;
+  }
+
+  .footer {
+    width: 100%;
+  }
+}
+
+.entryImg {
+  width: 64px;
+  height: 64px;
+  margin-top: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 16px 0 rgba(66, 91, 109, 0.3);
+
+  img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  .closeImg {
+    width: 60%;
+  }
+}
