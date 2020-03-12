@@ -8,7 +8,7 @@ import { setPageConfig } from '../actions'
 
 // API
 import { login } from '../data/app.data'
-import { sendMsg } from '../data/message.data'
+import { pushMsg } from '../data/message.data'
 import { getUserInfo } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud } from '../utils/loadScript'
@@ -73,7 +73,7 @@ class App extends Nerv.Component<IProps, IState> {
     setTimeout(() => {
       // 发送一条进入事件消息
       const enterMsg = createEventMsg('ENTER')
-      sendMsg(enterMsg)
+      pushMsg(enterMsg)
     }, 500)
   }
 

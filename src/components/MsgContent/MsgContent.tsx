@@ -14,4 +14,6 @@ export default function MsgContent({ message }: IProps) {
   if (msg_type === 'TEXT') {
     return <TextContent body={msg_body as TextMessage} direction={direction}/>
   }
+
+  return <span>尚未支持的的消息类型：{msg_type}</span>
 }

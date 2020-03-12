@@ -9,7 +9,7 @@ const baseUrl = `${BASE_URL}/msg`
  * @param {any} body
  * @return {Object<ISendMsgResponse>}
  * */
-export function sendMsg(body: any): Promise<ISendMsgResponse> {
+export function pushMsg(body: any): Promise<ISendMsgResponse> {
   const url = `${baseUrl}/receive`
 
   return request(url, {

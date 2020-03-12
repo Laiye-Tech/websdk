@@ -1,8 +1,6 @@
-import { IMsgBodyInfo, MSG_TYPE } from '../../interfaces'
+import { MSG_TYPE, DIRECTION } from '../../interfaces'
 import { MSG_DIRECTION } from './config'
 import { getUserId } from '../utils/config'
-
-const message: IMsgBodyInfo[] = []
 
 /** 文本消息 */
 export function createTextMsg(text: string) {
@@ -50,25 +48,38 @@ export function createMsg(body: any, type: MSG_TYPE) {
   }
 }
 
-// 重组融云推过来的消息
-export function reSetRongMsgInfo(msgBody) {
+export function pushRtMessage(
+  msgBody: any,
+  msgType: MSG_TYPE,
+  msgId: string,
+  direction: DIRECTION = MSG_DIRECTION.user
+) {
   const msg = {
-    msg_body: msgBody.msg_body,
-    direction: MSG_DIRECTION.staff,
-    extra: msgBody.msg_body.extra,
-    msg_id: msgBody.msg_id,
-    msg_ts: msgBody.msg_ts,
-    msg_type: msgBody.msg_type,
-    sender_info: msgBody.sender_info,
-    user_info: {
+    user_id: getUserId(),
+    msg_id: msgId,
+    msg_ts: '',
+    sender_info: {
       avatar_url: '',
-      nickname: ''
+      nickname: '',
+      real_name: ''
     },
-    quick_reply: msgBody.quick_reply,
-    similar_response: msgBody.similar_response,
-    user_id: msgBody.user_id,
-    enable_evaluate: msgBody.enable_evaluate || false,
-    bot: msgBody.bot
+    msg_type: msgType,
+    msg_body: msgBody,
+    extra: '',
+    source: '',
+    bot: {
+      qa: {
+        knowledge_id: 0,
+        standard_question: '',
+        question: '',
+        is_none_intention: false
+      }
+    },
+    enable_evaluate: false,
+    quick_reply: [],
+    similar_response: [],
+    pub_key: '',
+    direction
   }
 
   return msg
