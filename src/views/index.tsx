@@ -9,6 +9,8 @@ import { setUserName } from '../actions'
 // API
 import { login } from '../data/app.data'
 import { getUserInfo } from '../utils/config'
+import { init as openSocket } from '../utils/rongcloud'
+import { loadRongCloud } from '../utils/loadScript'
 
 // components
 import ChatInput from '../components/ChatInput'
@@ -50,6 +52,7 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     // pubkey和用户信息存到端上
+    window.localStorage.setItem('SDK_PUBKEY', pubkey)
     if (!getUserInfo()) {
       const userInfo = {}
       userInfo[`${pubkey}`] = input
@@ -59,6 +62,10 @@ class App extends Nerv.Component<IProps, IState> {
       info[pubkey] = input
       window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
     }
+
+    // 连接融云
+    await loadRongCloud()
+    await openSocket(res.rong_key, res.rong_token)
   }
 
   test = () => {

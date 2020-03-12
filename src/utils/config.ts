@@ -1,3 +1,5 @@
+import { DIRECTION } from '../../interfaces'
+
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
@@ -12,6 +14,13 @@ const BASE_URL = 'https://newtestcb2.wul.ai'
 // } else {
 //   BASE_URL = 'https://cb2.wul.ai'
 // }
+
+const MSG_DIRECTION: {[key: string]: DIRECTION} = {
+  /** 用户发出的消息 */
+  user: 'FROM_USER',
+  /** 客服发出的消息 */
+  staff: 'TO_USER'
+}
 
 function getAppInfo() {
   return {
@@ -29,8 +38,20 @@ function getUserInfo() {
   return null
 }
 
+function getUserId() {
+  if (getUserInfo()) {
+    const pubkey = window.localStorage.getItem('SDK_PUBKEY')
+    const userId = getUserInfo()[pubkey]
+    return userId
+  }
+
+  return ''
+}
+
 export {
   BASE_URL,
+  MSG_DIRECTION,
   getAppInfo,
-  getUserInfo
+  getUserInfo,
+  getUserId
 }

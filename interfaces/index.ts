@@ -39,8 +39,26 @@ import {
   IOSSAuth
 } from './app.type'
 
+// 消息相关
+import {
+  IHistoryMsg,
+  IMsgBodyInfo,
+  ISendMsgResponse,
+  EvaluateInfo,
+  MSG_TYPE,
+  DIRECTION,
+  SATISFACTION_ENUM
+} from './message.type'
+
 export {
   ISDKConfigInfo,
   IPageConfig,
-  IOSSAuth
+  IOSSAuth,
+  IHistoryMsg,
+  IMsgBodyInfo,
+  ISendMsgResponse,
+  EvaluateInfo,
+  MSG_TYPE,
+  DIRECTION,
+  SATISFACTION_ENUM
 }
