@@ -1,3 +1,4 @@
+import * as msgStyle from '../components/MsgContent/MsgContent.less'
 import { DIRECTION } from '../../interfaces'
 
 const pkg = require('../../package.json')
@@ -19,7 +20,20 @@ const MSG_DIRECTION: {[key: string]: DIRECTION} = {
   /** 用户发出的消息 */
   user: 'FROM_USER',
   /** 客服发出的消息 */
-  staff: 'TO_USER'
+  genius: 'TO_USER'
+}
+
+// 头像形状
+const AVATAR_SHAPE = {
+  0: msgStyle.circle,
+  1: msgStyle.square
+}
+
+// 气泡形状
+const CHAT_BAR = {
+  0: msgStyle.bubbleDrip,
+  1: msgStyle.bubbleCapsule,
+  2: msgStyle.bubbleSquare
 }
 
 function getAppInfo() {
@@ -41,7 +55,7 @@ function getUserInfo() {
 function getUserId() {
   if (getUserInfo()) {
     const pubkey = window.localStorage.getItem('SDK_PUBKEY')
-    const userId = getUserInfo()[pubkey]
+    const userId = getUserInfo()[pubkey].userId
     return userId
   }
 
@@ -53,5 +67,7 @@ export {
   MSG_DIRECTION,
   getAppInfo,
   getUserInfo,
-  getUserId
+  getUserId,
+  AVATAR_SHAPE,
+  CHAT_BAR
 }

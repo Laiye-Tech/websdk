@@ -31,6 +31,11 @@ export type AppInfo = {
   pos?: IPositionInput
 }
 
+export interface IAuthState {
+  rtMsgList: IMsgBodyInfo[]
+  pageConfig: IPageConfig
+}
+
 // -----------------------------------------------------------------------------
 // 项目基础配置
 import {
@@ -47,7 +52,8 @@ import {
   EvaluateInfo,
   MSG_TYPE,
   DIRECTION,
-  SATISFACTION_ENUM
+  SATISFACTION_ENUM,
+  TextMessage
 } from './message.type'
 
 export {
@@ -60,5 +66,6 @@ export {
   EvaluateInfo,
   MSG_TYPE,
   DIRECTION,
-  SATISFACTION_ENUM
+  SATISFACTION_ENUM,
+  TextMessage
 }

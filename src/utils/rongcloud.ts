@@ -1,5 +1,11 @@
+import { Store } from 'redux'
+import { setRtMsgs } from '../actions'
+import { MSG_DIRECTION } from '../utils/config'
+
 // 融云是一个单例对象
 let _instance: null | RongIMLib.RongIMClient = null
+
+let store: Store<any> | undefined = window.__APP_STORE__
 
 /**
  * 重连
@@ -66,7 +72,11 @@ function startProducer() {
       const content = msg.content as any
       if (typeof content.extra !== 'undefined') {
         const msgBody = JSON.parse(content.extra)
-        console.log('msgBody --->', msgBody)
+        // console.log('msgBody --->', msgBody)
+
+        if (store) {
+          store.dispatch(setRtMsgs({...msgBody, direction: MSG_DIRECTION.genius}))
+        }
       }
     }
   })
@@ -80,6 +90,7 @@ function startProducer() {
  * @param geniusToken
  */
 export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMClient> => {
+  store = window.__APP_STORE__
   if (_instance) {
     return new Promise(resolve => resolve(_instance))
   }
@@ -138,7 +149,7 @@ export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMC
     RongIMClient.connect(rcToken, {
       // 不写会报错
       onSuccess: (id: string) => {
-        console.log('id --->', id)
+        console.log(id)
         resolve(_instance)
       },
       onTokenIncorrect: () => {

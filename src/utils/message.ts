@@ -51,7 +51,7 @@ export function createMsg(body: any, type: MSG_TYPE) {
 }
 
 // 重组融云推过来的消息
-export function reRongMsgInfo(msgBody) {
+export function reSetRongMsgInfo(msgBody) {
   const msg = {
     msg_body: msgBody.msg_body,
     direction: MSG_DIRECTION.staff,
@@ -66,12 +66,10 @@ export function reRongMsgInfo(msgBody) {
     },
     quick_reply: msgBody.quick_reply,
     similar_response: msgBody.similar_response,
-    from: 'rongCloud',
     user_id: msgBody.user_id,
     enable_evaluate: msgBody.enable_evaluate || false,
     bot: msgBody.bot
   }
 
-  message.push(msg)
-  return message
+  return msg
 }

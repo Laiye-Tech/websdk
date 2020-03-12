@@ -9,15 +9,30 @@ export interface IHistoryMsg {
   msg: IMsgBodyInfo[]
 }
 
+export interface IBotInfo {
+  qa: {
+    knowledge_id: number
+    standard_question: string
+    question: string
+    is_none_intention: boolean
+  }
+}
+
 export interface IMsgBodyInfo {
-  msg_type: MSG_TYPE
-  msg_body: any
-  direction: DIRECTION
-  extra: string
+  user_id: string
   msg_id: string
   msg_ts: string
-  user_info: IUserInfo
   sender_info: ISenderInfo
+  msg_type: MSG_TYPE
+  msg_body: any
+  extra: string
+  source: string
+  bot: IBotInfo
+  enable_evaluate: boolean
+  quick_reply: any
+  similar_response: any
+  pub_key: string
+  direction: DIRECTION
 }
 
 export interface ISenderInfo {
@@ -54,4 +69,10 @@ export type EvaluateInfo = {
   msg_id: string
   satisfaction: SATISFACTION_ENUM
   user_id: string
+}
+
+export type TextMessage = {
+  text: {
+    content: string
+  }
 }

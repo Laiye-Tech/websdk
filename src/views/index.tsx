@@ -4,23 +4,25 @@ import { Dispatch } from 'redux'
 import { connect } from 'nerv-redux'
 
 // actions
-import { setUserName } from '../actions'
+import { setPageConfig } from '../actions'
 
 // API
 import { login } from '../data/app.data'
+import { sendMsg } from '../data/message.data'
 import { getUserInfo } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud } from '../utils/loadScript'
+import { createEventMsg } from '../utils/message'
 
 // components
 import ChatInput from '../components/ChatInput'
+import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
 
 // interfaces
 import { IPageConfig, AppInfo } from '../../interfaces'
 
 interface IProps extends AppInfo {
-  userName: string
-  setUserName: (name: string) => void
+  setPageConfig: (page: IPageConfig) => void
 }
 interface IState {
   pageConfig: IPageConfig | null
@@ -32,7 +34,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const { pubkey, userInfo } = this.props
+    const { pubkey, userInfo, setPageConfig } = this.props
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
@@ -45,6 +47,7 @@ class App extends Nerv.Component<IProps, IState> {
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
     const res = await login(pubkey, user)
     this.setState({ pageConfig: res.page_config })
+    setPageConfig(res.page_config)
 
     const input = {
       pubkey,
@@ -66,10 +69,12 @@ class App extends Nerv.Component<IProps, IState> {
     // 连接融云
     await loadRongCloud()
     await openSocket(res.rong_key, res.rong_token)
-  }
 
-  test = () => {
-    this.props.setUserName('test')
+    setTimeout(() => {
+      // 发送一条进入事件消息
+      const enterMsg = createEventMsg('ENTER')
+      sendMsg(enterMsg)
+    }, 500)
   }
 
   render () {
@@ -99,7 +104,7 @@ class App extends Nerv.Component<IProps, IState> {
           </header>
 
           <main className={styles.msgContainer}>
-            消息流
+            <RtMsgPanel />
           </main>
 
           <footer className={styles.footer}>
@@ -107,7 +112,7 @@ class App extends Nerv.Component<IProps, IState> {
           </footer>
         </div>
 
-        <div className={styles.entryImg} style={{ backgroundColor }} onClick={this.test}>
+        <div className={styles.entryImg} style={{ backgroundColor }}>
           <img
             src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
             className={styles.closeImg}
@@ -118,12 +123,8 @@ class App extends Nerv.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = state => ({
-  userName: state.todos.name
-})
-
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  setUserName: name => dispatch(setUserName(name))
+  setPageConfig: page => dispatch(setPageConfig(page))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App) as any
+export default connect(null, mapDispatchToProps)(App) as any

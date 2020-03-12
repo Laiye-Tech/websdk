@@ -11,6 +11,7 @@ const rootReducer = combineReducers({
   todos
 })
 const store: Store<any> = enhancer(rootReducer, initialState)
+window.__APP_STORE__ = store
 
 export default function MyApp(props) {
   Nerv.render(

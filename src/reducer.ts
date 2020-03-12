@@ -1,17 +1,30 @@
-import { handleActions, Action } from 'redux-actions'
+import { handleActions } from 'redux-actions'
+import { IAuthState } from '../interfaces'
 
-const initialState = {
-  name: ''
+const initialState: IAuthState = {
+  rtMsgList: [],
+  pageConfig: null
 }
 
-export const USER_INFO = 'USER_INFO'
+export const RT_MSG_LIST = 'RT_MSG_LIST'
+export const APP_PAGE_CONFIG = 'APP_PAGE_CONFIG'
 
-export default handleActions({
-  [USER_INFO]: (state: any, action: Action<any>) => {
+export default handleActions<IAuthState>({
+  [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
+    const msgList = [...state.rtMsgList]
+    msgList.push(payload)
+
     return {
       ...state,
-      name: action.payload.name
+      rtMsgList: msgList
     }
 
+  },
+
+  [APP_PAGE_CONFIG]: (state: IAuthState, { payload }: any) => {
+    return {
+      ...state,
+      pageConfig: payload
+    }
   }
 }, initialState)
