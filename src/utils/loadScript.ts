@@ -66,4 +66,30 @@ async function loadRongCloud(): Promise<any> {
   }
 }
 
-export { loadScript, loadRongCloud }
+async function loadAliOSS() {
+  // AMD CMD引入
+  if (typeof window.require !== 'undefined') {
+    window.require.config({
+      paths: {
+        oss: 'https://gosspublic.alicdn.com/aliyun-oss-sdk.min'
+      }
+    })
+
+    return new Promise((resolve, reject) => {
+      window.require(['oss'], (oss) => {
+        window.OSS = oss
+
+        resolve(oss)
+      })
+
+      window.require.onError = (err) => {
+        reject(err)
+      }
+    })
+  } else {
+     await loadScript('https://gosspublic.alicdn.com/aliyun-oss-sdk.min.js')
+     return window.OSS
+  }
+}
+
+export { loadScript, loadRongCloud, loadAliOSS }

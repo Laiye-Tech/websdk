@@ -76,3 +76,10 @@ export type TextMessage = {
     content: string
   }
 }
+
+export type ImageMessage = {
+  image: {
+    resource_url: string
+    thumbUrl: string
+  }
+}

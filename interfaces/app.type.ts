@@ -62,3 +62,23 @@ export interface IOSSAuth {
   /** 服务器直传签名 */
   signature: string
 }
+
+export interface IOSSUploadResult {
+  bucket: string
+  etag: string
+  name: string
+  res?: {
+    aborted: boolean
+    data: any[]
+    headers: any
+    keepAliveSocket: boolean
+    remoteAddress: string
+    remotePort: string
+    requestUrls: string[]
+    rt: number
+    size: number
+    status: number
+    statusCode: number
+    timing: null | any
+  }
+}

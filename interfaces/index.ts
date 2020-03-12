@@ -41,7 +41,8 @@ export interface IAuthState {
 import {
   ISDKConfigInfo,
   IPageConfig,
-  IOSSAuth
+  IOSSAuth,
+  IOSSUploadResult
 } from './app.type'
 
 // 消息相关
@@ -53,13 +54,15 @@ import {
   MSG_TYPE,
   DIRECTION,
   SATISFACTION_ENUM,
-  TextMessage
+  TextMessage,
+  ImageMessage
 } from './message.type'
 
 export {
   ISDKConfigInfo,
   IPageConfig,
   IOSSAuth,
+  IOSSUploadResult,
   IHistoryMsg,
   IMsgBodyInfo,
   ISendMsgResponse,
@@ -67,5 +70,6 @@ export {
   MSG_TYPE,
   DIRECTION,
   SATISFACTION_ENUM,
-  TextMessage
+  TextMessage,
+  ImageMessage
 }

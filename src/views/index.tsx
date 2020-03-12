@@ -11,7 +11,7 @@ import { login } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
 import { getUserInfo } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
-import { loadRongCloud } from '../utils/loadScript'
+import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
 import { createEventMsg } from '../utils/message'
 
 // components
@@ -75,6 +75,9 @@ class App extends Nerv.Component<IProps, IState> {
       const enterMsg = createEventMsg('ENTER')
       pushMsg(enterMsg)
     }, 500)
+
+    // 加载阿里云OSS
+    await loadAliOSS()
   }
 
   render () {

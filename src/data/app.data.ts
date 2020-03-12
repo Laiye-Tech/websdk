@@ -1,6 +1,6 @@
 import request from '../utils/request'
 import { BASE_URL, getAppInfo } from '../utils/config'
-import { IUserInput, ISDKConfigInfo } from '../../interfaces'
+import { IUserInput, ISDKConfigInfo, IOSSAuth } from '../../interfaces'
 
 export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigInfo> {
   const query = {
@@ -25,5 +25,16 @@ export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigI
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset: UTF-8' },
     body: query
+  })
+}
+
+// STS 返回临时访问凭证
+export function getStsToken(): Promise<IOSSAuth> {
+  const url = `${BASE_URL}/resource/oss/auth/write`
+
+  return request(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset: UTF-8' },
+    body: {}
   })
 }
