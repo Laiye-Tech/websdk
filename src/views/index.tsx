@@ -8,6 +8,7 @@ import { setUserName } from '../actions'
 
 // API
 import { login } from '../data/app.data'
+import { getUserInfo } from '../utils/config'
 
 // components
 import ChatInput from '../components/ChatInput'
@@ -30,14 +31,34 @@ class App extends Nerv.Component<IProps, IState> {
 
   async componentDidMount() {
     const { pubkey, userInfo } = this.props
-    const user = userInfo || {
+
+    const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
+    const initUserInfo = {
       userId: '',
       userAvatar: '',
       nickName: ''
     }
 
+    // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
+    const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
     const res = await login(pubkey, user)
     this.setState({ pageConfig: res.page_config })
+
+    const input = {
+      pubkey,
+      userId: userInfo ? userInfo.userId : res.user_id
+    }
+
+    // pubkey和用户信息存到端上
+    if (!getUserInfo()) {
+      const userInfo = {}
+      userInfo[`${pubkey}`] = input
+      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(userInfo))
+    } else {
+      const info = getUserInfo()
+      info[pubkey] = input
+      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
+    }
   }
 
   test = () => {

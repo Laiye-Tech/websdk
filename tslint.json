@@ -33,6 +33,7 @@
       true,
       "never"
     ],
+    "no-shadowed-variable": false,
     "no-string-literal": false,
     "no-var-requires": false,
     "jsx-boolean-value": false,

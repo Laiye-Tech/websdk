@@ -20,7 +20,17 @@ function getAppInfo() {
   }
 }
 
+function getUserInfo() {
+  if (window.localStorage.getItem('SDK_USER_INFO')) {
+    const result = JSON.parse(window.localStorage.getItem('SDK_USER_INFO'))
+    return result
+  }
+
+  return null
+}
+
 export {
   BASE_URL,
-  getAppInfo
+  getAppInfo,
+  getUserInfo
 }
