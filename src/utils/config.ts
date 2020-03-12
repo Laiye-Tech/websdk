@@ -1,3 +1,4 @@
+const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
 const BASE_URL = 'https://newtestcb2.wul.ai'
@@ -12,6 +13,14 @@ const BASE_URL = 'https://newtestcb2.wul.ai'
 //   BASE_URL = 'https://cb2.wul.ai'
 // }
 
+function getAppInfo() {
+  return {
+    version: `v${pkg.version}`,
+    source: 'WEB_SDK'
+  }
+}
+
 export {
-  BASE_URL
+  BASE_URL,
+  getAppInfo
 }

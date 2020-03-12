@@ -12,9 +12,11 @@ const rootReducer = combineReducers({
 })
 const store: Store<any> = enhancer(rootReducer, initialState)
 
-Nerv.render(
-  <Provider store={store}>
-    <Wulai />
-  </Provider>,
-  document.getElementById('app')
-)
+export default function MyApp(props) {
+  Nerv.render(
+    <Provider store={store}>
+      <Wulai {...props.data}/>
+    </Provider>,
+    document.getElementById('app')
+  )
+}

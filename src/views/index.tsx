@@ -13,8 +13,9 @@ import { login } from '../data/app.data'
 import ChatInput from '../components/ChatInput'
 
 // interfaces
-import { IUserInput, IPageConfig } from '../../interfaces'
-interface IProps {
+import { IPageConfig, AppInfo } from '../../interfaces'
+
+interface IProps extends AppInfo {
   userName: string
   setUserName: (name: string) => void
 }
@@ -28,14 +29,14 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const pubkey = 'FuLcN3rXprCb9vbDyHrUrTGtq7zi5faA0089175d1938a21c81'
-    const userInfo: IUserInput = {
-      userId: 'malei123',
-      userAvatar: 'https://aibici-test.oss-cn-beijing.aliyuncs.com/fOoqAYR2n8BQ1kciauBcnC9ibMic34gicMM6EZ1ickMPBVHMEByzNicur5cFM21kOOIB49MOndMfwnv9k1IXa7nly6siceNqI1mIvaib.jpeg',
-      nickName: '马蕾'
+    const { pubkey, userInfo } = this.props
+    const user = userInfo || {
+      userId: '',
+      userAvatar: '',
+      nickName: ''
     }
 
-    const res = await login(pubkey, userInfo)
+    const res = await login(pubkey, user)
     this.setState({ pageConfig: res.page_config })
   }
 

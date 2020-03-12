@@ -1,16 +1,16 @@
 import request from '../utils/request'
-import { BASE_URL } from '../utils/config'
+import { BASE_URL, getAppInfo } from '../utils/config'
 import { IUserInput, ISDKConfigInfo } from '../../interfaces'
 
 export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigInfo> {
   const query = {
-    version: 'v3.30.0',
-    source: 'WEB_SDK',
+    version: getAppInfo().version,
+    source: getAppInfo().source,
     pub_key: pubkey
   }
 
   // 传入userId
-  if ((userInfo && userInfo.userId)) {
+  if (userInfo.userId) {
     query['web'] = {
       nickname: userInfo.nickName,
       avatar_url: userInfo.userAvatar,

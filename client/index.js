@@ -1,1 +1,2 @@
-import './main'
+import Wulai from './main'
+export default Wulai

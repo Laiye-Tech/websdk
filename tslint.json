@@ -34,6 +34,7 @@
       "never"
     ],
     "no-string-literal": false,
+    "no-var-requires": false,
     "jsx-boolean-value": false,
     "jsx-wrap-multiline": false,
     "variable-name": [

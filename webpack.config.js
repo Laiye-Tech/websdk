@@ -24,11 +24,16 @@ const clientConfig = {
     ]
   },
 
-  entry: './client/index.js',
+  entry: {
+    IMLib: './client/index.js'
+  },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: `[name]-${version}.min.js`
+    filename: `[name]-${version}.min.js`,
+    library: 'websdk',
+    libraryTarget: 'var',
+    libraryExport: 'default'
   },
 
   node: {

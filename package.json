@@ -1,6 +1,6 @@
 {
   "name": "websdk-new",
-  "version": "1.0.0",
+  "version": "3.30.0",
   "description": "Nerv.js 兼容到IE9",
   "main": "dist/IMLib.js",
   "author": "malei",
