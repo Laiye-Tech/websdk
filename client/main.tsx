@@ -1,4 +1,20 @@
 import * as Nerv from 'nervjs'
-import Wulai from '../src/views/index'
+import { Store, createStore, combineReducers } from 'redux'
+import { Provider } from 'nerv-redux'
 
-Nerv.render(<Wulai />, document.getElementById('app'))
+import Wulai from '../src/views/index'
+import todos from '../src/reducer'
+
+const initialState = {}
+const enhancer = window['devToolsExtension'] ? window['devToolsExtension']()(createStore) : createStore
+const rootReducer = combineReducers({
+  todos
+})
+const store: Store<any> = enhancer(rootReducer, initialState)
+
+Nerv.render(
+  <Provider store={store}>
+    <Wulai />
+  </Provider>,
+  document.getElementById('app')
+)

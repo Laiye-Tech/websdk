@@ -49,9 +49,11 @@ const clientConfig = {
         ]
       },
       {
-        test: /\.ts/,
-        use: 'ts-loader',
-        exclude: /dist|node_modules/
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        options: {
+          transpileOnly: true
+        }
       },
       {
         test: /\.less$/,

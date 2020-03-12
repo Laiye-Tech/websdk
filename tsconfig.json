@@ -9,7 +9,7 @@
     "outDir": "./dist/",
     "noImplicitAny": false,
     "allowJs": true,
-    "downlevelIteration": true,
+    // "downlevelIteration": true,
     "jsxFactory": "Nerv.createElement"
   },
 

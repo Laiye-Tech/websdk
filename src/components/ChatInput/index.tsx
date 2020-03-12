@@ -36,4 +36,4 @@ class ChatInput extends Nerv.Component {
   }
 }
 
-export default ChatInput
+export default ChatInput as any

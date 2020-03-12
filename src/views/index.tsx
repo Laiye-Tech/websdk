@@ -1,5 +1,10 @@
 import * as Nerv from 'nervjs'
 import * as styles from './index.less'
+import { Dispatch } from 'redux'
+import { connect } from 'nerv-redux'
+
+// actions
+import { setUserName } from '../actions'
 
 // API
 import { login } from '../data/app.data'
@@ -7,14 +12,17 @@ import { login } from '../data/app.data'
 // components
 import ChatInput from '../components/ChatInput'
 
+// interfaces
 import { IUserInput, IPageConfig } from '../../interfaces'
-
-
+interface IProps {
+  userName: string
+  setUserName: (name: string) => void
+}
 interface IState {
   pageConfig: IPageConfig | null
 }
-
-class App extends Nerv.Component {
+class App extends Nerv.Component<IProps, IState> {
+  props: IProps
   state: IState = {
     pageConfig: null
   }
@@ -29,6 +37,10 @@ class App extends Nerv.Component {
 
     const res = await login(pubkey, userInfo)
     this.setState({ pageConfig: res.page_config })
+  }
+
+  test = () => {
+    this.props.setUserName('test')
   }
 
   render () {
@@ -66,7 +78,7 @@ class App extends Nerv.Component {
           </footer>
         </div>
 
-        <div className={styles.entryImg} style={{ backgroundColor }}>
+        <div className={styles.entryImg} style={{ backgroundColor }} onClick={this.test}>
           <img
             src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
             className={styles.closeImg}
@@ -77,4 +89,12 @@ class App extends Nerv.Component {
   }
 }
 
-export default App
+const mapStateToProps = state => ({
+  userName: state.todos.name
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setUserName: name => dispatch(setUserName(name))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App) as any
