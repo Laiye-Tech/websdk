@@ -1,11 +1,12 @@
 import * as Nerv from 'nervjs'
-import * as styles from './ChatInput.style.less'
+import * as styles from './ChatInput.less'
 import { Dispatch } from 'redux'
 import { connect } from 'nerv-redux'
 
 import { setRtMsgs } from '../../actions'
 import { getStsToken } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
+import { TEXTAREA_SHAPE } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
 import { IPageConfig, IMsgBodyInfo, MSG_TYPE, IOSSUploadResult } from '../../../interfaces'
 
@@ -156,11 +157,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   render() {
-    const { theme_color } = this.props.pageConfig
+    const { theme_color, frame_shape } = this.props.pageConfig
     const { textContent } = this.state
 
+    const chatShape = TEXTAREA_SHAPE[frame_shape]
+
     return(
-      <div className={styles.chatInput}>
+      <div className={`${styles.chatInput} ${chatShape}`}>
         <textarea
           placeholder="输入文字进行回复，Shift+Enter换行"
           maxLength={2000}

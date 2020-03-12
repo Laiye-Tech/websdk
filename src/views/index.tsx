@@ -9,7 +9,7 @@ import { setPageConfig } from '../actions'
 // API
 import { login } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
-import { getUserInfo } from '../utils/config'
+import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
 import { createEventMsg } from '../utils/message'
@@ -89,16 +89,20 @@ class App extends Nerv.Component<IProps, IState> {
 
     // 主题颜色
     const backgroundColor = pageConfig.theme_color
+    // 标题栏头像形状
+    const avatarShape = HEADER_AVATAR_SHAPE[pageConfig.avatar_shape]
+    // 窗口形状
+    const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
 
     return (
       <div className={styles.app}>
-        <div className={styles.container}>
+        <div className={`${styles.container} ${borderShape}`}>
           <header className={styles.header}>
             <dl>
               <dt>
-                <img src={pageConfig.header_avatar} style={{ backgroundColor }}/>
+                <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
               </dt>
-              <dd>测试</dd>
+              <dd>{pageConfig.title}</dd>
             </dl>
 
             <i className={styles.closeBtn}>

@@ -1,4 +1,6 @@
+import * as style from '../views/index.less'
 import * as msgStyle from '../components/MsgContent/MsgContent.less'
+import * as chatInputStyle from '../components/ChatInput/ChatInput.less'
 import { DIRECTION } from '../../interfaces'
 
 const pkg = require('../../package.json')
@@ -29,11 +31,29 @@ const AVATAR_SHAPE = {
   1: msgStyle.square
 }
 
+// 标题栏头像形状
+const HEADER_AVATAR_SHAPE = {
+  0: style.circle,
+  1: style.square
+}
+
+// 边框弧度
+const FRAME_SHAPE = {
+  0: style.boderSquare,
+  1: style.borderCircle
+}
+
 // 气泡形状
 const CHAT_BAR = {
   0: msgStyle.bubbleDrip,
   1: msgStyle.bubbleCapsule,
   2: msgStyle.bubbleSquare
+}
+
+// 输入框形状
+const TEXTAREA_SHAPE = {
+  0: chatInputStyle.boderSquare,
+  1: chatInputStyle.borderCircle
 }
 
 function getAppInfo() {
@@ -69,5 +89,8 @@ export {
   getUserInfo,
   getUserId,
   AVATAR_SHAPE,
-  CHAT_BAR
+  CHAT_BAR,
+  HEADER_AVATAR_SHAPE,
+  FRAME_SHAPE,
+  TEXTAREA_SHAPE
 }
