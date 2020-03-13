@@ -2,15 +2,26 @@ import * as Nerv from 'nervjs'
 import { connect } from 'nerv-redux'
 
 import { IMsgBodyInfo } from '../../../interfaces'
+import { scrollToBottom } from '../../utils'
 
 import Msg from '../MsgContent/Msg'
 
 interface IProps {
   messageList: IMsgBodyInfo[]
+  setMsgPanelRef: (el?: any) => void
 }
 
 class RtMsgPanel extends Nerv.Component<IProps> {
   props: IProps
+
+  componentWillReceiveProps({ messageList }: IProps) {
+    const old = this.props
+
+    if (messageList.length && (old.messageList !== messageList)) {
+      const $content = document.getElementById('websdk-msg-panel')
+      scrollToBottom($content)
+    }
+  }
 
   render() {
     const { messageList } = this.props

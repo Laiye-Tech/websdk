@@ -110,7 +110,7 @@ class App extends Nerv.Component<IProps, IState> {
             </i>
           </header>
 
-          <main className={styles.msgContainer}>
+          <main className={styles.msgContainer} id="websdk-msg-panel">
             <RtMsgPanel />
           </main>
 
