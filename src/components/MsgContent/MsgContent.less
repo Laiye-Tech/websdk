@@ -254,6 +254,7 @@
   overflow: hidden;
   min-height: 32px;
   padding: 8px 8px 0;
+  max-width: 220px;
 
   & img {
     width: 100% !important;
@@ -265,9 +266,42 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
+  width: -ms-fit-content;
+  width: -moz-fit-content;
+  width: -o-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
 
-  .video {
+  & .video {
     max-width: 160px;
     max-height: 160px;
+  }
+
+  & .model {
+    cursor: pointer;
+    position: absolute;
+    background: rgba(0, 0, 0, .4);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    .playBox {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, .6);
+      border-radius: 50%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
