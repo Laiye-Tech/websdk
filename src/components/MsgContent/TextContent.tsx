@@ -19,6 +19,7 @@ export default function TextContent({ body, direction }: IProps) {
 
   const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
   const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
+  const reg2 = /\n|\\n/g
   const imgReg = /<img.*?(?:>|\/>)/gi
 
   if (direction === MSG_DIRECTION.genius) {
@@ -31,9 +32,14 @@ export default function TextContent({ body, direction }: IProps) {
 
       content = res
     }
+
+    if (reg2.test(content)) {
+      const test = content.replace(reg2, '<br />')
+      content = test
+    }
   }
 
   return(
-    <div className={styles.textContent} dangerouslySetInnerHTML={{__html: content}}/>
+    <span dangerouslySetInnerHTML={{__html: content}}/>
   )
 }

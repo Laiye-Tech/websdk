@@ -1,4 +1,4 @@
-import * as Nerv from 'nervjs'
+import Nerv, { Fragment } from 'nervjs'
 import { connect } from 'nerv-redux'
 
 import { IMsgBodyInfo } from '../../../interfaces'
@@ -14,22 +14,22 @@ interface IProps {
 class RtMsgPanel extends Nerv.Component<IProps> {
   props: IProps
 
-  componentWillReceiveProps({ messageList }: IProps) {
-    const old = this.props
+  // componentWillReceiveProps({ messageList }: IProps) {
+  //   const old = this.props
 
-    if (messageList.length && (old.messageList !== messageList)) {
-      const $content = document.getElementById('websdk-msg-panel')
-      scrollToBottom($content)
-    }
-  }
+  //   if (messageList.length && (old.messageList !== messageList)) {
+  //     const $content = document.getElementById('websdk-msg-panel')
+  //     scrollToBottom($content)
+  //   }
+  // }
 
   render() {
     const { messageList } = this.props
 
     return(
-      <div>
+      <Fragment>
         {messageList.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
-      </div>
+      </Fragment>
     )
   }
 }

@@ -17,20 +17,31 @@ import { createEventMsg } from '../utils/message'
 // components
 import ChatInput from '../components/ChatInput'
 import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
+import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
 
 // interfaces
-import { IPageConfig, AppInfo } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo } from '../../interfaces'
 
 interface IProps extends AppInfo {
+  rtMsgList: IMsgBodyInfo[]
   setPageConfig: (page: IPageConfig) => void
 }
 interface IState {
   pageConfig: IPageConfig | null
 }
 class App extends Nerv.Component<IProps, IState> {
+  $content: HTMLDivElement | null = null
   props: IProps
   state: IState = {
     pageConfig: null
+  }
+
+  componentWillReceiveProps({ rtMsgList }: IProps) {
+    const old = this.props
+
+    if (old.rtMsgList.length !== rtMsgList.length) {
+      setTimeout(() => this.scrollToBottom(), 320)
+    }
   }
 
   async componentDidMount() {
@@ -74,10 +85,31 @@ class App extends Nerv.Component<IProps, IState> {
       // 发送一条进入事件消息
       const enterMsg = createEventMsg('ENTER')
       pushMsg(enterMsg)
+
+      this.scrollToBottom()
     }, 500)
 
     // 加载阿里云OSS
     await loadAliOSS()
+  }
+
+  setContentRef = (el: any) => {
+    if (this.$content instanceof HTMLDivElement) {
+      return
+    }
+
+    this.$content = el as HTMLDivElement
+  }
+
+  scrollToBottom() {
+    if (!this.$content) {
+      return
+    }
+
+    const { scrollHeight, clientHeight } = this.$content
+    if (scrollHeight > clientHeight) {
+      this.$content.scrollTop = scrollHeight - clientHeight
+    }
   }
 
   render () {
@@ -110,8 +142,11 @@ class App extends Nerv.Component<IProps, IState> {
             </i>
           </header>
 
-          <main className={styles.msgContainer} id="websdk-msg-panel">
-            <RtMsgPanel />
+          <main className={styles.msgContainer} id="websdk-msg-panel" ref={this.setContentRef}>
+            <div className={styles.message}>
+              <HistoryMsgPanel />
+              <RtMsgPanel />
+            </div>
           </main>
 
           <footer className={styles.footer}>
@@ -130,8 +165,12 @@ class App extends Nerv.Component<IProps, IState> {
   }
 }
 
+const mapStateToProps = state => ({
+  rtMsgList: state.todos.rtMsgList
+})
+
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setPageConfig: page => dispatch(setPageConfig(page))
 })
 
-export default connect(null, mapDispatchToProps)(App) as any
+export default connect(mapStateToProps, mapDispatchToProps)(App) as any

@@ -1,4 +1,4 @@
-import * as Nerv from 'nervjs'
+import Nerv, { Fragment } from 'nervjs'
 
 import { MSG_DIRECTION } from '../../utils/config'
 import UserMsg from './UserMsg'
@@ -13,13 +13,13 @@ function Msg(props: IProps) {
   const { message } = props
 
   return(
-    <div>
+    <Fragment>
       {message.direction === MSG_DIRECTION.genius ? (
         <GeniusMsg message={message} />
       ) : (
         <UserMsg message={message}/>
       )}
-    </div>
+    </Fragment>
   )
 }
 

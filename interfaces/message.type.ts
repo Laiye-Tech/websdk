@@ -83,3 +83,34 @@ export type ImageMessage = {
     thumbUrl: string
   }
 }
+
+export type VideoMessage = {
+  video: {
+    description: string
+    resource_url: string
+    thumb: string
+    title: string
+  }
+}
+
+export type FileMessage = {
+  file: {
+    file_name: string
+    resource_url: string
+  }
+}
+
+export type ShareLinkMessage = {
+  share_link: {
+    title: string
+    destination_url: string
+    cover_url: string
+    description: string
+  }
+}
+
+export type RichTextMessage = {
+  rich_text: {
+    resource_url: string
+  }
+}

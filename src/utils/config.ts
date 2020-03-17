@@ -6,7 +6,7 @@ import { DIRECTION } from '../../interfaces'
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
-const BASE_URL = 'https://newtestcb2.wul.ai'
+const BASE_URL = 'https://testcb2.wul.ai'
 
 // if (MODE === 'pre') {
 //   BASE_URL = 'https://precb2.wul.ai'
@@ -56,6 +56,26 @@ const TEXTAREA_SHAPE = {
   1: chatInputStyle.borderCircle
 }
 
+// 文件背景颜色
+const EXT_COLOR = {
+  default: '#b3bdc5',
+  doc: '#003bcb',
+  docx: '#003bcb',
+  jpg: '#333',
+  jpeg: '#333',
+  gif: '#333',
+  png: '#333',
+  pdf: '#d91d06',
+  ppt: '#eceef0',
+  pptx: '#E05635',
+  txt: '#1778ff',
+  xls: '#009056',
+  xlsx: '#009056',
+  mp4: '#ffb500',
+  amr: '#41b313',
+  csv: '#7715d2'
+}
+
 function getAppInfo() {
   return {
     version: `v${pkg.version}`,
@@ -92,5 +112,6 @@ export {
   CHAT_BAR,
   HEADER_AVATAR_SHAPE,
   FRAME_SHAPE,
-  TEXTAREA_SHAPE
+  TEXTAREA_SHAPE,
+  EXT_COLOR
 }

@@ -22,21 +22,29 @@ class GeniusMsg extends Nerv.Component<IProps> {
     const avatarShape = AVATAR_SHAPE[pageConfig.avatar_shape]
     const chatBar = CHAT_BAR[pageConfig.chat_bar]
 
+    const hasOwnContent =
+      message.msg_type === 'IMAGE' ||
+      message.msg_type === 'FILE' ||
+      message.msg_type === 'SHARELINK' ||
+      message.msg_type === 'VIDEO'
+
+    const cls = !hasOwnContent ? styles.content : ''
+
     return(
-      <div className={styles.msgContent}>
+      <div className={`${styles.msgContent} ${styles.clearfix}`}>
         <dl className={`${styles.msgContainer} ${styles.geniusMsg}`}>
-          <dt>
+          <dt className={styles.userInfo}>
             <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
               <img src={`${pageConfig.bot_avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
             </div>
           </dt>
 
-          <dd>
-            <div className={`${styles.content} ${chatBar}`}>
-              <MsgContent message={message}/>
+          <dd className={styles.msgBody}>
+            <div className={`${cls} ${chatBar}`}>
+              <MsgContent message={message} pageConfig={pageConfig}/>
             </div>
 
-            <div className={styles.hiddenId}>#{message.msg_id}</div>
+            <span className={styles.hiddenId}>#{message.msg_id}</span>
           </dd>
         </dl>
       </div>

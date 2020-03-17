@@ -55,7 +55,11 @@ import {
   DIRECTION,
   SATISFACTION_ENUM,
   TextMessage,
-  ImageMessage
+  ImageMessage,
+  VideoMessage,
+  FileMessage,
+  ShareLinkMessage,
+  RichTextMessage
 } from './message.type'
 
 export {
@@ -71,5 +75,9 @@ export {
   DIRECTION,
   SATISFACTION_ENUM,
   TextMessage,
-  ImageMessage
+  ImageMessage,
+  VideoMessage,
+  FileMessage,
+  ShareLinkMessage,
+  RichTextMessage
 }
