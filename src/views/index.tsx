@@ -1,10 +1,9 @@
 import * as Nerv from 'nervjs'
 import * as styles from './index.less'
-import { Dispatch } from 'redux'
-import { connect } from 'nerv-redux'
+import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { setPageConfig } from '../actions'
+import { setPageConfig, closeImageModal } from '../actions'
 
 // API
 import { login } from '../data/app.data'
@@ -18,13 +17,19 @@ import { createEventMsg } from '../utils/message'
 import ChatInput from '../components/ChatInput'
 import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
 import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
+import ImgModal from '../components/Common/ImageModal'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo, ImgInfo } from '../../interfaces'
+
+const logger = require('web-logger')
+console.log('logger --->', logger)
 
 interface IProps extends AppInfo {
+  imageModal: ImgInfo
   rtMsgList: IMsgBodyInfo[]
   setPageConfig: (page: IPageConfig) => void
+  closeImageModal: () => void
 }
 interface IState {
   pageConfig: IPageConfig | null
@@ -113,6 +118,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
+    const { imageModal, closeImageModal } = this.props
     const { pageConfig } = this.state
 
     if (!pageConfig) {
@@ -127,50 +133,58 @@ class App extends Nerv.Component<IProps, IState> {
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
 
     return (
-      <div className={styles.app}>
-        <div className={`${styles.container} ${borderShape}`}>
-          <header className={styles.header}>
-            <dl>
-              <dt>
-                <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
-              </dt>
-              <dd>{pageConfig.title}</dd>
-            </dl>
+      <Nerv.Fragment>
+        <div className={styles.app}>
+          <div className={`${styles.container} ${borderShape}`}>
+            <header className={styles.header}>
+              <dl>
+                <dt>
+                  <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
+                </dt>
+                <dd>{pageConfig.title}</dd>
+              </dl>
 
-            <i className={styles.closeBtn}>
-              <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"/>
-            </i>
-          </header>
+              <i className={styles.closeBtn}>
+                <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"/>
+              </i>
+            </header>
 
-          <main className={styles.msgContainer} id="websdk-msg-panel" ref={this.setContentRef}>
-            <div className={styles.message}>
-              <HistoryMsgPanel />
-              <RtMsgPanel />
-            </div>
-          </main>
+            <main className={styles.msgContainer} id="websdk-msg-panel" ref={this.setContentRef}>
+              <div className={styles.message}>
+                <HistoryMsgPanel />
+                <RtMsgPanel />
+              </div>
+            </main>
 
-          <footer className={styles.footer}>
-            <ChatInput pageConfig={pageConfig}/>
-          </footer>
+            <footer className={styles.footer}>
+              <ChatInput pageConfig={pageConfig}/>
+            </footer>
+          </div>
+
+          <div className={styles.entryImg} style={{ backgroundColor }}>
+            <img
+              src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
+              className={styles.closeImg}
+            />
+          </div>
         </div>
 
-        <div className={styles.entryImg} style={{ backgroundColor }}>
-          <img
-            src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
-            className={styles.closeImg}
-          />
-        </div>
-      </div>
+        {imageModal.visible ? (
+          <ImgModal url={imageModal.src} closeImageModal={closeImageModal} />
+        ) : null }
+      </Nerv.Fragment>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  rtMsgList: state.todos.rtMsgList
+  rtMsgList: state.todos.rtMsgList,
+  imageModal: state.todos.imageModal
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  setPageConfig: page => dispatch(setPageConfig(page))
+  setPageConfig: page => dispatch(setPageConfig(page)),
+  closeImageModal: () => dispatch(closeImageModal(null))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App) as any

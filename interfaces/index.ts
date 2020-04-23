@@ -31,9 +31,15 @@ export type AppInfo = {
   pos?: IPositionInput
 }
 
+export type ImgInfo = {
+  visible: boolean
+  src: string
+}
+
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
   pageConfig: IPageConfig
+  imageModal: ImgInfo
 }
 
 // -----------------------------------------------------------------------------
@@ -59,7 +65,8 @@ import {
   VideoMessage,
   FileMessage,
   ShareLinkMessage,
-  RichTextMessage
+  RichTextMessage,
+  VoiceMessage
 } from './message.type'
 
 export {
@@ -79,5 +86,6 @@ export {
   VideoMessage,
   FileMessage,
   ShareLinkMessage,
-  RichTextMessage
+  RichTextMessage,
+  VoiceMessage
 }
