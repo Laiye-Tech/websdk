@@ -20,6 +20,7 @@ interface IState {
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
 class ChatInput extends Nerv.Component<IProps, IState> {
+  $textarea: HTMLTextAreaElement | null
   props: IProps
 
   state: IState = {
@@ -27,9 +28,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   inputAnswer = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (event.target.value) {
-      this.setState({ textContent: event.target.value })
-    }
+    const value = this.$textarea ? this.$textarea.value : event.target.value
+    this.setState({ textContent: value })
   }
 
   handleKeyDown = (evt: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -47,8 +47,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   onPressEnter = (evt: any) => {
     const event = evt.nativeEvent as KeyboardEvent
-
-    const text = this.state.textContent.replace(/(^\s*)|(\s*$)/g, '')
+    const textContent = this.$textarea ? this.$textarea.value : this.state.textContent
+    const text = textContent.replace(/(^\s*)|(\s*$)/g, '')
     if (!text) {
       event.preventDefault()
       event.stopPropagation()
@@ -159,14 +159,16 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const { textContent } = this.state
 
     const frameShape = PageConfig.get('frame_shape') as number
-    const bgColor = PageConfig.get('theme_color') as string
+    const themeColor = PageConfig.get('theme_color') as string
     const chatShape = TEXTAREA_SHAPE[frameShape]
+    const bgColor = textContent ? themeColor : '#b3bdc5'
 
     return(
       <div className={`${styles.chatInput} ${chatShape}`}>
         <textarea
           placeholder="输入文字进行回复，Shift+Enter换行"
           maxLength={2000}
+          ref={input => this.$textarea = input}
           value={textContent}
           onChange={this.inputAnswer}
           onKeyDown={this.handleKeyDown}
