@@ -1,8 +1,9 @@
 import * as style from '../views/index.less'
 import * as msgStyle from '../components/MsgContent/MsgContent.less'
 import * as chatInputStyle from '../components/ChatInput/ChatInput.less'
-import { DIRECTION } from '../../interfaces'
+import { DIRECTION, IPageConfig } from '../../interfaces'
 
+let pageConfig: IPageConfig
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
@@ -17,6 +18,15 @@ const BASE_URL = 'https://testcb2.wul.ai'
 // } else {
 //   BASE_URL = 'https://cb2.wul.ai'
 // }
+
+const page = {
+  set: (configOb: IPageConfig): void => {
+    pageConfig = {...configOb}
+  },
+  get: (propertyKey: keyof IPageConfig) => {
+    return pageConfig[propertyKey]
+  }
+}
 
 const MSG_DIRECTION: {[key: string]: DIRECTION} = {
   /** 用户发出的消息 */
@@ -113,5 +123,6 @@ export {
   HEADER_AVATAR_SHAPE,
   FRAME_SHAPE,
   TEXTAREA_SHAPE,
-  EXT_COLOR
+  EXT_COLOR,
+  page
 }

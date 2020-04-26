@@ -8,7 +8,7 @@ import { setPageConfig, closeImageModal, closeVideoModal } from '../actions'
 // API
 import { login } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
-import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE } from '../utils/config'
+import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE, page as PageConfig } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
 import { createEventMsg } from '../utils/message'
@@ -65,6 +65,7 @@ class App extends Nerv.Component<IProps, IState> {
     // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
     const res = await login(pubkey, user)
+    PageConfig.set(res.page_config)
     this.setState({ pageConfig: res.page_config }, () => this.addStyleByJs())
     setPageConfig(res.page_config)
 
