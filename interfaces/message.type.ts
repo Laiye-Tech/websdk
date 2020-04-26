@@ -114,3 +114,11 @@ export type RichTextMessage = {
     resource_url: string
   }
 }
+
+export type VoiceMessage = {
+  voice: {
+    recognition: string
+    resource_url: string
+    type: string
+  }
+}

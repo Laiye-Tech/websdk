@@ -31,7 +31,7 @@ export type AppInfo = {
   pos?: IPositionInput
 }
 
-export type ImgInfo = {
+export type ModalInfo = {
   visible: boolean
   src: string
 }
@@ -39,7 +39,8 @@ export type ImgInfo = {
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
   pageConfig: IPageConfig
-  imageModal: ImgInfo
+  imageModal: ModalInfo
+  videoModal: ModalInfo
 }
 
 // -----------------------------------------------------------------------------

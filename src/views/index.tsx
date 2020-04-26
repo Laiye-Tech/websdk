@@ -3,7 +3,7 @@ import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { setPageConfig, closeImageModal } from '../actions'
+import { setPageConfig, closeImageModal, closeVideoModal } from '../actions'
 
 // API
 import { login } from '../data/app.data'
@@ -18,18 +18,21 @@ import ChatInput from '../components/ChatInput'
 import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
 import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
 import ImgModal from '../components/Common/ImageModal'
+import VideoModal from '../components/Common/VideoModal'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo, ImgInfo } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo } from '../../interfaces'
 
 const logger = require('web-logger')
 console.log('logger --->', logger)
 
 interface IProps extends AppInfo {
-  imageModal: ImgInfo
+  imageModal: ModalInfo
+  videoModal: ModalInfo
   rtMsgList: IMsgBodyInfo[]
   setPageConfig: (page: IPageConfig) => void
   closeImageModal: () => void
+  closeVideoModal: () => void
 }
 interface IState {
   pageConfig: IPageConfig | null
@@ -62,7 +65,7 @@ class App extends Nerv.Component<IProps, IState> {
     // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
     const res = await login(pubkey, user)
-    this.setState({ pageConfig: res.page_config })
+    this.setState({ pageConfig: res.page_config }, () => this.addStyleByJs())
     setPageConfig(res.page_config)
 
     const input = {
@@ -98,6 +101,20 @@ class App extends Nerv.Component<IProps, IState> {
     await loadAliOSS()
   }
 
+  addStyleByJs = () => {
+    const { pageConfig } = this.state
+
+    const sheet = document.createElement('style')
+    sheet.type = 'text/css'
+    sheet.innerHTML = `
+      .video-hover-icon-bg:hover .play-icon {
+        background: ${pageConfig.theme_color} !important;
+      }
+    `
+
+    document.head.appendChild(sheet)
+  }
+
   setContentRef = (el: any) => {
     if (this.$content instanceof HTMLDivElement) {
       return
@@ -118,7 +135,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
-    const { imageModal, closeImageModal } = this.props
+    const { imageModal, videoModal, closeImageModal, closeVideoModal } = this.props
     const { pageConfig } = this.state
 
     if (!pageConfig) {
@@ -172,6 +189,10 @@ class App extends Nerv.Component<IProps, IState> {
         {imageModal.visible ? (
           <ImgModal url={imageModal.src} closeImageModal={closeImageModal} />
         ) : null }
+
+        {videoModal.visible ? (
+          <VideoModal url={videoModal.src} closeVideoModal={closeVideoModal} />
+        ) : null }
       </Nerv.Fragment>
     )
   }
@@ -179,12 +200,14 @@ class App extends Nerv.Component<IProps, IState> {
 
 const mapStateToProps = state => ({
   rtMsgList: state.todos.rtMsgList,
-  imageModal: state.todos.imageModal
+  imageModal: state.todos.imageModal,
+  videoModal: state.todos.videoModal
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setPageConfig: page => dispatch(setPageConfig(page)),
-  closeImageModal: () => dispatch(closeImageModal(null))
+  closeImageModal: () => dispatch(closeImageModal(null)),
+  closeVideoModal: () => dispatch(closeVideoModal(null))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App) as any
