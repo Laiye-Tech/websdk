@@ -8,7 +8,8 @@ import {
   VideoMessage,
   FileMessage,
   ShareLinkMessage,
-  RichTextMessage
+  RichTextMessage,
+  VoiceMessage
 } from '../../../interfaces'
 
 import TextContent from './TextContent'
@@ -17,6 +18,7 @@ import VideoContent from './VideoContent'
 import FileContent from './FileContent'
 import ShareLinkContent from './ShareLinkContent'
 import RichTextContent from './RichTextContent'
+import VoiceContent from './VoiceContent'
 
 interface IProps {
   message: IMsgBodyInfo
@@ -36,6 +38,10 @@ export default function MsgContent({ message, pageConfig }: IProps) {
 
   if (msg_type === 'VIDEO') {
     return <VideoContent body={msg_body as VideoMessage}/>
+  }
+
+  if (msg_type === 'VOICE') {
+    return <VoiceContent body={msg_body as VoiceMessage}/>
   }
 
   if (msg_type === 'FILE') {

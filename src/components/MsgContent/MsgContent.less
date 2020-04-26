@@ -305,3 +305,71 @@
     }
   }
 }
+
+.voiceWrapper {
+  cursor: pointer;
+  min-width: 80px;
+
+  & .audioMask {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: space-between;
+
+    & span {
+      min-width: 48px;
+      color: #8e9ca8;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  }
+
+  & .animation {
+    width: 16px;
+    height: 16px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    padding-top: 4px;
+
+    & li {
+      list-style: none;
+      width: 2px;
+      height: 8px;
+      border-radius: 1px;
+      background: #b3bdc5;
+
+      &:nth-of-type(2),&:nth-of-type(4) {
+        margin-top: 2px;
+      }
+    }
+  }
+
+  & .audio {
+    display: none;
+  }
+
+  & .actived {
+    & li {
+      animation: playing 1s ease-in-out infinite;
+
+      &:nth-of-type(2),&:nth-of-type(4) {
+        margin-top: 2px;
+        animation-delay: .5s;
+      }
+    }
+
+    @keyframes playing {
+      0% {
+        margin-top: 0;
+      }
+      50% {
+        margin-top: 2px;
+      }
+    }
+  }
+}

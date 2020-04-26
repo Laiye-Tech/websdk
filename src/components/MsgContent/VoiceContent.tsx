@@ -2,19 +2,83 @@ import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
 
 import { VoiceMessage } from '../../../interfaces'
+import { page as PageConfig } from '../../utils/config'
 
 interface IProps {
   body: VoiceMessage
 }
 
-export default function VoiceContent({ body }: IProps) {
-  const { resource_url } = body.voice
-
-  return(
-    <div className={styles.voiceWrapper}>
-      <div className="audioMask">
-        <span>{{ resource_url }}</span>
-      </div>
-    </div>
-  )
+interface IState {
+  isPlaying: boolean
 }
+
+class VoiceContent extends Nerv.Component<IProps, IState> {
+  props: IProps
+  state: IState
+
+  $audio: HTMLAudioElement | null = null
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isPlaying: false
+    }
+  }
+
+  playAudio = async (evt: any) => {
+    evt.stopPropagation()
+
+    if (!this.$audio) {
+      console.log('Audio elements does not exist.')
+      return Promise.resolve(false)
+    }
+
+    if (!this.state.isPlaying) {
+      try {
+        await this.$audio.play()
+      } catch (err) {
+        alert('不支持的声音类型')
+        return
+      }
+
+      this.setState({ isPlaying: true })
+
+      this.$audio.onended = () => {
+        this.setState({ isPlaying: false })
+      }
+
+      this.$audio.onpause = () => {
+        this.setState({ isPlaying: false })
+      }
+    } else {
+      this.$audio.pause()
+      this.setState({ isPlaying: false })
+    }
+  }
+
+  render() {
+    const { body } = this.props
+    const { isPlaying } = this.state
+    const { resource_url } = body.voice
+    const btnText = isPlaying ? '正在播放' : '点击播放'
+    const bgColor = PageConfig.get('theme_color') as string
+    const style = { backgroundColor: bgColor }
+
+    return(
+      <div className={styles.voiceWrapper}>
+        <div className={styles.audioMask} onClick={this.playAudio}>
+          <span style={isPlaying ? { color: bgColor } : {}}>{btnText}</span>
+
+          <ul className={`${styles.animation} ${isPlaying ? styles.actived : ''}`}>
+            {[1, 2, 3, 4].map(item => <li key={item} style={isPlaying ? style : {}}/>)}
+          </ul>
+        </div>
+
+        <audio className={styles.audio} preload="true" src={resource_url} ref={audio => (this.$audio = audio)}/>
+      </div>
+    )
+  }
+}
+
+export default VoiceContent as any
