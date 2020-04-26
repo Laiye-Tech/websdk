@@ -1,26 +1,25 @@
 import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
-import { connect } from 'nerv-redux'
 
 import MsgContent from './MsgContent'
 
-import { AVATAR_SHAPE, CHAT_BAR } from '../../utils/config'
+import { AVATAR_SHAPE, CHAT_BAR, page as PageConfig } from '../../utils/config'
 
-import { IMsgBodyInfo, IPageConfig } from '../../../interfaces'
+import { IMsgBodyInfo } from '../../../interfaces'
 
 interface IProps {
   message: IMsgBodyInfo
-  pageConfig: IPageConfig
 }
 
 class UserMsg extends Nerv.Component<IProps> {
   props: IProps
 
   render() {
-    const { message, pageConfig } = this.props
-    const bgColor = pageConfig.theme_color
-    const avatarShape = AVATAR_SHAPE[pageConfig.avatar_shape]
-    const chatBar = CHAT_BAR[pageConfig.chat_bar]
+    const { message } = this.props
+    const bgColor = PageConfig.get('theme_color') as string
+    const avatarShape = AVATAR_SHAPE[PageConfig.get('avatar_shape')]
+    const chatBar = CHAT_BAR[PageConfig.get('chat_bar')]
+    const avatar = PageConfig.get('user_avatar')
 
     const hasOwnContent =
       message.msg_type === 'IMAGE' ||
@@ -35,13 +34,13 @@ class UserMsg extends Nerv.Component<IProps> {
         <dl className={`${styles.msgContainer} ${styles.userMsg}`}>
           <dt className={styles.userInfo}>
             <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
-              <img src={`${pageConfig.bot_avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
+              <img src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
             </div>
           </dt>
 
           <dd className={styles.msgBody}>
             <div className={`${cls} ${chatBar}`}>
-              <MsgContent message={message} pageConfig={pageConfig}/>
+              <MsgContent message={message} />
             </div>
 
             <span className={styles.hiddenId}>#{message.msg_id}</span>
@@ -52,8 +51,4 @@ class UserMsg extends Nerv.Component<IProps> {
   }
 }
 
-const mapStateToProps = state => ({
-  pageConfig: state.todos.pageConfig
-})
-
-export default connect(mapStateToProps)(UserMsg) as any
+export default UserMsg as any

@@ -1,14 +1,14 @@
 Arguments: 
-  /Users/laiye-malei/.nvm/versions/node/v11.10.1/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add @types/nervjs --dev
+  /Users/laiye-malei/.nvm/versions/node/v13.1.0/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add saas-logan
 
 PATH: 
-  /Users/laiye-malei/.nvm/versions/node/v11.10.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Users/laiye-malei/.nvm/versions/node/v13.1.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
   1.3.2
 
 Node version: 
-  11.10.1
+  13.1.0
 
 Platform: 
   darwin x64
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "websdk-new",
-    "version": "1.0.0",
+    "version": "3.30.0",
     "description": "Nerv.js 兼容到IE9",
     "main": "dist/IMLib.js",
     "author": "malei",
@@ -48,7 +48,10 @@ npm manifest:
     },
     "dependencies": {
       "less": "3.11.1",
+      "nerv-redux": "1.5.6",
       "nervjs": "1.5.6",
+      "redux": "4.0.5",
+      "redux-actions": "2.6.5",
       "uuid": "7.0.2",
       "whatwg-fetch": "3.0.0"
     },
@@ -56,7 +59,13 @@ npm manifest:
       "@babel/core": "7.7.7",
       "@babel/plugin-transform-react-jsx": "7.7.7",
       "@babel/preset-env": "7.7.7",
+      "@types/react": "16.9.23",
+      "@types/react-dom": "16.9.5",
+      "@types/react-redux": "7.1.7",
+      "@types/redux": "3.6.0",
+      "@types/redux-actions": "2.6.1",
       "@types/uuid": "7.0.0",
+      "awesome-typescript-loader": "5.2.1",
       "babel-loader": "8.0.6",
       "better-npm-run": "0.1.1",
       "css-loader": "2.1.0",
@@ -64,7 +73,6 @@ npm manifest:
       "less-loader": "4.1.0",
       "mini-css-extract-plugin": "0.9.0",
       "style-loader": "0.23.1",
-      "ts-loader": "6.2.1",
       "tslint": "6.0.0-beta0",
       "tslint-react": "4.1.0",
       "typescript": "3.7.4",
@@ -655,6 +663,12 @@ Lockfile:
       js-levenshtein "^1.1.3"
       semver "^5.5.0"
   
+  "@babel/runtime@^7.5.5":
+    version "7.8.7"
+    resolved "https://npm.laiye.com/@babel%2fruntime/-/runtime-7.8.7.tgz#8fefce9802db54881ba59f90bb28719b4996324d"
+    dependencies:
+      regenerator-runtime "^0.13.4"
+  
   "@babel/template@^7.7.4":
     version "7.7.4"
     resolved "https://npm.laiye.com/@babel%2ftemplate/-/template-7.7.4.tgz#428a7d9eecffe27deac0a98e23bf8e3675d2a77b"
@@ -697,6 +711,13 @@ Lockfile:
       "@types/minimatch" "*"
       "@types/node" "*"
   
+  "@types/hoist-non-react-statics@^3.3.0":
+    version "3.3.1"
+    resolved "https://npm.laiye.com/@types%2fhoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+    dependencies:
+      "@types/react" "*"
+      hoist-non-react-statics "^3.3.0"
+  
   "@types/minimatch@*":
     version "3.0.3"
     resolved "http://npm.laiye.com/@types%2fminimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -704,6 +725,42 @@ Lockfile:
   "@types/node@*":
     version "12.0.8"
     resolved "http://npm.laiye.com/@types%2fnode/-/node-12.0.8.tgz#551466be11b2adc3f3d47156758f610bd9f6b1d8"
+  
+  "@types/prop-types@*":
+    version "15.7.3"
+    resolved "https://npm.laiye.com/@types%2fprop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
+  
+  "@types/react-dom@16.9.5":
+    version "16.9.5"
+    resolved "https://npm.laiye.com/@types%2freact-dom/-/react-dom-16.9.5.tgz#5de610b04a35d07ffd8f44edad93a71032d9aaa7"
+    dependencies:
+      "@types/react" "*"
+  
+  "@types/react-redux@7.1.7":
+    version "7.1.7"
+    resolved "https://npm.laiye.com/@types%2freact-redux/-/react-redux-7.1.7.tgz#12a0c529aba660696947384a059c5c6e08185c7a"
+    dependencies:
+      "@types/hoist-non-react-statics" "^3.3.0"
+      "@types/react" "*"
+      hoist-non-react-statics "^3.3.0"
+      redux "^4.0.0"
+  
+  "@types/react@*", "@types/react@16.9.23":
+    version "16.9.23"
+    resolved "https://npm.laiye.com/@types%2freact/-/react-16.9.23.tgz#1a66c6d468ba11a8943ad958a8cb3e737568271c"
+    dependencies:
+      "@types/prop-types" "*"
+      csstype "^2.2.0"
+  
+  "@types/redux-actions@2.6.1":
+    version "2.6.1"
+    resolved "https://npm.laiye.com/@types%2fredux-actions/-/redux-actions-2.6.1.tgz#0940e97fa35ad3004316bddb391d8e01d2efa605"
+  
+  "@types/redux@3.6.0":
+    version "3.6.0"
+    resolved "https://npm.laiye.com/@types%2fredux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
+    dependencies:
+      redux "*"
   
   "@types/uuid@7.0.0":
     version "7.0.0"
@@ -1038,6 +1095,19 @@ Lockfile:
     version "2.1.2"
     resolved "http://npm.laiye.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   
+  awesome-typescript-loader@5.2.1:
+    version "5.2.1"
+    resolved "https://npm.laiye.com/awesome-typescript-loader/-/awesome-typescript-loader-5.2.1.tgz#a41daf7847515f4925cdbaa3075d61f289e913fc"
+    dependencies:
+      chalk "^2.4.1"
+      enhanced-resolve "^4.0.0"
+      loader-utils "^1.1.0"
+      lodash "^4.17.5"
+      micromatch "^3.1.9"
+      mkdirp "^0.5.1"
+      source-map-support "^0.5.3"
+      webpack-log "^1.2.0"
+  
   aws-sign2@~0.7.0:
     version "0.7.0"
     resolved "https://npm.laiye.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -1170,12 +1240,6 @@ Lockfile:
       snapdragon-node "^2.0.1"
       split-string "^3.0.2"
       to-regex "^3.0.1"
-  
-  braces@^3.0.1:
-    version "3.0.2"
-    resolved "http://npm.laiye.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
-    dependencies:
-      fill-range "^7.0.1"
   
   brorand@^1.0.1:
     version "1.1.0"
@@ -1343,7 +1407,7 @@ Lockfile:
     version "0.12.0"
     resolved "https://npm.laiye.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   
-  chalk@2.4.2, chalk@^2.0.0, chalk@^2.3.0, chalk@^2.4.2:
+  chalk@2.4.2, chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.1, chalk@^2.4.2:
     version "2.4.2"
     resolved "http://npm.laiye.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
     dependencies:
@@ -1675,9 +1739,20 @@ Lockfile:
     version "3.0.0"
     resolved "http://npm.laiye.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   
+  csstype@^2.2.0:
+    version "2.6.9"
+    resolved "https://npm.laiye.com/csstype/-/csstype-2.6.9.tgz#05141d0cd557a56b8891394c1911c40c8a98d098"
+  
   cyclist@~0.2.2:
     version "0.2.2"
     resolved "http://npm.laiye.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
+  
+  d@1, d@^1.0.1:
+    version "1.0.1"
+    resolved "https://npm.laiye.com/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
+    dependencies:
+      es5-ext "^0.10.50"
+      type "^1.0.1"
   
   dashdash@^1.12.0:
     version "1.14.1"
@@ -1975,6 +2050,29 @@ Lockfile:
       is-date-object "^1.0.1"
       is-symbol "^1.0.2"
   
+  es5-ext@^0.10.35, es5-ext@^0.10.50:
+    version "0.10.53"
+    resolved "https://npm.laiye.com/es5-ext/-/es5-ext-0.10.53.tgz#93c5a3acfdbef275220ad72644ad02ee18368de1"
+    dependencies:
+      es6-iterator "~2.0.3"
+      es6-symbol "~3.1.3"
+      next-tick "~1.0.0"
+  
+  es6-iterator@~2.0.3:
+    version "2.0.3"
+    resolved "https://npm.laiye.com/es6-iterator/-/es6-iterator-2.0.3.tgz#a7de889141a05a94b0854403b2d0a0fbfa98f3b7"
+    dependencies:
+      d "1"
+      es5-ext "^0.10.35"
+      es6-symbol "^3.1.1"
+  
+  es6-symbol@^3.1.1, es6-symbol@~3.1.3:
+    version "3.1.3"
+    resolved "https://npm.laiye.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
+    dependencies:
+      d "^1.0.1"
+      ext "^1.1.2"
+  
   escape-html@~1.0.3:
     version "1.0.3"
     resolved "http://npm.laiye.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -2098,6 +2196,12 @@ Lockfile:
       utils-merge "1.0.1"
       vary "~1.1.2"
   
+  ext@^1.1.2:
+    version "1.4.0"
+    resolved "https://npm.laiye.com/ext/-/ext-1.4.0.tgz#89ae7a07158f79d35517882904324077e4379244"
+    dependencies:
+      type "^2.0.0"
+  
   extend-shallow@^2.0.1:
     version "2.0.1"
     resolved "http://npm.laiye.com/extend-shallow/-/extend-shallow-2.0.1.tgz#51af7d614ad9a9f610ea1bafbb989d6b1c56890f"
@@ -2172,12 +2276,6 @@ Lockfile:
       is-number "^3.0.0"
       repeat-string "^1.6.1"
       to-regex-range "^2.1.0"
-  
-  fill-range@^7.0.1:
-    version "7.0.1"
-    resolved "http://npm.laiye.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
-    dependencies:
-      to-regex-range "^5.0.1"
   
   finalhandler@~1.1.2:
     version "1.1.2"
@@ -2496,6 +2594,12 @@ Lockfile:
       minimalistic-assert "^1.0.0"
       minimalistic-crypto-utils "^1.0.1"
   
+  hoist-non-react-statics@^3.3.0:
+    version "3.3.2"
+    resolved "https://npm.laiye.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+    dependencies:
+      react-is "^16.7.0"
+  
   homedir-polyfill@^1.0.1:
     version "1.0.3"
     resolved "http://npm.laiye.com/homedir-polyfill/-/homedir-polyfill-1.0.3.tgz#743298cef4e5af3e194161fbadcc2151d3a058e8"
@@ -2689,7 +2793,7 @@ Lockfile:
     version "1.2.0"
     resolved "https://npm.laiye.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
   
-  invariant@^2.2.2:
+  invariant@^2.2.2, invariant@^2.2.4:
     version "2.2.4"
     resolved "http://npm.laiye.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
     dependencies:
@@ -2814,10 +2918,6 @@ Lockfile:
     resolved "http://npm.laiye.com/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
     dependencies:
       kind-of "^3.0.2"
-  
-  is-number@^7.0.0:
-    version "7.0.0"
-    resolved "http://npm.laiye.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   
   is-path-cwd@^2.0.0:
     version "2.1.0"
@@ -2967,6 +3067,10 @@ Lockfile:
       json-schema "0.2.3"
       verror "1.10.0"
   
+  just-curry-it@^3.1.0:
+    version "3.1.0"
+    resolved "https://npm.laiye.com/just-curry-it/-/just-curry-it-3.1.0.tgz#ab59daed308a58b847ada166edd0a2d40766fbc5"
+  
   killable@^1.0.1:
     version "1.0.1"
     resolved "http://npm.laiye.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -3061,15 +3165,28 @@ Lockfile:
     version "4.17.11"
     resolved "http://npm.laiye.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   
-  lodash@^4.17.13, lodash@^4.17.14:
+  lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.5:
     version "4.17.15"
     resolved "https://npm.laiye.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  
+  log-symbols@^2.1.0:
+    version "2.2.0"
+    resolved "https://npm.laiye.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
+    dependencies:
+      chalk "^2.0.1"
   
   loglevel@^1.6.6:
     version "1.6.6"
     resolved "https://npm.laiye.com/loglevel/-/loglevel-1.6.6.tgz#0ee6300cc058db6b3551fa1c4bf73b83bb771312"
   
-  loose-envify@^1.0.0:
+  loglevelnext@^1.0.1:
+    version "1.0.5"
+    resolved "https://npm.laiye.com/loglevelnext/-/loglevelnext-1.0.5.tgz#36fc4f5996d6640f539ff203ba819641680d75a2"
+    dependencies:
+      es6-symbol "^3.1.1"
+      object.assign "^4.1.0"
+  
+  loose-envify@^1.0.0, loose-envify@^1.4.0:
     version "1.4.0"
     resolved "http://npm.laiye.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
     dependencies:
@@ -3147,7 +3264,7 @@ Lockfile:
     version "1.1.2"
     resolved "http://npm.laiye.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   
-  micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4:
+  micromatch@^3.0.4, micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.9:
     version "3.1.10"
     resolved "http://npm.laiye.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
     dependencies:
@@ -3164,13 +3281,6 @@ Lockfile:
       regex-not "^1.0.0"
       snapdragon "^0.8.1"
       to-regex "^3.0.2"
-  
-  micromatch@^4.0.0:
-    version "4.0.2"
-    resolved "http://npm.laiye.com/micromatch/-/micromatch-4.0.2.tgz#4fcb0999bf9fbc2fcbdd212f6d629b9a56c39259"
-    dependencies:
-      braces "^3.0.1"
-      picomatch "^2.0.5"
   
   miller-rabin@^4.0.0:
     version "4.0.1"
@@ -3353,6 +3463,13 @@ Lockfile:
     version "2.6.1"
     resolved "http://npm.laiye.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   
+  nerv-redux@1.5.6:
+    version "1.5.6"
+    resolved "https://npm.laiye.com/nerv-redux/-/nerv-redux-1.5.6.tgz#1190cd1e09294b41f4472bc1896cd69ef2e7fb43"
+    dependencies:
+      react-redux "^7.1.0"
+      redux "^4.0.1"
+  
   nerv-shared@1.4.0:
     version "1.4.0"
     resolved "http://npm.laiye.com/nerv-shared/-/nerv-shared-1.4.0.tgz#4ae903f215888ab886b3d04ae3b95d5327e67f43"
@@ -3367,6 +3484,10 @@ Lockfile:
     dependencies:
       nerv-shared "1.4.0"
       nerv-utils "1.4.5"
+  
+  next-tick@~1.0.0:
+    version "1.0.0"
+    resolved "https://npm.laiye.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   
   nice-try@^1.0.4:
     version "1.0.5"
@@ -3731,10 +3852,6 @@ Lockfile:
     version "2.1.0"
     resolved "https://npm.laiye.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   
-  picomatch@^2.0.5:
-    version "2.0.7"
-    resolved "http://npm.laiye.com/picomatch/-/picomatch-2.0.7.tgz#514169d8c7cd0bdbeecc8a2609e34a7163de69f6"
-  
   pify@^2.0.0:
     version "2.3.0"
     resolved "http://npm.laiye.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -3855,6 +3972,14 @@ Lockfile:
     resolved "https://npm.laiye.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
     dependencies:
       asap "~2.0.3"
+  
+  prop-types@^15.7.2:
+    version "15.7.2"
+    resolved "https://npm.laiye.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+    dependencies:
+      loose-envify "^1.4.0"
+      object-assign "^4.1.1"
+      react-is "^16.8.1"
   
   proxy-addr@~2.0.5:
     version "2.0.5"
@@ -3978,6 +4103,20 @@ Lockfile:
       minimist "^1.2.0"
       strip-json-comments "~2.0.1"
   
+  react-is@^16.7.0, react-is@^16.8.1, react-is@^16.9.0:
+    version "16.13.0"
+    resolved "https://npm.laiye.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"
+  
+  react-redux@^7.1.0:
+    version "7.2.0"
+    resolved "https://npm.laiye.com/react-redux/-/react-redux-7.2.0.tgz#f970f62192b3981642fec46fd0db18a074fe879d"
+    dependencies:
+      "@babel/runtime" "^7.5.5"
+      hoist-non-react-statics "^3.3.0"
+      loose-envify "^1.4.0"
+      prop-types "^15.7.2"
+      react-is "^16.9.0"
+  
   "readable-stream@1 || 2", readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.3, readable-stream@^2.3.6, readable-stream@~2.3.6:
     version "2.3.6"
     resolved "http://npm.laiye.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
@@ -4006,6 +4145,27 @@ Lockfile:
       micromatch "^3.1.10"
       readable-stream "^2.0.2"
   
+  reduce-reducers@^0.4.3:
+    version "0.4.3"
+    resolved "https://npm.laiye.com/reduce-reducers/-/reduce-reducers-0.4.3.tgz#8e052618801cd8fc2714b4915adaa8937eb6d66c"
+  
+  redux-actions@2.6.5:
+    version "2.6.5"
+    resolved "https://npm.laiye.com/redux-actions/-/redux-actions-2.6.5.tgz#bdca548768ee99832a63910c276def85e821a27e"
+    dependencies:
+      invariant "^2.2.4"
+      just-curry-it "^3.1.0"
+      loose-envify "^1.4.0"
+      reduce-reducers "^0.4.3"
+      to-camel-case "^1.0.0"
+  
+  redux@*, redux@4.0.5, redux@^4.0.0, redux@^4.0.1:
+    version "4.0.5"
+    resolved "https://npm.laiye.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
+    dependencies:
+      loose-envify "^1.4.0"
+      symbol-observable "^1.2.0"
+  
   regenerate-unicode-properties@^8.1.0:
     version "8.1.0"
     resolved "https://npm.laiye.com/regenerate-unicode-properties/-/regenerate-unicode-properties-8.1.0.tgz#ef51e0f0ea4ad424b77bf7cb41f3e015c70a3f0e"
@@ -4015,6 +4175,10 @@ Lockfile:
   regenerate@^1.4.0:
     version "1.4.0"
     resolved "http://npm.laiye.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
+  
+  regenerator-runtime@^0.13.4:
+    version "0.13.4"
+    resolved "https://npm.laiye.com/regenerator-runtime/-/regenerator-runtime-0.13.4.tgz#e96bf612a3362d12bb69f7e8f74ffeab25c7ac91"
   
   regenerator-transform@^0.14.0:
     version "0.14.0"
@@ -4222,10 +4386,6 @@ Lockfile:
     version "5.7.0"
     resolved "http://npm.laiye.com/semver/-/semver-5.7.0.tgz#790a7cf6fea5459bac96110b29b60412dc8ff96b"
   
-  semver@^6.0.0:
-    version "6.1.1"
-    resolved "http://npm.laiye.com/semver/-/semver-6.1.1.tgz#53f53da9b30b2103cd4f15eab3a18ecbcb210c9b"
-  
   semver@^6.3.0:
     version "6.3.0"
     resolved "https://npm.laiye.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
@@ -4393,7 +4553,7 @@ Lockfile:
       source-map-url "^0.4.0"
       urix "^0.1.0"
   
-  source-map-support@~0.5.12:
+  source-map-support@^0.5.3, source-map-support@~0.5.12:
     version "0.5.16"
     resolved "https://npm.laiye.com/source-map-support/-/source-map-support-0.5.16.tgz#0ae069e7fe3ba7538c64c98515e35339eac5a042"
     dependencies:
@@ -4586,6 +4746,10 @@ Lockfile:
     dependencies:
       has-flag "^3.0.0"
   
+  symbol-observable@^1.2.0:
+    version "1.2.0"
+    resolved "https://npm.laiye.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
+  
   tapable@^1.0.0, tapable@^1.1.3:
     version "1.1.3"
     resolved "http://npm.laiye.com/tapable/-/tapable-1.1.3.tgz#a1fccc06b58db61fd7a45da2da44f5f3a3e67ba2"
@@ -4645,9 +4809,19 @@ Lockfile:
     version "1.0.1"
     resolved "http://npm.laiye.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
   
+  to-camel-case@^1.0.0:
+    version "1.0.0"
+    resolved "https://npm.laiye.com/to-camel-case/-/to-camel-case-1.0.0.tgz#1a56054b2f9d696298ce66a60897322b6f423e46"
+    dependencies:
+      to-space-case "^1.0.0"
+  
   to-fast-properties@^2.0.0:
     version "2.0.0"
     resolved "http://npm.laiye.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
+  
+  to-no-case@^1.0.0:
+    version "1.0.2"
+    resolved "https://npm.laiye.com/to-no-case/-/to-no-case-1.0.2.tgz#c722907164ef6b178132c8e69930212d1b4aa16a"
   
   to-object-path@^0.3.0:
     version "0.3.0"
@@ -4662,12 +4836,6 @@ Lockfile:
       is-number "^3.0.0"
       repeat-string "^1.6.1"
   
-  to-regex-range@^5.0.1:
-    version "5.0.1"
-    resolved "http://npm.laiye.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
-    dependencies:
-      is-number "^7.0.0"
-  
   to-regex@^3.0.1, to-regex@^3.0.2:
     version "3.0.2"
     resolved "http://npm.laiye.com/to-regex/-/to-regex-3.0.2.tgz#13cfdd9b336552f30b51f33a8ae1b42a7a7599ce"
@@ -4676,6 +4844,12 @@ Lockfile:
       extend-shallow "^3.0.2"
       regex-not "^1.0.2"
       safe-regex "^1.1.0"
+  
+  to-space-case@^1.0.0:
+    version "1.0.0"
+    resolved "https://npm.laiye.com/to-space-case/-/to-space-case-1.0.0.tgz#b052daafb1b2b29dc770cea0163e5ec0ebc9fc17"
+    dependencies:
+      to-no-case "^1.0.0"
   
   toidentifier@1.0.0:
     version "1.0.0"
@@ -4691,16 +4865,6 @@ Lockfile:
     dependencies:
       psl "^1.1.28"
       punycode "^2.1.1"
-  
-  ts-loader@6.2.1:
-    version "6.2.1"
-    resolved "https://npm.laiye.com/ts-loader/-/ts-loader-6.2.1.tgz#67939d5772e8a8c6bdaf6277ca023a4812da02ef"
-    dependencies:
-      chalk "^2.3.0"
-      enhanced-resolve "^4.0.0"
-      loader-utils "^1.0.2"
-      micromatch "^4.0.0"
-      semver "^6.0.0"
   
   tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
     version "1.10.0"
@@ -4762,6 +4926,14 @@ Lockfile:
     dependencies:
       media-typer "0.3.0"
       mime-types "~2.1.24"
+  
+  type@^1.0.1:
+    version "1.2.0"
+    resolved "https://npm.laiye.com/type/-/type-1.2.0.tgz#848dd7698dafa3e54a6c479e759c4bc3f18847a0"
+  
+  type@^2.0.0:
+    version "2.0.0"
+    resolved "https://npm.laiye.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
   
   typedarray@^0.0.6:
     version "0.0.6"
@@ -4916,6 +5088,10 @@ Lockfile:
     version "3.3.2"
     resolved "http://npm.laiye.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   
+  uuid@^3.1.0:
+    version "3.4.0"
+    resolved "https://npm.laiye.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
+  
   v8-compile-cache@2.0.3:
     version "2.0.3"
     resolved "https://npm.laiye.com/v8-compile-cache/-/v8-compile-cache-2.0.3.tgz#00f7494d2ae2b688cfe2899df6ed2c54bef91dbe"
@@ -5013,6 +5189,15 @@ Lockfile:
       webpack-log "^2.0.0"
       ws "^6.2.1"
       yargs "12.0.5"
+  
+  webpack-log@^1.2.0:
+    version "1.2.0"
+    resolved "https://npm.laiye.com/webpack-log/-/webpack-log-1.2.0.tgz#a4b34cda6b22b518dbb0ab32e567962d5c72a43d"
+    dependencies:
+      chalk "^2.1.0"
+      log-symbols "^2.1.0"
+      loglevelnext "^1.0.1"
+      uuid "^3.1.0"
   
   webpack-log@^2.0.0:
     version "2.0.0"
@@ -5186,14 +5371,14 @@ Lockfile:
       yargs-parser "^13.1.0"
 
 Trace: 
-  Error: https://npm.laiye.com/@types%2fnervjs: no such package available
+  Error: https://npm.laiye.com/saas-logan: authorization required to access package saas-logan
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:62098:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:123085:22)
-      at Request.emit (events.js:197:13)
+      at Request.emit (events.js:210:5)
       at Request.<anonymous> (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:124068:10)
-      at Request.emit (events.js:197:13)
+      at Request.emit (events.js:210:5)
       at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:123988:12)
-      at Object.onceWrapper (events.js:285:13)
-      at IncomingMessage.emit (events.js:202:15)
-      at endReadableNT (_stream_readable.js:1129:12)
-      at processTicksAndRejections (internal/process/next_tick.js:76:17)
+      at Object.onceWrapper (events.js:299:28)
+      at IncomingMessage.emit (events.js:215:7)
+      at endReadableNT (_stream_readable.js:1199:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)

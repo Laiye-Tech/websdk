@@ -2,20 +2,20 @@ import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
 
 import { prefixUrl } from '../../utils'
-import { EXT_COLOR } from '../../utils/config'
+import { EXT_COLOR, page as PageConfig } from '../../utils/config'
 
-import { FileMessage, IPageConfig } from '../../../interfaces'
+import { FileMessage } from '../../../interfaces'
 
 interface IProps {
   body: FileMessage
-  pageConfig: IPageConfig
 }
 
-export default function FileContent({ body, pageConfig }: IProps) {
+export default function FileContent({ body }: IProps) {
   const { resource_url, file_name } = body.file
   const url = prefixUrl(resource_url)
   const ext = body.file.file_name.split('.').slice(-1)[0] || '?'
   const bgColor = EXT_COLOR[ext] || EXT_COLOR.default
+  const color = PageConfig.get('theme_color') as string
 
   return(
     <a href={url} target="_blank" className={styles.fileContent}>
@@ -26,8 +26,8 @@ export default function FileContent({ body, pageConfig }: IProps) {
           <span
             className={styles.downLoad}
             style={{
-              color: pageConfig.theme_color,
-              textDecoration: pageConfig.theme_color === '#000000' ? 'underline' : 'initial'
+              color,
+              textDecoration: color === '#000000' ? 'underline' : 'initial'
             }}
           >
             下载

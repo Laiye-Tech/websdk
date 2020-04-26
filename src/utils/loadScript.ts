@@ -32,8 +32,7 @@ async function loadRongCloud(): Promise<any> {
     window.require.config({
       paths: {
         RongIMLib: 'https://cdn.ronghub.com/RongIMLib-2.5.5.min',
-        RongEmoji: 'https://cdn.ronghub.com/RongEmoji-2.2.7.min',
-        protobuf: 'https://cdn.ronghub.com/protobuf-2.3.5.min'
+        RongEmoji: 'https://cdn.ronghub.com/RongEmoji-2.2.7.min'
       },
       shim: {
         'protobuf': {

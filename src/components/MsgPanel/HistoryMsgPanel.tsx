@@ -1,5 +1,5 @@
 import Nerv, { Fragment } from 'nervjs'
-import { connect } from 'nerv-redux'
+// import { connect } from 'nerv-redux'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 

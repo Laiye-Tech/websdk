@@ -6,12 +6,11 @@ import { connect } from 'nerv-redux'
 import { setRtMsgs } from '../../actions'
 import { getStsToken } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
-import { TEXTAREA_SHAPE } from '../../utils/config'
+import { TEXTAREA_SHAPE, page as PageConfig } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
-import { IPageConfig, IMsgBodyInfo, MSG_TYPE, IOSSUploadResult } from '../../../interfaces'
+import { IMsgBodyInfo, MSG_TYPE, IOSSUploadResult } from '../../../interfaces'
 
 interface IProps {
-  pageConfig: IPageConfig
   setRtMsgs: (msg: IMsgBodyInfo) => void
 }
 
@@ -157,10 +156,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   render() {
-    const { theme_color, frame_shape } = this.props.pageConfig
     const { textContent } = this.state
 
-    const chatShape = TEXTAREA_SHAPE[frame_shape]
+    const frameShape = PageConfig.get('frame_shape') as number
+    const bgColor = PageConfig.get('theme_color') as string
+    const chatShape = TEXTAREA_SHAPE[frameShape]
 
     return(
       <div className={`${styles.chatInput} ${chatShape}`}>
@@ -184,7 +184,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
             </div>
           </div>
 
-          <div className={styles.pullRight} style={{ backgroundColor: theme_color }} onClick={this.onPressEnter}>
+          <div className={styles.pullRight} style={{ backgroundColor: bgColor }} onClick={this.onPressEnter}>
             <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png"/>
           </div>
         </div>

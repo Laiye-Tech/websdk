@@ -2,7 +2,6 @@ import * as Nerv from 'nervjs'
 
 import {
   IMsgBodyInfo,
-  IPageConfig,
   TextMessage,
   ImageMessage,
   VideoMessage,
@@ -22,10 +21,9 @@ import VoiceContent from './VoiceContent'
 
 interface IProps {
   message: IMsgBodyInfo
-  pageConfig: IPageConfig
 }
 
-export default function MsgContent({ message, pageConfig }: IProps) {
+export default function MsgContent({ message }: IProps) {
   const { msg_body, msg_type, direction } = message
 
   if (msg_type === 'TEXT') {
@@ -45,7 +43,7 @@ export default function MsgContent({ message, pageConfig }: IProps) {
   }
 
   if (msg_type === 'FILE') {
-    return <FileContent body={msg_body as FileMessage} pageConfig={pageConfig}/>
+    return <FileContent body={msg_body as FileMessage}/>
   }
 
   if (msg_type === 'SHARELINK') {

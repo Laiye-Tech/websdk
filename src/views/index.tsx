@@ -175,7 +175,7 @@ class App extends Nerv.Component<IProps, IState> {
             </main>
 
             <footer className={styles.footer}>
-              <ChatInput pageConfig={pageConfig}/>
+              <ChatInput />
             </footer>
           </div>
 
