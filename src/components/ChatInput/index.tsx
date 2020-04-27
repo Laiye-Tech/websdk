@@ -33,21 +33,22 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     textContent: ''
   }
 
+  // 清空用户输入联想
   clearSugList = () => {
     this.props.setUserSugList([])
   }
 
+  // 监听输入框变化 用函数防抖 减少接口请求次数
   inputAnswer = debounce((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    // 使用$textarea是为了兼容RPA机器人
     const value = this.$textarea ? this.$textarea.value : event.target.value
     this.setState({ textContent: value })
 
-    if (value) {
-      this.getUserSugList(value)
-    } else {
-      this.clearSugList()
-    }
+    // 如果value是空的话 不需要调接口
+    value ? this.getUserSugList(value) : this.clearSugList()
   }, 500)
 
+  // 获取用户输入联想
   getUserSugList = async (value: string) => {
     const res = await getUserInputSugList(value)
     this.props.setUserSugList(res)

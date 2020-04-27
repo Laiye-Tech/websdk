@@ -90,18 +90,19 @@ class App extends Nerv.Component<IProps, IState> {
     await loadRongCloud()
     await openSocket(res.rong_key, res.rong_token)
 
-    setTimeout(() => {
-      // 发送一条进入事件消息
-      const enterMsg = createEventMsg('ENTER')
-      pushMsg(enterMsg)
+    // 发送一条进入事件消息
+    const enterMsg = createEventMsg('ENTER')
+    pushMsg(enterMsg)
 
+    setTimeout(() => {
       this.scrollToBottom()
-    }, 500)
+    }, 320)
 
     // 加载阿里云OSS
     await loadAliOSS()
   }
 
+  // 通过js创建style样式，因为项目主题颜色是传入的，用到:hover这种样式时，就不能写到less里了
   addStyleByJs = () => {
     const { pageConfig } = this.state
 
@@ -124,6 +125,7 @@ class App extends Nerv.Component<IProps, IState> {
     this.$content = el as HTMLDivElement
   }
 
+  // 对话消息流始终保持滚动条在最底部
   scrollToBottom() {
     if (!this.$content) {
       return

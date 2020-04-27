@@ -11,6 +11,7 @@ interface IProps {
 }
 
 const SugList = (props: IProps) => {
+  // 点击某一条sug 发送一条文本消息并隐藏掉输入联想浮层
   const onSugClick = (content: string) => () => {
     props.sendMsg('TEXT', content)
     props.clearSugList()
