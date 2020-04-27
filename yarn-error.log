@@ -1,14 +1,14 @@
 Arguments: 
-  /Users/laiye-malei/.nvm/versions/node/v13.1.0/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add saas-logan
+  /Users/laiye-malei/.nvm/versions/node/v10.5.0/bin/node /usr/local/Cellar/yarn/1.3.2/libexec/bin/yarn.js add @types/nervjs --dev
 
 PATH: 
-  /Users/laiye-malei/.nvm/versions/node/v13.1.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /Users/laiye-malei/.nvm/versions/node/v10.5.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
   1.3.2
 
 Node version: 
-  13.1.0
+  10.5.0
 
 Platform: 
   darwin x64
@@ -53,6 +53,7 @@ npm manifest:
       "redux": "4.0.5",
       "redux-actions": "2.6.5",
       "uuid": "7.0.2",
+      "web-logger": "1.0.1",
       "whatwg-fetch": "3.0.0"
     },
     "devDependencies": {
@@ -5084,6 +5085,10 @@ Lockfile:
     version "7.0.2"
     resolved "https://npm.laiye.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
   
+  uuid@7.0.3:
+    version "7.0.3"
+    resolved "https://npm.laiye.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  
   uuid@^3.0.1, uuid@^3.3.2:
     version "3.3.2"
     resolved "http://npm.laiye.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
@@ -5125,6 +5130,13 @@ Lockfile:
     resolved "http://npm.laiye.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
     dependencies:
       minimalistic-assert "^1.0.0"
+  
+  web-logger@1.0.1:
+    version "1.0.1"
+    resolved "https://npm.laiye.com/web-logger/-/web-logger-1.0.1.tgz#136a66820ff7abd62bd0cc719873cd8de720329f"
+    dependencies:
+      uuid "7.0.3"
+      whatwg-fetch "3.0.0"
   
   webpack-cli@3.3.10:
     version "3.3.10"
@@ -5371,14 +5383,14 @@ Lockfile:
       yargs-parser "^13.1.0"
 
 Trace: 
-  Error: https://npm.laiye.com/saas-logan: authorization required to access package saas-logan
+  Error: https://npm.laiye.com/@types%2fnervjs: no such package available
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:62098:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:123085:22)
-      at Request.emit (events.js:210:5)
+      at Request.emit (events.js:182:13)
       at Request.<anonymous> (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:124068:10)
-      at Request.emit (events.js:210:5)
+      at Request.emit (events.js:182:13)
       at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.3.2/libexec/lib/cli.js:123988:12)
-      at Object.onceWrapper (events.js:299:28)
-      at IncomingMessage.emit (events.js:215:7)
-      at endReadableNT (_stream_readable.js:1199:12)
-      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1081:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
