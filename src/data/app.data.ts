@@ -27,6 +27,5 @@ export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigI
 // STS 返回临时访问凭证
 export function getStsToken(): Promise<IOSSAuth> {
   const url = `${BASE_URL}/resource/oss/auth/write`
-
   return postForm(url, {})
 }

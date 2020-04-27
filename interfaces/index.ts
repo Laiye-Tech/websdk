@@ -38,6 +38,7 @@ export type ModalInfo = {
 
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
+  sugList: ISugList[]
   pageConfig: IPageConfig
   imageModal: ModalInfo
   videoModal: ModalInfo
@@ -70,6 +71,9 @@ import {
   VoiceMessage
 } from './message.type'
 
+// 用户相关
+import { IUserSugList, ITagValuesInput, ISugList } from './user.type'
+
 export {
   ISDKConfigInfo,
   IPageConfig,
@@ -88,5 +92,8 @@ export {
   FileMessage,
   ShareLinkMessage,
   RichTextMessage,
-  VoiceMessage
+  VoiceMessage,
+  IUserSugList,
+  ITagValuesInput,
+  ISugList
 }

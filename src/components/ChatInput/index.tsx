@@ -1,17 +1,23 @@
 import * as Nerv from 'nervjs'
 import * as styles from './ChatInput.less'
-import { Dispatch } from 'redux'
-import { connect } from 'nerv-redux'
+import { connect, Dispatch } from 'nerv-redux'
 
-import { setRtMsgs } from '../../actions'
+import { setRtMsgs, setUserSugList } from '../../actions'
 import { getStsToken } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
+import { getUserInputSugList } from '../../data/user.data'
+
+import SugList from './SugList'
+
+import { debounce, getOssUrl } from '../../utils'
 import { TEXTAREA_SHAPE, page as PageConfig } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
-import { IMsgBodyInfo, MSG_TYPE, IOSSUploadResult } from '../../../interfaces'
+import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
 interface IProps {
+  userSugList: ISugList[]
   setRtMsgs: (msg: IMsgBodyInfo) => void
+  setUserSugList: (sugList: ISugList[]) => void
 }
 
 interface IState {
@@ -27,9 +33,24 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     textContent: ''
   }
 
-  inputAnswer = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  clearSugList = () => {
+    this.props.setUserSugList([])
+  }
+
+  inputAnswer = debounce((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = this.$textarea ? this.$textarea.value : event.target.value
     this.setState({ textContent: value })
+
+    if (value) {
+      this.getUserSugList(value)
+    } else {
+      this.clearSugList()
+    }
+  }, 500)
+
+  getUserSugList = async (value: string) => {
+    const res = await getUserInputSugList(value)
+    this.props.setUserSugList(res)
   }
 
   handleKeyDown = (evt: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -64,7 +85,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       event.stopPropagation()
 
       this.sendMsg('TEXT', text)
-      this.setState({ textContent: '' })
     }
   }
 
@@ -91,6 +111,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       const { msg_id } = await pushMsg(msg)
       const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
       this.props.setRtMsgs(message)
+      this.setState({ textContent: '' })
     } catch (err) {
       console.log('err --->', err)
     }
@@ -124,38 +145,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     const stsToken = await getStsToken()
-    if (!stsToken) {
-      return console.error('Can not get STS.')
-    }
-
-    const protocol = typeof location !== 'undefined' ? location.protocol : 'http:'
-
-    const client = new window.OSS.Wrapper({
-      accessKeyId: stsToken.access_key_id,
-      accessKeySecret: stsToken.access_key_secret,
-      stsToken: stsToken.security_token,
-      endpoint: stsToken.end_point,
-      bucket: stsToken.bucket,
-      secure: protocol === 'https:'
-    })
-
-    const ext = file.name.split('.').slice(-1)[0] || 'unknown'
-    const storeAs = `${stsToken.access_dir}/${file.uid || file.name}${Date.now()}.${ext}`
-
-    return client
-      .multipartUpload(storeAs, file)
-      .then((result: IOSSUploadResult) => {
-        if (result && result.res) {
-          const urls = result.res.requestUrls.map(url => url.split('?')[0])
-          return urls
-        }
-      })
-      .catch((err: Error) => {
-        console.error('上传文件失败', err.message)
-      })
+    return getOssUrl(stsToken, file)
   }
 
   render() {
+    const { userSugList } = this.props
     const { textContent } = this.state
 
     const frameShape = PageConfig.get('frame_shape') as number
@@ -190,13 +184,22 @@ class ChatInput extends Nerv.Component<IProps, IState> {
             <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png"/>
           </div>
         </div>
+
+        {userSugList.length ? (
+          <SugList clearSugList={this.clearSugList} sendMsg={this.sendMsg}/>
+        ) : null}
       </div>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  setRtMsgs: message => dispatch(setRtMsgs(message))
+const mapStateToProps = state => ({
+  userSugList: state.todos.sugList
 })
 
-export default connect(null, mapDispatchToProps)(ChatInput) as any
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setRtMsgs: message => dispatch(setRtMsgs(message)),
+  setUserSugList: (sug: ISugList[]) => dispatch(setUserSugList(sug))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatInput) as any
