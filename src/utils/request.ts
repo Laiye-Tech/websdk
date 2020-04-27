@@ -13,12 +13,20 @@ export default async function postForm<T>(
     headers: { 'Content-Type': 'application/json; charset: UTF-8' }
   }
 
-  if (window.__SESSION__ && options.headers) {
-    options.headers['session'] = window.__SESSION__
+  return request(url, options)
+}
+
+export async function request(url: string, options?: any) {
+  const opt = {
+    method: 'GET',
+    ...options
+  }
+  if (window.__SESSION__ && opt.headers) {
+    opt.headers['session'] = window.__SESSION__
   }
 
   try {
-    const res = await fetch(url, options)
+    const res = await fetch(url, opt)
     if (!res.ok) {
       console.log(res)
       throw Error('')
@@ -29,7 +37,8 @@ export default async function postForm<T>(
       window.__SESSION__ = res.headers.get('session')
     }
 
-    return await res.json()
+    const type = res.headers.get('Content-Type')
+    return type && type.indexOf('json') !== -1 ? res.json() : res.text()
   } catch (err) {
     console.log('err', err)
     throw Error(err)

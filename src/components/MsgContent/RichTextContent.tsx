@@ -1,7 +1,7 @@
 import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
 
-import request from '../../utils/request'
+import { request } from '../../utils/request'
 import { RichTextMessage } from '../../../interfaces'
 
 interface IProps {
