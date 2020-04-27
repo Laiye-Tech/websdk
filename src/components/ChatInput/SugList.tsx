@@ -6,15 +6,13 @@ import { ISugList, MSG_TYPE } from '../../../interfaces'
 
 interface IProps {
   userSugList: ISugList[]
-  clearSugList: () => void
   sendMsg: (msgType: MSG_TYPE, content: string) => Promise<void>
 }
 
 const SugList = (props: IProps) => {
-  // 点击某一条sug 发送一条文本消息并隐藏掉输入联想浮层
+  // 点击某一条sug 发送一条文本消息
   const onSugClick = (content: string) => () => {
     props.sendMsg('TEXT', content)
-    props.clearSugList()
   }
 
   return (

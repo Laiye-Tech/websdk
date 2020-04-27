@@ -112,7 +112,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       const { msg_id } = await pushMsg(msg)
       const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
       this.props.setRtMsgs(message)
+
+      // 清空输入框 & 清空用户输入联想sug
       this.setState({ textContent: '' })
+      this.clearSugList()
     } catch (err) {
       console.log('err --->', err)
     }
@@ -187,7 +190,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         </div>
 
         {userSugList.length ? (
-          <SugList clearSugList={this.clearSugList} sendMsg={this.sendMsg}/>
+          <SugList sendMsg={this.sendMsg}/>
         ) : null}
       </div>
     )
