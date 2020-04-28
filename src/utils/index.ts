@@ -20,7 +20,8 @@ export function debounce<Params extends any[]>(
   timeout: number
 ): (...args: Params) => void {
   let timer: NodeJS.Timeout
-  return (...args: Params) => {
+
+  return function (...args: Params) {
     clearTimeout(timer)
 
     timer = setTimeout(() => {
