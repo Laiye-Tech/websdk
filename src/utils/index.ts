@@ -22,7 +22,7 @@ export function debounce<Params extends any[]>(
   let timer: NodeJS.Timeout
 
   return function (...args: Params) {
-    clearTimeout(timer)
+    if (timer) clearTimeout(timer)
 
     timer = setTimeout(() => {
       func(...args)
