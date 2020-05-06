@@ -39,6 +39,7 @@
     "no-var-requires": false,
     "jsx-boolean-value": false,
     "jsx-wrap-multiline": false,
+    "triple-equals": [false],
     "variable-name": [
       true,
       "allow-leading-underscore",

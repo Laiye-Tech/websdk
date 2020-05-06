@@ -169,9 +169,9 @@ class App extends Nerv.Component<IProps, IState> {
               </i>
             </header>
 
-            <main className={styles.msgContainer} id="websdk-msg-panel" ref={this.setContentRef}>
-              <div className={styles.message}>
-                <HistoryMsgPanel />
+            <main className={styles.msgContainer} ref={this.setContentRef}>
+              <div className={styles.message} id="scrollArea">
+                {this.$content ? <HistoryMsgPanel scrollDom={this.$content}/> : null}
                 <RtMsgPanel />
               </div>
             </main>

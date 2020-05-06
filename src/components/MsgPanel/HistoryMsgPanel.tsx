@@ -1,38 +1,78 @@
 import Nerv, { Fragment } from 'nervjs'
-// import { connect } from 'nerv-redux'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
+import { throttle } from '../../utils'
 import { getMsgHistory } from '../../data/message.data'
 
 import Msg from '../MsgContent/Msg'
 
+interface IProps {
+  scrollDom: HTMLDivElement
+}
 interface IState {
   messageList: IMsgBodyInfo[]
+  hasMore: boolean
 }
 
 class RtMsgPanel extends Nerv.Component {
+  props: IProps
   state: IState = {
-    messageList: []
+    messageList: [],
+    hasMore: false
   }
 
-  async componentDidMount() {
-    const res = await getMsgHistory()
-    // 进入事件消息不展示
-    const filterMsg = res.msg.filter(msg => {
-      const isEnterMsg = msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
-      return !isEnterMsg
-    })
+  componentDidMount() {
+    this.fetchHistoryList()
 
-    this.setState({ messageList: filterMsg })
+    this.props.scrollDom.addEventListener('scroll', throttle(this.scrollTop, 200))
+  }
+
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    const oldProps = this.props
+    const oldState = this.state
+
+    const isMsgChange = oldState.messageList !== nextState.messageList
+    if (nextProps.scrollDom != oldProps.scrollDom || !isMsgChange) {
+      return false
+    }
+  }
+
+  scrollTop = () => {
+    const scrollTop = this.props.scrollDom.scrollTop
+    const hasMore = this.state.hasMore
+
+    if (scrollTop < 500 && hasMore) {
+      const { messageList } = this.state
+      const firstMsgId = messageList[0].msg_id
+      const num = 20
+
+      this.fetchHistoryList(firstMsgId, num)
+    }
+  }
+
+  fetchHistoryList = async (msgId: string = '', num = 50) => {
+    const res = await getMsgHistory(msgId, num)
+    const msgList = res.msg.concat(this.state.messageList)
+
+    this.setState({
+      hasMore: res.has_more,
+      messageList: msgList
+    })
   }
 
   render() {
     const { messageList } = this.state
 
+    // 进入事件消息不展示
+    const filterMsg = messageList.filter(msg => {
+      const isEnterMsg = msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
+      return !isEnterMsg
+    })
+
     return(
       <Fragment>
-        {messageList.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
+        {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
       </Fragment>
     )
   }
