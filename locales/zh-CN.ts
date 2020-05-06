@@ -37,5 +37,8 @@ export default {
   NetWork: {
     offline: '网络已断开,请检查网络设置',
     rongMsg: '已在其他页面发起对话，当前对话窗口失效，刷新后可以重新发起对话'
+  },
+  Image: {
+    noImg: '无图片'
   }
 }

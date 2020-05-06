@@ -1,6 +1,8 @@
 import * as Nerv from 'nervjs'
 import * as styles from './style.less'
 
+import { language } from '../../utils/config'
+
 interface IProps {
   url: string
   closeImageModal: () => void
@@ -10,15 +12,11 @@ const ImgModal = (props: IProps) => {
   const { url, closeImageModal } = props
 
   return (
-    <div className={styles['img-modal']}>
+    <div className={styles['img-modal']} onClick={closeImageModal}>
       {url ? (
-        <img
-          src={url}
-          alt="大图"
-          onClick={closeImageModal}
-        />
+        <img src={url} alt="大图" />
         ) : (
-          <span>无图片</span>
+          <span>{language.get('Image').noImg}</span>
         )}
     </div>
   )

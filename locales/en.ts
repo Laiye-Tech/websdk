@@ -37,5 +37,8 @@ export default {
   NetWork: {
     offline: 'Network disconnected,please check it.',
     rongMsg: 'The current dialog window is invalid. You can restart the dialog after refreshing'
+  },
+  Image: {
+    noImg: 'no image'
   }
 }
