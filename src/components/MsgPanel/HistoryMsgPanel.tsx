@@ -1,7 +1,9 @@
-import Nerv, { Fragment } from 'nervjs'
+import Nerv from 'nervjs'
+import * as styles from '../../views/index.less'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
+import { language } from '../../utils/config'
 import { throttle } from '../../utils'
 import { getMsgHistory } from '../../data/message.data'
 
@@ -62,7 +64,8 @@ class RtMsgPanel extends Nerv.Component {
   }
 
   render() {
-    const { messageList } = this.state
+    const { messageList, hasMore } = this.state
+    const noMoreText = language.get('Message').noMore
 
     // 进入事件消息不展示
     const filterMsg = messageList.filter(msg => {
@@ -71,9 +74,10 @@ class RtMsgPanel extends Nerv.Component {
     })
 
     return(
-      <Fragment>
+      <div>
+        {!hasMore && <div className={styles.tips}>{noMoreText}</div>}
         {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
-      </Fragment>
+      </div>
     )
   }
 }

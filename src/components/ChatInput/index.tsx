@@ -10,7 +10,7 @@ import { getUserInputSugList } from '../../data/user.data'
 import SugList from './SugList'
 
 import { debounce, getOssUrl } from '../../utils'
-import { TEXTAREA_SHAPE, page as PageConfig } from '../../utils/config'
+import { TEXTAREA_SHAPE, page as PageConfig, language } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
@@ -160,11 +160,12 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const themeColor = PageConfig.get('theme_color') as string
     const chatShape = TEXTAREA_SHAPE[frameShape]
     const bgColor = textContent ? themeColor : '#b3bdc5'
+    const placeholder = language.get('ChatInput').pcPlaceholder
 
     return(
       <div className={`${styles.chatInput} ${chatShape}`}>
         <textarea
-          placeholder="输入文字进行回复，Shift+Enter换行"
+          placeholder={`${placeholder}`}
           maxLength={2000}
           ref={input => this.$textarea = input}
           value={textContent}

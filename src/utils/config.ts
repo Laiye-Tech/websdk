@@ -4,6 +4,7 @@ import * as chatInputStyle from '../components/ChatInput/ChatInput.less'
 import { DIRECTION, IPageConfig } from '../../interfaces'
 
 let pageConfig: IPageConfig
+let envLanguage: any
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
@@ -25,6 +26,15 @@ const page = {
   },
   get: (propertyKey: keyof IPageConfig) => {
     return pageConfig[propertyKey]
+  }
+}
+
+const language = {
+  set: (languageCode) => {
+    envLanguage = require(`../../locales/${languageCode}`).default
+  },
+  get: propertyKey => {
+    return envLanguage[propertyKey]
   }
 }
 
@@ -124,5 +134,6 @@ export {
   FRAME_SHAPE,
   TEXTAREA_SHAPE,
   EXT_COLOR,
-  page
+  page,
+  language
 }
