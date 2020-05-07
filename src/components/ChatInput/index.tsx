@@ -51,7 +51,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   // 获取用户输入联想
   getUserSugList = async (value: string) => {
     const res = await getUserInputSugList(value)
-    this.props.setUserSugList(res)
+
+    // 如果用户发送的比较快 sug不需要展示
+    if (this.state.textContent) {
+      this.props.setUserSugList(res)
+    }
   }
 
   handleKeyDown = (evt: React.KeyboardEvent<HTMLTextAreaElement>) => {
