@@ -17,6 +17,11 @@ export default function TextContent({ body, direction }: IProps) {
     content = transformString(content)
   }
 
+  // 展示emoji表情
+  if (RongIMLib && RongIMLib.RongIMEmoji) {
+    content = RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  }
+
   const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
   const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
   const reg2 = /\n|\\n/g
