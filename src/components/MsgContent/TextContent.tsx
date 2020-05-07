@@ -18,8 +18,8 @@ export default function TextContent({ body, direction }: IProps) {
   }
 
   // 展示emoji表情
-  if (RongIMLib && RongIMLib.RongIMEmoji) {
-    content = RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
+    content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
   }
 
   const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
