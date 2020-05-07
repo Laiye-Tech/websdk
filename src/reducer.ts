@@ -4,7 +4,6 @@ import { IAuthState } from '../interfaces'
 const initialState: IAuthState = {
   rtMsgList: [],
   sugList: [],
-  pageConfig: null,
   imageModal: {
     visible: false,
     src: null
@@ -16,7 +15,6 @@ const initialState: IAuthState = {
 }
 
 export const RT_MSG_LIST = 'RT_MSG_LIST'
-export const APP_PAGE_CONFIG = 'APP_PAGE_CONFIG'
 export const IMAGE_MODAL_OPEN = 'IMAGE_MODAL_OPEN'
 export const IMAGE_MODAL_CLOSE = 'IMAGE_MODAL_CLOSE'
 export const VIDEO_MODAL_OPEN = 'VIDEO_MODAL_OPEN'
@@ -33,13 +31,6 @@ export default handleActions<IAuthState>({
       rtMsgList: msgList
     }
 
-  },
-
-  [APP_PAGE_CONFIG]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      pageConfig: payload
-    }
   },
 
   [IMAGE_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {

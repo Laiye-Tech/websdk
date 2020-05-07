@@ -3,7 +3,7 @@ import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { setPageConfig, closeImageModal, closeVideoModal } from '../actions'
+import { closeImageModal, closeVideoModal } from '../actions'
 
 // API
 import { login } from '../data/app.data'
@@ -30,18 +30,19 @@ interface IProps extends AppInfo {
   imageModal: ModalInfo
   videoModal: ModalInfo
   rtMsgList: IMsgBodyInfo[]
-  setPageConfig: (page: IPageConfig) => void
   closeImageModal: () => void
   closeVideoModal: () => void
 }
 interface IState {
   pageConfig: IPageConfig | null
+  startTs: string
 }
 class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   props: IProps
   state: IState = {
-    pageConfig: null
+    pageConfig: null,
+    startTs: ''
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -53,7 +54,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const { pubkey, userInfo, setPageConfig } = this.props
+    const { pubkey, userInfo } = this.props
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
@@ -72,8 +73,7 @@ class App extends Nerv.Component<IProps, IState> {
     // 设置语言
     language.set(res.page_config.language_code)
 
-    this.setState({ pageConfig: res.page_config }, () => this.addStyleByJs())
-    setPageConfig(res.page_config)
+    this.setState({ pageConfig: res.page_config, startTs: res.start_ts }, () => this.addStyleByJs())
 
     const input = {
       pubkey,
@@ -145,7 +145,7 @@ class App extends Nerv.Component<IProps, IState> {
 
   render () {
     const { imageModal, videoModal, closeImageModal, closeVideoModal } = this.props
-    const { pageConfig } = this.state
+    const { pageConfig, startTs } = this.state
 
     if (!pageConfig) {
       return null
@@ -177,7 +177,7 @@ class App extends Nerv.Component<IProps, IState> {
 
             <main className={styles.msgContainer} ref={this.setContentRef}>
               <div className={styles.message} id="scrollArea">
-                {this.$content ? <HistoryMsgPanel scrollDom={this.$content}/> : null}
+                <HistoryMsgPanel scrollDom={this.$content} startTs={startTs}/>
                 <RtMsgPanel />
               </div>
             </main>
@@ -214,7 +214,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-  setPageConfig: page => dispatch(setPageConfig(page)),
   closeImageModal: () => dispatch(closeImageModal(null)),
   closeVideoModal: () => dispatch(closeVideoModal(null))
 })

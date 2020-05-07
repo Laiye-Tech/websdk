@@ -39,7 +39,6 @@ export type ModalInfo = {
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
   sugList: ISugList[]
-  pageConfig: IPageConfig
   imageModal: ModalInfo
   videoModal: ModalInfo
 }

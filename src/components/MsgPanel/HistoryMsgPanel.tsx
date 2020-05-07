@@ -3,7 +3,7 @@ import * as styles from '../../views/index.less'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
-import { language } from '../../utils/config'
+import { language, page as PageConfig } from '../../utils/config'
 import { throttle } from '../../utils'
 import { getMsgHistory } from '../../data/message.data'
 
@@ -11,6 +11,7 @@ import Msg from '../MsgContent/Msg'
 
 interface IProps {
   scrollDom: HTMLDivElement
+  startTs: string
 }
 interface IState {
   messageList: IMsgBodyInfo[]
@@ -26,8 +27,6 @@ class RtMsgPanel extends Nerv.Component {
 
   componentDidMount() {
     this.fetchHistoryList()
-
-    this.props.scrollDom.addEventListener('scroll', throttle(this.scrollTop, 200))
   }
 
   shouldComponentUpdate(nextProps: IProps, nextState: IState) {
@@ -35,8 +34,14 @@ class RtMsgPanel extends Nerv.Component {
     const oldState = this.state
 
     const isMsgChange = oldState.messageList !== nextState.messageList
-    if (nextProps.scrollDom != oldProps.scrollDom || !isMsgChange) {
+    if (nextProps.scrollDom !== oldProps.scrollDom || !isMsgChange) {
       return false
+    }
+  }
+
+  componentWillReceiveProps({ scrollDom }: IProps) {
+    if (scrollDom !== this.props.scrollDom) {
+      scrollDom.addEventListener('scroll', throttle(this.scrollTop, 200))
     }
   }
 
@@ -47,31 +52,42 @@ class RtMsgPanel extends Nerv.Component {
     if (scrollTop < 500 && hasMore) {
       const { messageList } = this.state
       const firstMsgId = messageList[0].msg_id
-      const num = 20
 
-      this.fetchHistoryList(firstMsgId, num)
+      this.fetchHistoryList(firstMsgId)
     }
   }
 
-  fetchHistoryList = async (msgId: string = '', num = 50) => {
-    const res = await getMsgHistory(msgId, num)
-    const msgList = res.msg.concat(this.state.messageList)
+  fetchHistoryList = async (msgId: string = '') => {
+    const res = await getMsgHistory(msgId)
 
-    this.setState({
-      hasMore: res.has_more,
-      messageList: msgList
-    })
+    let messageList = []
+    if (msgId) {
+      // 当前传的msgid也会返回，需要过滤掉
+      const msgList = res.msg.slice(0, -1)
+      messageList = msgList.concat(this.state.messageList)
+    } else {
+      messageList = res.msg
+    }
+
+    this.setState({messageList, hasMore: res.has_more})
   }
 
   render() {
     const { messageList, hasMore } = this.state
+    const { startTs } = this.props
     const noMoreText = language.get('Message').noMore
 
-    // 进入事件消息不展示
-    const filterMsg = messageList.filter(msg => {
-      const isEnterMsg = msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
-      return !isEnterMsg
-    })
+    const filterMsg = messageList
+      // 进入事件消息不展示
+      .filter(msg => {
+        const isEnterMsg = msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
+        return !isEnterMsg
+      })
+      // 消息记录可能会和融云推送的欢迎语重复，需要过滤一下
+      .filter(msg => {
+        const isHideMsg = parseInt(msg.msg_ts, 10) > parseInt(startTs, 10)
+        return !isHideMsg
+      })
 
     return(
       <div>
