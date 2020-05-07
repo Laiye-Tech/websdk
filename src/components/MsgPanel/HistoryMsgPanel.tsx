@@ -3,7 +3,7 @@ import * as styles from '../../views/index.less'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
-import { language, page as PageConfig } from '../../utils/config'
+import { language } from '../../utils/config'
 import { throttle } from '../../utils'
 import { getMsgHistory } from '../../data/message.data'
 
