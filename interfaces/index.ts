@@ -49,7 +49,8 @@ import {
   ISDKConfigInfo,
   IPageConfig,
   IOSSAuth,
-  IOSSUploadResult
+  IOSSUploadResult,
+  IInteractionConfig
 } from './app.type'
 
 // 消息相关
@@ -94,5 +95,6 @@ export {
   VoiceMessage,
   IUserSugList,
   ITagValuesInput,
-  ISugList
+  ISugList,
+  IInteractionConfig
 }

@@ -10,7 +10,6 @@ import { getMsgHistory } from '../../data/message.data'
 import Msg from '../MsgContent/Msg'
 
 interface IProps {
-  scrollDom: HTMLDivElement
   startTs: string
 }
 interface IState {
@@ -19,6 +18,7 @@ interface IState {
 }
 
 class RtMsgPanel extends Nerv.Component {
+  $container: HTMLElement
   props: IProps
   state: IState = {
     messageList: [],
@@ -27,26 +27,22 @@ class RtMsgPanel extends Nerv.Component {
 
   componentDidMount() {
     this.fetchHistoryList()
+
+    this.$container = document.getElementById('msg-scroll-panel')
+    this.$container.addEventListener('scroll', throttle(this.onScrollListener, 100))
   }
 
-  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    const oldProps = this.props
+  shouldComponentUpdate(_: IProps, nextState: IState) {
     const oldState = this.state
 
     const isMsgChange = oldState.messageList !== nextState.messageList
-    if (nextProps.scrollDom !== oldProps.scrollDom || !isMsgChange) {
+    if (!isMsgChange) {
       return false
     }
   }
 
-  componentWillReceiveProps({ scrollDom }: IProps) {
-    if (scrollDom !== this.props.scrollDom) {
-      scrollDom.addEventListener('scroll', throttle(this.scrollTop, 200))
-    }
-  }
-
-  scrollTop = () => {
-    const scrollTop = this.props.scrollDom.scrollTop
+  onScrollListener = () => {
+    const scrollTop = this.$container.scrollTop
     const hasMore = this.state.hasMore
 
     if (scrollTop < 500 && hasMore) {
@@ -69,13 +65,14 @@ class RtMsgPanel extends Nerv.Component {
       messageList = res.msg
     }
 
-    this.setState({messageList, hasMore: res.has_more})
+    this.setState({ messageList, hasMore: res.has_more })
   }
 
   render() {
     const { messageList, hasMore } = this.state
     const { startTs } = this.props
     const noMoreText = language.get('Message').noMore
+    const text = language.get('Message').historyMsgTips
 
     const filterMsg = messageList
       // 进入事件消息不展示
@@ -93,6 +90,7 @@ class RtMsgPanel extends Nerv.Component {
       <div>
         {!hasMore && <div className={styles.tips}>{noMoreText}</div>}
         {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
+        {filterMsg.length ? <div className={styles.tips}>{text}</div> : null}
       </div>
     )
   }

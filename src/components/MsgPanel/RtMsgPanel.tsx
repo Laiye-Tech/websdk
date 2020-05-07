@@ -1,8 +1,6 @@
 import Nerv from 'nervjs'
 import { connect } from 'nerv-redux'
-import * as styles from '../../views/index.less'
 
-import { language } from '../../utils/config'
 import { IMsgBodyInfo } from '../../../interfaces'
 
 import Msg from '../MsgContent/Msg'
@@ -18,11 +16,8 @@ class RtMsgPanel extends Nerv.Component<IProps> {
   render() {
     const { messageList } = this.props
 
-    const text = language.get('Message').historyMsgTips
-
     return(
       <div>
-        <div className={styles.tips}>{text}</div>
         {messageList.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
       </div>
     )

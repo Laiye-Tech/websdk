@@ -1,10 +1,11 @@
 import * as style from '../views/index.less'
 import * as msgStyle from '../components/MsgContent/MsgContent.less'
 import * as chatInputStyle from '../components/ChatInput/ChatInput.less'
-import { DIRECTION, IPageConfig } from '../../interfaces'
+import { DIRECTION, IPageConfig, IInteractionConfig } from '../../interfaces'
 
 let pageConfig: IPageConfig
 let envLanguage: any
+let interaction: IInteractionConfig
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
@@ -35,6 +36,15 @@ const language = {
   },
   get: propertyKey => {
     return envLanguage[propertyKey]
+  }
+}
+
+const interactionConfig = {
+  set: (configOb: IInteractionConfig): void => {
+    interaction = {...configOb}
+  },
+  get: (propertyKey: keyof IInteractionConfig) => {
+    return interaction[propertyKey]
   }
 }
 
@@ -135,5 +145,6 @@ export {
   TEXTAREA_SHAPE,
   EXT_COLOR,
   page,
-  language
+  language,
+  interactionConfig
 }

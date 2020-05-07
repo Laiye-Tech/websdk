@@ -8,7 +8,7 @@ import { closeImageModal, closeVideoModal } from '../actions'
 // API
 import { login } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
-import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE, page as PageConfig, language } from '../utils/config'
+import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE, page as PageConfig, language, interactionConfig } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
 import { createEventMsg } from '../utils/message'
@@ -36,13 +36,15 @@ interface IProps extends AppInfo {
 interface IState {
   pageConfig: IPageConfig | null
   startTs: string
+  visibile: boolean
 }
 class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   props: IProps
   state: IState = {
     pageConfig: null,
-    startTs: ''
+    startTs: '',
+    visibile: true
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -66,6 +68,9 @@ class App extends Nerv.Component<IProps, IState> {
     // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
     const res = await login(pubkey, user)
+
+    // 功能设置
+    interactionConfig.set(res.interaction_config)
 
     // 设置页面样式到全局
     PageConfig.set(res.page_config)
@@ -102,7 +107,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     setTimeout(() => {
       this.scrollToBottom()
-    }, 320)
+    }, 1000)
 
     // 加载阿里云OSS
     await loadAliOSS()
@@ -143,9 +148,14 @@ class App extends Nerv.Component<IProps, IState> {
     }
   }
 
+  // 控制会话框显示/隐藏
+  togglePanel = () => {
+    this.setState({ visibile: !this.state.visibile })
+  }
+
   render () {
     const { imageModal, videoModal, closeImageModal, closeVideoModal } = this.props
-    const { pageConfig, startTs } = this.state
+    const { pageConfig, startTs, visibile } = this.state
 
     if (!pageConfig) {
       return null
@@ -157,11 +167,13 @@ class App extends Nerv.Component<IProps, IState> {
     const avatarShape = HEADER_AVATAR_SHAPE[pageConfig.avatar_shape]
     // 窗口形状
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
+    // 是否展示历史消息
+    const showHistory = interactionConfig.get('show_history')
 
     return (
       <Nerv.Fragment>
         <div className={styles.app}>
-          <div className={`${styles.container} ${borderShape}`}>
+          <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden}`}>
             <header className={styles.header}>
               <dl>
                 <dt>
@@ -170,14 +182,14 @@ class App extends Nerv.Component<IProps, IState> {
                 <dd>{pageConfig.title}</dd>
               </dl>
 
-              <i className={styles.closeBtn}>
+              <i className={styles.closeBtn} onClick={this.togglePanel}>
                 <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"/>
               </i>
             </header>
 
-            <main className={styles.msgContainer} ref={this.setContentRef}>
-              <div className={styles.message} id="scrollArea">
-                <HistoryMsgPanel scrollDom={this.$content} startTs={startTs}/>
+            <main className={styles.msgContainer} ref={this.setContentRef} id="msg-scroll-panel">
+              <div className={styles.message}>
+                {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
                 <RtMsgPanel />
               </div>
             </main>
@@ -191,6 +203,7 @@ class App extends Nerv.Component<IProps, IState> {
             <img
               src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
               className={styles.closeImg}
+              onClick={this.togglePanel}
             />
           </div>
         </div>

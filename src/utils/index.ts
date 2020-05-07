@@ -15,13 +15,13 @@ export function prefixUrl(url: string) {
   return url
 }
 
-export function debounce<Params extends any[]>(
-  func: (...args: Params) => any,
+export function debounce(
+  func: (...args) => any,
   timeout: number = 500
-): (...args: Params) => void {
+) {
   let timer: NodeJS.Timeout = null
 
-  return function (...args: Params) {
+  return function (...args) {
     if (timer) clearTimeout(timer)
 
     timer = setTimeout(() => {
@@ -33,13 +33,13 @@ export function debounce<Params extends any[]>(
   }
 }
 
-export function throttle<Params extends any[]>(
-  func: (...args: Params) => any,
+export function throttle(
+  func: (...args) => any,
   timeout: number = 300
-): (...args: Params) => void {
+) {
   let timer: NodeJS.Timeout = null
 
-  return function (...args: Params) {
+  return function (...args) {
     if (timer) return
 
     timer = setTimeout(() => {
