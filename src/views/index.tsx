@@ -38,6 +38,9 @@ interface IState {
   startTs: string
   visibile: boolean
 }
+
+const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
+const closeImg = 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png'
 class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   props: IProps
@@ -123,6 +126,10 @@ class App extends Nerv.Component<IProps, IState> {
       .video-hover-icon-bg:hover .play-icon {
         background: ${pageConfig.theme_color} !important;
       }
+
+      .wulai-web-sdk-upload-icon:hover svg #instagram {
+        fill: ${pageConfig.theme_color};
+      }
     `
 
     document.head.appendChild(sheet)
@@ -170,6 +177,9 @@ class App extends Nerv.Component<IProps, IState> {
     // 是否展示历史消息
     const showHistory = interactionConfig.get('show_history')
 
+    const enterImg = pageConfig.entry_image || initImg
+    const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
+
     return (
       <Nerv.Fragment>
         <div className={styles.app}>
@@ -199,12 +209,8 @@ class App extends Nerv.Component<IProps, IState> {
             </footer>
           </div>
 
-          <div className={styles.entryImg} style={{ backgroundColor }}>
-            <img
-              src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png"
-              className={styles.closeImg}
-              onClick={this.togglePanel}
-            />
+          <div className={styles.entryImg} style={{ backgroundColor }} onClick={this.togglePanel}>
+            <img src={visibile ? closeImg : enterImg} className={enterImgStyle} />
           </div>
         </div>
 

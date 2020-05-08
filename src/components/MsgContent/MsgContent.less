@@ -46,15 +46,7 @@
   }
 
   & .msgBody {
-    max-width: 75%;
-
-    .bubbleCapsule {
-      border-radius: 24px;
-    }
-
-    .bubbleSquare {
-      border-radius: 1px;
-    }
+    max-width: 85%;
 
     .content {
       background: #fff;
@@ -65,6 +57,18 @@
       padding: 9px 12px;
       word-break: break-word;
       overflow-wrap: break-word;
+    }
+
+    .bubbleCapsule {
+      border-radius: 24px;
+    }
+
+    .bubbleSquare {
+      border-radius: 1px;
+    }
+
+    .bubbleDrip {
+      border-radius: 0 24px 24px 24px;
     }
   }
 }
@@ -78,14 +82,11 @@
 
   & .msgBody {
     margin-left: 44px;
+  }
 
-    .content,.bubbleDrip {
-      border-radius: 0 24px 24px 24px;
-    }
-
-    .content {
-      float: left;
-    }
+  & .content {
+    border-radius: 0 24px 24px 24px;
+    float: left;
   }
 }
 
@@ -99,13 +100,13 @@
   & .msgBody {
     margin-right: 44px;
 
-    .content,.bubbleDrip {
+    & .bubbleDrip {
       border-radius: 24px 0 24px 24px;
     }
+  }
 
-    .content {
-      float: right;
-    }
+  & .content {
+    float: right;
   }
 }
 

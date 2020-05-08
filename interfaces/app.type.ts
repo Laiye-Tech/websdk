@@ -19,6 +19,8 @@ export interface IPageConfig {
   header_chose: number
   qa_feedback: string
   theme_color: string
+  theme_chose: number
+  font_color: string
   title: string
   user_avatar: string
   user_avatar_chose: number

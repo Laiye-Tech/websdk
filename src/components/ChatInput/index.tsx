@@ -179,7 +179,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
         <div className={styles.toolbar}>
           <div className={styles.pullLeft}>
-            <div className={styles.picture}>
+            <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
               <input type="file" accept="image/*" className={styles.uploader} onChange={this.onInputChange}/>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <g fill="none" fill-rule="evenodd">

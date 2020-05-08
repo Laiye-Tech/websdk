@@ -106,6 +106,9 @@ const EXT_COLOR = {
   csv: '#7715d2'
 }
 
+// 背景颜色 对应 字体颜色是黑色
+const BACKGROUND_COLOR = ['#ffd500']
+
 function getAppInfo() {
   return {
     version: `v${pkg.version}`,
@@ -146,5 +149,6 @@ export {
   EXT_COLOR,
   page,
   language,
-  interactionConfig
+  interactionConfig,
+  BACKGROUND_COLOR
 }
