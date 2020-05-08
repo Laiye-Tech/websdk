@@ -82,3 +82,15 @@ export function getOssUrl(stsToken: IOSSAuth, file: any) {
       throw new Error(`上传文件失败 ${err.message}`)
     })
 }
+
+export function query(name: string) {
+  // 把'?a=1&b=2&c=3'中的?去掉
+  const search = location.search.substr(1)
+
+  // 使用正则表达式匹配
+  const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i')
+  const res = search.match(reg)
+
+  if (!res) return null
+  return res[2]
+}
