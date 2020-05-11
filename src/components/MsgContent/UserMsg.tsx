@@ -38,10 +38,10 @@ const UserMsg = (props: IProps) => {
     message.msg_type === 'VIDEO'
 
   const cls = !hasOwnContent ? styles.content : ''
-  const style = {
+  const style = !hasOwnContent ? {
     backgroundColor: bgColor,
     color: fontColor
-  }
+  } : {}
 
   return(
     <div className={`${styles.msgContent} ${styles.clearfix}`}>

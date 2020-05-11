@@ -18,8 +18,89 @@
 }
 
 .hiddenId {
+  // position: absolute;
   font-size: 12px;
   color: #eceef0;
+}
+
+.answer {
+  position: absolute;
+  right: -48px;
+  top: 0;
+  width: 40px;
+  height: 36px;
+  line-height: 36px;
+  cursor: pointer;
+
+  & span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/ea306395-4d67-4096-8363-f65bf120d0c1.png);
+    background-size: 20px 20px;
+    vertical-align: middle;
+
+    &:hover {
+      background: url(https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9b178914-24f4-41b0-80c8-ba294d7e2d1b.png);
+      background-size: 20px 20px;
+    }
+  }
+
+  & img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px 0 rgba(66, 91, 109, 0.1);
+    cursor: not-allowed;
+  }
+}
+
+.answerList {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 132px;
+  left: 0;
+  top: 36px;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 2px 15px 0 rgba(66, 91, 109, 0.2);
+
+  & li {
+    list-style: none;
+    padding: 0 12px;
+    line-height: 40px;
+    cursor: pointer;
+
+    &:hover {
+      background: #e7f3ff;
+    }
+  }
+
+  & img {
+    width: 20px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px 0 rgba(66, 91, 109, 0.1);
+    cursor: pointer;
+  }
+
+  & p {
+    margin: 0;
+    display: inline-block;
+    font-size: 12px;
+    color: #333;
+    margin: 0;
+  }
 }
 
 .msgContainer {
@@ -43,6 +124,10 @@
       height: 100%;
       object-fit: cover;
     }
+  }
+
+  & .contentBody {
+    position: relative;
   }
 
   & .msgBody {

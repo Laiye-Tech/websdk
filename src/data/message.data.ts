@@ -1,6 +1,6 @@
 import { BASE_URL, getUserId } from '../utils/config'
 import postForm from '../utils/request'
-import { ISendMsgResponse, IHistoryMsg } from '../../interfaces'
+import { ISendMsgResponse, IHistoryMsg, EvaluateInfo } from '../../interfaces'
 
 const baseUrl = `${BASE_URL}/msg`
 
@@ -33,5 +33,16 @@ export function getMsgHistory(
   }
 
   const url = `${baseUrl}/history`
+  return postForm(url, body)
+}
+
+/**
+ * 点赞点踩接口
+ * @param {Object<EvaluateInfo>} body
+ * @return {}
+ * */
+export function satisfactionEvaluate(body: EvaluateInfo): Promise<{}> {
+  const url = `${baseUrl}/evaluate`
+
   return postForm(url, body)
 }
