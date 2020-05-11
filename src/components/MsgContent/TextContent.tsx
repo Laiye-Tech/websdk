@@ -1,8 +1,8 @@
 import * as Nerv from 'nervjs'
-import * as styles from './MsgContent.less'
 
 import { transformString, prefixUrl } from '../../utils'
 import { MSG_DIRECTION } from '../../utils/config'
+import { xssFilter } from '../../utils/xss'
 import { TextMessage, DIRECTION } from '../../../interfaces'
 
 interface IProps {
@@ -21,6 +21,8 @@ export default function TextContent({ body, direction }: IProps) {
   if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
     content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
   }
+
+  content = xssFilter(content)
 
   const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
   const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
