@@ -46,17 +46,15 @@
   }
 
   & .msgBody {
-    max-width: 85%;
-
     .content {
       background: #fff;
       border-radius: 8px;
       color: #000;
       font-size: 14px;
       line-height: 1.3;
-      padding: 9px 12px;
       word-break: break-word;
       overflow-wrap: break-word;
+      max-width: 85%;
     }
 
     .bubbleCapsule {
@@ -374,5 +372,24 @@
         margin-top: 2px;
       }
     }
+  }
+}
+
+.textContent {
+  display: block;
+  padding: 9px 12px;
+}
+
+.similar {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: solid 0.5px #eceef0;
+  padding: 12px 15px 24px;
+
+  & li {
+    margin-top: 12px;
+    cursor: pointer;
+    font-size: 14px;
   }
 }

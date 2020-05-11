@@ -17,3 +17,20 @@ export async function getUserInputSugList(input: string): Promise<ISugList[]> {
   const { user_suggestions }: IUserSugList = await postForm(url, body)
   return user_suggestions
 }
+
+/**
+ * 模拟用户发消息
+ * @param {string} hashUrl
+ * @return {Object}
+ *
+ * */
+export async function simulateMessage(hashUrl: string): Promise<{message_id: string}> {
+  const body = {
+    hash_id: hashUrl.split('/t/')[1],
+    user_type: 'PLATFORM'
+  }
+
+  const url = `${BASE_URL}/msg/trigger`
+  const res = await postForm(url, body)
+  return res
+}

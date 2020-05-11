@@ -56,15 +56,13 @@ export function getOssUrl(stsToken: IOSSAuth, file: any) {
     return console.error('Can not get STS.')
   }
 
-  const protocol = typeof location !== 'undefined' ? location.protocol : 'http:'
-
   const client = new window.OSS.Wrapper({
     accessKeyId: stsToken.access_key_id,
     accessKeySecret: stsToken.access_key_secret,
     stsToken: stsToken.security_token,
     endpoint: stsToken.end_point,
     bucket: stsToken.bucket,
-    secure: protocol === 'https:'
+    secure: 'https:'
   })
 
   const ext = file.name.split('.').slice(-1)[0] || 'unknown'

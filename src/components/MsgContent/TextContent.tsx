@@ -1,16 +1,26 @@
 import * as Nerv from 'nervjs'
+import * as styles from './MsgContent.less'
+import { connect, Dispatch } from 'nerv-redux'
+
+import { setRtMsgs } from '../../actions'
+import { simulateMessage } from '../../data/user.data'
+import { pushMsg } from '../../data/message.data'
 
 import { transformString, prefixUrl } from '../../utils'
-import { MSG_DIRECTION } from '../../utils/config'
+import { MSG_DIRECTION, page as PageConfig } from '../../utils/config'
 import { xssFilter } from '../../utils/xss'
-import { TextMessage, DIRECTION } from '../../../interfaces'
+import { createTextMsg, pushRtMessage } from '../../utils/message'
+
+import { TextMessage, DIRECTION, IMsgBodyInfo } from '../../../interfaces'
 
 interface IProps {
   body: TextMessage
   direction: DIRECTION
+  similarList: any[]
+  setRtMsgs: (msg: IMsgBodyInfo) => void
 }
 
-export default function TextContent({ body, direction }: IProps) {
+const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   let { content } = body.text
 
   if (typeof content === 'string' && content) {
@@ -46,7 +56,51 @@ export default function TextContent({ body, direction }: IProps) {
     }
   }
 
+  const bgColor = PageConfig.get('theme_color') as string
+  const decoration = bgColor === '#000000' ? 'underline' : 'initial'
+
+  const sendMsg = async (evt: any) => {
+    const url = evt.target.dataset.key
+    const value = evt.target.innerText
+
+    const msg = createTextMsg(value)
+    let msgId = ''
+
+    if (url) {
+      simulateMessage(url)
+    } else {
+      const { msg_id } = await pushMsg(msg)
+      msgId = msg_id
+    }
+
+    const message = pushRtMessage(msg.msg_body, msg.msg_type, msgId)
+    setRtMsgs(message)
+  }
+
   return(
-    <span dangerouslySetInnerHTML={{__html: content}}/>
+    <Nerv.Fragment>
+      <span dangerouslySetInnerHTML={{__html: content}} className={styles.textContent}/>
+
+      {similarList && similarList.length ? (
+        <ul className={styles.similar}>
+          {similarList.map(similar => (
+            <li
+              key={similar.url}
+              data-key={similar.url}
+              style={{ color: bgColor, textDecoration: decoration }}
+              onClick={sendMsg}
+            >
+              {similar.detail.qa.standard_question}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </Nerv.Fragment>
   )
 }
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setRtMsgs: message => dispatch(setRtMsgs(message))
+})
+
+export default connect(null, mapDispatchToProps)(TextContent) as any

@@ -27,7 +27,8 @@ export default function MsgContent({ message }: IProps) {
   const { msg_body, msg_type, direction } = message
 
   if (msg_type === 'TEXT') {
-    return <TextContent body={msg_body as TextMessage} direction={direction}/>
+    const similar = message.similar_response
+    return <TextContent body={msg_body as TextMessage} direction={direction} similarList={similar}/>
   }
 
   if (msg_type === 'IMAGE') {

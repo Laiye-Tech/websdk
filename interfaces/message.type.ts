@@ -29,7 +29,7 @@ export interface IMsgBodyInfo {
   source: string
   bot: IBotInfo
   enable_evaluate: boolean
-  quick_reply: any[]
+  quick_reply: string[]
   similar_response: any[]
   pub_key: string
   direction: DIRECTION
