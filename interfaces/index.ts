@@ -41,6 +41,7 @@ export interface IAuthState {
   sugList: ISugList[]
   imageModal: ModalInfo
   videoModal: ModalInfo
+  quickReplys: string[]
 }
 
 // -----------------------------------------------------------------------------

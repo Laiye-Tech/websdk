@@ -102,3 +102,72 @@
     }
   }
 }
+
+.quick-reply {
+  width: 100%;
+  position: absolute;
+  top: -48px;
+  left: 0;
+  display: flex;
+
+  & .arrow {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+
+    & span {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-top: 2px solid #ccc;
+      border-left: 2px solid #ccc;
+      transform: rotate(-45deg);
+    }
+
+    & span:hover {
+      border-top: 2px solid #1F77F3;
+      border-left: 2px solid #1F77F3;
+    }
+  }
+
+  & .rightArrow {
+    transform: rotate(180deg);
+  }
+
+  & .replyList {
+    flex: 1;
+    overflow-x: scroll;
+
+    & ul {
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+      display: flex;
+    }
+
+    & li {
+      list-style: none;
+      border-radius: 18px;
+      background: #fff;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #fff;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 24px;
+      white-space: nowrap;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+
+
+    .fontColor {
+      color: #000;
+    }
+  }
+}

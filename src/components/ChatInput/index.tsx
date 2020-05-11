@@ -8,6 +8,7 @@ import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './SugList'
+import QuickReply from './QuickReply'
 
 import { debounce, getOssUrl } from '../../utils'
 import { TEXTAREA_SHAPE, page as PageConfig, language } from '../../utils/config'
@@ -194,9 +195,9 @@ class ChatInput extends Nerv.Component<IProps, IState> {
           </div>
         </div>
 
-        {userSugList.length ? (
-          <SugList sendMsg={this.sendMsg}/>
-        ) : null}
+        {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
+
+        <QuickReply/>
       </div>
     )
   }

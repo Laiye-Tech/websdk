@@ -1,9 +1,11 @@
 import { handleActions } from 'redux-actions'
 import { IAuthState } from '../interfaces'
+import { MSG_DIRECTION } from './utils/config'
 
 const initialState: IAuthState = {
   rtMsgList: [],
   sugList: [],
+  quickReplys: [],
   imageModal: {
     visible: false,
     src: null
@@ -26,11 +28,16 @@ export default handleActions<IAuthState>({
     const msgList = [...state.rtMsgList]
     msgList.push(payload)
 
-    return {
-      ...state,
-      rtMsgList: msgList
+    let quickReplys = []
+    if (payload.direction === MSG_DIRECTION.genius) {
+      quickReplys = payload.quick_reply ? payload.quick_reply.filter(item => item) : []
     }
 
+    return {
+      ...state,
+      quickReplys,
+      rtMsgList: msgList
+    }
   },
 
   [IMAGE_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {

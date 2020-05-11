@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions'
-import { IMsgBodyInfo, IPageConfig, ISugList } from '../interfaces'
+import { IMsgBodyInfo, ISugList } from '../interfaces'
 
 import {
   RT_MSG_LIST,
