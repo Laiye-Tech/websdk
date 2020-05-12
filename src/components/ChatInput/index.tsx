@@ -11,7 +11,7 @@ import SugList from './SugList'
 import QuickReply from './QuickReply'
 
 import { debounce, getOssUrl } from '../../utils'
-import { TEXTAREA_SHAPE, page as PageConfig, language } from '../../utils/config'
+import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
@@ -23,6 +23,7 @@ interface IProps {
 
 interface IState {
   textContent: string
+  showSug: boolean
 }
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
@@ -31,7 +32,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   props: IProps
 
   state: IState = {
-    textContent: ''
+    textContent: '',
+    showSug: interactionConfig.get('fuzzy_sug') as boolean
   }
 
   // 清空用户输入联想
@@ -45,8 +47,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const value = this.$textarea ? this.$textarea.value : event.target.value
     this.setState({ textContent: value })
 
-    // 如果value是空的话 不需要调接口
-    value ? this.getUserSugList(value) : this.clearSugList()
+    if (this.state.showSug) {
+      // 如果value是空 不需要调接口
+      value ? this.getUserSugList(value) : this.clearSugList()
+    }
   }, 500)
 
   // 获取用户输入联想
@@ -166,6 +170,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const chatShape = TEXTAREA_SHAPE[frameShape]
     const bgColor = textContent ? themeColor : '#b3bdc5'
     const placeholder = language.get('ChatInput').pcPlaceholder
+    const wulaiLogo = language.get('Logo').waterMark
+    const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
 
     return(
       <div className={`${styles.chatInput} ${chatShape}`}>
@@ -196,8 +202,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         </div>
 
         {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
+        <QuickReply />
 
-        <QuickReply/>
+        {/* 免费版展示水印 */}
+        {showLogo ? <img src={wulaiLogo} className={styles.logo}/> : null}
       </div>
     )
   }

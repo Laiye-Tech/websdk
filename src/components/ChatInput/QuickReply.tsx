@@ -89,7 +89,6 @@ class QuickReplyMsg extends Nerv.Component {
     const { quickReplys } = this.props
 
     if (!quickReplys.length) return null
-
     const { leftArrowVisible, rightArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
 

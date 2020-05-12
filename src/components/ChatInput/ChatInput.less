@@ -66,6 +66,16 @@
   }
 }
 
+.logo {
+  position: absolute;
+  width: 116px;
+  top: -24px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1;
+}
+
 .sugContainer {
   box-sizing: border-box;
   position: absolute;
@@ -79,6 +89,7 @@
   overflow-y: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px 0 rgba(66, 91, 109, 0.2);
+  z-index: 3;
 
   & ul {
     margin: 0;
@@ -109,6 +120,7 @@
   top: -48px;
   left: 0;
   display: flex;
+  z-index: 2;
 
   & .arrow {
     width: 36px;
