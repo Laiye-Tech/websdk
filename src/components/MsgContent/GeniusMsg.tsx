@@ -16,6 +16,8 @@ interface IState {
   selectIcon: string
   isShowReportBtn: boolean
   isShowAnswerCard: boolean
+  posRight: boolean
+  posTop: boolean
 }
 
 const ANSWER_LIST: {
@@ -50,12 +52,16 @@ class GeniusMsg extends Nerv.Component {
   state: IState = {
     selectIcon: '',
     isShowReportBtn: false,
-    isShowAnswerCard: false
+    isShowAnswerCard: false,
+    posRight: false,
+    posTop: false
   }
 
   componentDidMount() {
     const enableEvaluate = typeof this.props.message.enable_evaluate !== 'undefined'
-    this.setState({ isShowReportBtn: enableEvaluate })
+    if (enableEvaluate) {
+      this.setState({ isShowReportBtn: this.props.message.enable_evaluate })
+    }
   }
 
   // 点赞点踩
@@ -76,13 +82,23 @@ class GeniusMsg extends Nerv.Component {
     satisfactionEvaluate(input)
   }
 
-  showAnswerCard = () => {
-    this.setState({ isShowAnswerCard: true })
+  showAnswerCard = (evt: any) => {
+    this.setState({ isShowAnswerCard: !this.state.isShowAnswerCard })
+
+    const msgPanel = document.getElementById('msg-scroll-panel')
+    const left = msgPanel.getBoundingClientRect().left
+    const top = msgPanel.getBoundingClientRect().top
+
+    // TODO：这个250和310高度是调试出来的
+    const posRight = evt.pageX - left >= 250
+    const posTop = evt.pageY - top >= 310
+
+    this.setState({ posRight, posTop })
   }
 
   render() {
     const { message } = this.props
-    const { selectIcon, isShowReportBtn, isShowAnswerCard } = this.state
+    const { selectIcon, isShowReportBtn, isShowAnswerCard, posRight, posTop } = this.state
 
     const bgColor = PageConfig.get('theme_color') as string
     const avatarShape = AVATAR_SHAPE[PageConfig.get('avatar_shape')]
@@ -95,6 +111,8 @@ class GeniusMsg extends Nerv.Component {
       message.msg_type === 'SHARELINK' ||
       message.msg_type === 'VIDEO'
 
+    const alRight = posRight ? styles['answer-pos-right'] : ''
+    const alTop = posTop ? styles['answer-pos-top'] : ''
     const cls = !hasOwnContent ? styles.content : ''
     const Satisfaction = language.get('Satisfaction')
     const answerList = ANSWER_LIST.map(answer => {
@@ -122,7 +140,7 @@ class GeniusMsg extends Nerv.Component {
                   {selectIcon ? <img src={selectIcon}/> : <span onClick={this.showAnswerCard}/>}
 
                   {isShowAnswerCard ? (
-                    <ul className={styles.answerList}>
+                    <ul className={`${styles.answerList} ${alRight} ${alTop}`}>
                       {answerList.map((answer, idx) => (
                         <li key={answer.type} onClick={this.changeAnswerStatus(idx)}>
                           <img src={answer.icon}/>
