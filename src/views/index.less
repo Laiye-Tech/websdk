@@ -5,10 +5,10 @@
   right: 16px;
   bottom: 16px;
 
-  // ::-webkit-scrollbar
-  // {
-  //   display: none;
-  // }
+  ::-webkit-scrollbar
+  {
+    display: none;
+  }
 }
 
 .container {
@@ -153,5 +153,47 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 414px) {
+  .app {
+    position: initial;
+    // position: fixed;
+    // left: 0;
+    // right: 0;
+    // bottom: 0;
+    // top: 0;
+    // z-index: 9999;
+    // width: 100%;
+  }
+
+  .entryImg {
+    display: none;
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: initial;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+
+    & .header .closeBtn {
+      display: none;
+    }
+
+    & .msgContainer {
+      bottom: 110px;
+    }
+
+    & .footer {
+      height: 100px;
+      bottom: 0;
+    }
   }
 }

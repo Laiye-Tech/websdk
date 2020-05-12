@@ -89,6 +89,8 @@ class QuickReplyMsg extends Nerv.Component {
     const { quickReplys } = this.props
 
     if (!quickReplys.length) return null
+
+    // const quickReplys = ['测试', '测试111', 'Cesskjdkls', '你好呀', '啊啊啊']
     const { leftArrowVisible, rightArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
 

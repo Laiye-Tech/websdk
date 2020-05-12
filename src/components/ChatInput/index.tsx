@@ -8,7 +8,7 @@ import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './SugList'
-import QuickReply from './QuickReply'
+// import QuickReply from './QuickReply'
 
 import { debounce, getOssUrl } from '../../utils'
 import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig } from '../../utils/config'
@@ -24,6 +24,7 @@ interface IProps {
 interface IState {
   textContent: string
   showSug: boolean
+  isPhone: boolean
 }
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
@@ -33,7 +34,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   state: IState = {
     textContent: '',
-    showSug: interactionConfig.get('fuzzy_sug') as boolean
+    showSug: interactionConfig.get('fuzzy_sug') as boolean,
+    isPhone: false
+  }
+
+  componentDidMount() {
+    const isPhone = document.body.clientWidth <= 414
+    this.setState({ isPhone })
   }
 
   // 清空用户输入联想
@@ -163,13 +170,15 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   render() {
     const { userSugList } = this.props
-    const { textContent } = this.state
+    const { textContent, isPhone } = this.state
 
     const frameShape = PageConfig.get('frame_shape') as number
     const themeColor = PageConfig.get('theme_color') as string
     const chatShape = TEXTAREA_SHAPE[frameShape]
     const bgColor = textContent ? themeColor : '#b3bdc5'
-    const placeholder = language.get('ChatInput').pcPlaceholder
+    const pcPlaceholder = language.get('ChatInput').pcPlaceholder
+    const mobilePlaceholder = language.get('ChatInput').placeholder
+    const placeholder = isPhone ? mobilePlaceholder : pcPlaceholder
     const wulaiLogo = language.get('Logo').waterMark
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
 
@@ -202,7 +211,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         </div>
 
         {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
-        <QuickReply />
 
         {/* 免费版展示水印 */}
         {showLogo ? <img src={wulaiLogo} className={styles.logo}/> : null}

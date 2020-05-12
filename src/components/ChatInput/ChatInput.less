@@ -115,12 +115,13 @@
 }
 
 .quick-reply {
-  width: 100%;
+  width: 94%;
   position: absolute;
   top: -48px;
   left: 0;
   display: flex;
   z-index: 2;
+  padding: 0 16px 0 10px;
 
   & .arrow {
     width: 36px;
@@ -128,6 +129,7 @@
     line-height: 36px;
     text-align: center;
     cursor: pointer;
+    margin-top: 2px;
 
     & span {
       display: inline-block;
@@ -146,6 +148,7 @@
 
   & .rightArrow {
     transform: rotate(180deg);
+    margin-top: -2px;
   }
 
   & .replyList {
@@ -181,5 +184,59 @@
     .fontColor {
       color: #000;
     }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 414px) {
+  .chatInput {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    border-radius: 32px;
+    box-shadow: 0 2px 4px 0 rgba(66, 91, 109, 0.2);
+    margin: 16px 16px 16px 60px;
+
+    // div,p,a,img,input {
+    //   position: initial;
+    // }
+
+    & textarea {
+      box-sizing: border-box;
+      height: 40px;
+      padding-top: 10px;
+      white-space: nowrap;
+      margin-right: 10px;
+      font-size: 16px;
+      min-height: 40px;
+    }
+
+    .pullRight {
+      margin-top: 6px;
+    }
+
+    & .pullLeft {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: #fff;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      box-shadow: 0 2px 4px 0 rgba(66, 91, 109, 0.2);
+      top: 10px;
+      left: -44px;
+
+      & .picture {
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .quick-reply {
+    top: -34px;
+  }
+
+  .sugContainer {
+    bottom: 80px;
   }
 }

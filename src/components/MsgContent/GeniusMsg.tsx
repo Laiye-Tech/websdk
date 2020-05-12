@@ -62,6 +62,8 @@ class GeniusMsg extends Nerv.Component {
     if (enableEvaluate) {
       this.setState({ isShowReportBtn: this.props.message.enable_evaluate })
     }
+
+    // this.setState({ isShowReportBtn: enableEvaluate })
   }
 
   // 点赞点踩

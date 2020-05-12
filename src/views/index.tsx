@@ -19,6 +19,7 @@ import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
 import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
 import ImgModal from '../components/Common/ImageModal'
 import VideoModal from '../components/Common/VideoModal'
+import QuickReply from '../components/ChatInput/QuickReply'
 
 // interfaces
 import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo } from '../../interfaces'
@@ -206,6 +207,7 @@ class App extends Nerv.Component<IProps, IState> {
 
             <footer className={styles.footer}>
               <ChatInput />
+              <QuickReply />
             </footer>
           </div>
 
