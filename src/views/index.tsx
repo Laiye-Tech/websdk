@@ -8,6 +8,8 @@ import { closeImageModal, closeVideoModal } from '../actions'
 // API
 import { login } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
+import { createUserTag } from '../data/user.data'
+
 import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE, page as PageConfig, language, interactionConfig } from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
@@ -49,7 +51,7 @@ class App extends Nerv.Component<IProps, IState> {
   state: IState = {
     pageConfig: null,
     startTs: '',
-    visibile: true,
+    visibile: false,
     isPhone: false
   }
 
@@ -62,10 +64,10 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const { pubkey, userInfo } = this.props
+    const { pubkey, userInfo, autoOpen, tagValues } = this.props
 
     const isPhone = document.body.clientWidth <= 414
-    this.setState({ isPhone })
+    this.setState({ isPhone, visibile: !!autoOpen })
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
@@ -104,6 +106,15 @@ class App extends Nerv.Component<IProps, IState> {
       const info = getUserInfo()
       info[pubkey] = input
       window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
+    }
+
+    // 用户属性设置
+    if (typeof tagValues !== 'undefined' && tagValues.length) {
+      try {
+        createUserTag(tagValues)
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     // 连接融云

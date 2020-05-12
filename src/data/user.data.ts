@@ -1,6 +1,6 @@
 import postForm from '../utils/request'
 import { BASE_URL, getUserId } from '../utils/config'
-import { ISugList, IUserSugList } from '../../interfaces'
+import { ISugList, IUserSugList, ITagValuesInput } from '../../interfaces'
 
 /**
  * 获取用户输入的sug
@@ -32,5 +32,22 @@ export async function simulateMessage(hashUrl: string): Promise<{message_id: str
 
   const url = `${BASE_URL}/msg/trigger`
   const res = await postForm(url, body)
+  return res
+}
+
+/**
+ * 给用户添加属性值
+ * @param {Array<ITagValuesInput>} attribute
+ * @return {}
+ *
+ * */
+export function createUserTag(attribute: ITagValuesInput[]): Promise<{}> {
+  const body = {
+    user_id: getUserId(),
+    user_attribute_user_attribute_value: attribute
+  }
+
+  const url = `${BASE_URL}/user/tag`
+  const res = postForm(url, body)
   return res
 }
