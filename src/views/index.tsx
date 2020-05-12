@@ -131,6 +131,10 @@ class App extends Nerv.Component<IProps, IState> {
 
     // 加载阿里云OSS
     await loadAliOSS()
+
+    window.websdk = {
+      toggleSDkVisible: this.togglePanel
+    }
   }
 
   // 通过js创建style样式，因为项目主题颜色是传入的，用到:hover这种样式时，就不能写到less里了
@@ -178,7 +182,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
-    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen } = this.props
+    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos } = this.props
     const { pageConfig, startTs, visibile, isPhone } = this.state
 
     if (!pageConfig) {
@@ -197,10 +201,18 @@ class App extends Nerv.Component<IProps, IState> {
     const enterImg = pageConfig.entry_image || initImg
     const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
     const isFull = !isPhone && fullScreen ? styles.fullScreen : ''
+    let position = {}
+
+    if (typeof pos !== 'undefined') {
+      position = {
+        right: pos.right,
+        bottom: pos.bottom
+      }
+    }
 
     return (
       <Nerv.Fragment>
-        <div className={`${styles.app} ${isFull}`}>
+        <div className={`${styles.app} ${isFull}`} style={position}>
           <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden} ${styles['full-container']}`}>
             <header className={styles.header}>
               <dl>

@@ -21,3 +21,18 @@ export default function MyApp(props) {
     document.getElementById('app')
   )
 }
+
+// export default class MyApp {
+//   constructor(props) {
+//     this.props = props
+//   }
+
+//   render() {
+//     Nerv.render(
+//       <Provider store={store}>
+//         <Wulai {...this.props.data}/>
+//       </Provider>,
+//       document.getElementById('app')
+//     )
+//   }
+// }

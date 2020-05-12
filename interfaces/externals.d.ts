@@ -7,4 +7,7 @@ interface Window {
   __WEB_SDK_CONF__: any
   __SESSION__: string
   __APP_STORE__: any
+  websdk: {
+    toggleSDkVisible: () => void
+  }
 }
