@@ -13,7 +13,8 @@ export default {
     historyMsgTips: 'previous messages',
     noMore: 'no more previous messages',
     download: 'download',
-    audio: 'Click to play'
+    audio: 'Click to play',
+    audioPlaying: 'Audio is playing'
   },
   Logo: {
     waterMark: 'https://cdn.wul.ai/sdk/logo_en.png'

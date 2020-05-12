@@ -2,7 +2,7 @@ import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
 
 import { VoiceMessage } from '../../../interfaces'
-import { page as PageConfig } from '../../utils/config'
+import { page as PageConfig, language } from '../../utils/config'
 
 interface IProps {
   body: VoiceMessage
@@ -61,7 +61,10 @@ class VoiceContent extends Nerv.Component<IProps, IState> {
     const { body } = this.props
     const { isPlaying } = this.state
     const { resource_url } = body.voice
-    const btnText = isPlaying ? '正在播放' : '点击播放'
+
+    const audioText = language.get('Message').audio
+    const playingText = language.get('Message').audioPlaying
+    const btnText = isPlaying ? playingText : audioText
     const bgColor = PageConfig.get('theme_color') as string
     const style = { backgroundColor: bgColor }
 

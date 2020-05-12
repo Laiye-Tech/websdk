@@ -8,7 +8,6 @@ import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './SugList'
-// import QuickReply from './QuickReply'
 
 import { debounce, getOssUrl } from '../../utils'
 import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig } from '../../utils/config'

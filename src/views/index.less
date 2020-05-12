@@ -156,16 +156,33 @@
   }
 }
 
+.fullScreen {
+  position: static;
+  position: initial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+
+  & .full-container {
+    width: 80%;
+    max-width: 800px;
+  }
+
+  & .entryImg {
+    display: none;
+  }
+
+  & .container {
+    & .header .closeBtn {
+      display: none;
+    }
+  }
+}
+
 @media screen and (min-width: 320px) and (max-width: 414px) {
   .app {
     position: initial;
-    // position: fixed;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
-    // top: 0;
-    // z-index: 9999;
-    // width: 100%;
   }
 
   .entryImg {

@@ -38,6 +38,7 @@ interface IState {
   pageConfig: IPageConfig | null
   startTs: string
   visibile: boolean
+  isPhone: boolean
 }
 
 const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
@@ -48,7 +49,8 @@ class App extends Nerv.Component<IProps, IState> {
   state: IState = {
     pageConfig: null,
     startTs: '',
-    visibile: true
+    visibile: true,
+    isPhone: false
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -61,6 +63,9 @@ class App extends Nerv.Component<IProps, IState> {
 
   async componentDidMount() {
     const { pubkey, userInfo } = this.props
+
+    const isPhone = document.body.clientWidth <= 414
+    this.setState({ isPhone })
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
@@ -162,8 +167,8 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
-    const { imageModal, videoModal, closeImageModal, closeVideoModal } = this.props
-    const { pageConfig, startTs, visibile } = this.state
+    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen } = this.props
+    const { pageConfig, startTs, visibile, isPhone } = this.state
 
     if (!pageConfig) {
       return null
@@ -180,11 +185,12 @@ class App extends Nerv.Component<IProps, IState> {
 
     const enterImg = pageConfig.entry_image || initImg
     const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
+    const isFull = !isPhone && fullScreen ? styles.fullScreen : ''
 
     return (
       <Nerv.Fragment>
-        <div className={styles.app}>
-          <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden}`}>
+        <div className={`${styles.app} ${isFull}`}>
+          <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden} ${styles['full-container']}`}>
             <header className={styles.header}>
               <dl>
                 <dt>

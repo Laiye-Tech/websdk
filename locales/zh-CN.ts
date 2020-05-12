@@ -13,7 +13,8 @@ export default {
     historyMsgTips: '以上是历史消息',
     noMore: '没有更多历史消息了',
     download: '下载',
-    audio: '点击播放'
+    audio: '点击播放',
+    audioPlaying: '正在播放'
   },
   Logo: {
     waterMark: 'https://cdn.wul.ai/sdk/logo_zh.png'

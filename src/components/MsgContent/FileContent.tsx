@@ -2,7 +2,7 @@ import * as Nerv from 'nervjs'
 import * as styles from './MsgContent.less'
 
 import { prefixUrl } from '../../utils'
-import { EXT_COLOR, page as PageConfig } from '../../utils/config'
+import { EXT_COLOR, page as PageConfig, language } from '../../utils/config'
 
 import { FileMessage } from '../../../interfaces'
 
@@ -16,6 +16,7 @@ export default function FileContent({ body }: IProps) {
   const ext = body.file.file_name.split('.').slice(-1)[0] || '?'
   const bgColor = EXT_COLOR[ext] || EXT_COLOR.default
   const color = PageConfig.get('theme_color') as string
+  const text = language.get('Message').download
 
   return(
     <a href={url} target="_blank" className={styles.fileContent}>
@@ -30,7 +31,7 @@ export default function FileContent({ body }: IProps) {
               textDecoration: color === '#000000' ? 'underline' : 'initial'
             }}
           >
-            下载
+            {text}
           </span>
         </dd>
       </dl>
