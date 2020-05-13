@@ -3,10 +3,11 @@ import { connect, Dispatch } from 'nerv-redux'
 
 import * as styles from './ChatInput.less'
 
-import { page as PageConfig } from '../../utils/config'
+import { page as PageConfig, TRACK_DIRECTION } from '../../utils/config'
 import { createTextMsg, pushRtMessage } from '../../utils/message'
 
 import { setRtMsgs } from '../../actions'
+import { log } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 
 import { IMsgBodyInfo } from '../../../interfaces'
@@ -81,6 +82,8 @@ class QuickReplyMsg extends Nerv.Component {
     const content = createTextMsg(msg)
 
     const { msg_id } = await pushMsg(content)
+    log({ msg_id, direction: TRACK_DIRECTION.user })
+
     const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
     this.props.setRtMsgs(message)
   }

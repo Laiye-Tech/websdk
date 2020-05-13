@@ -3,11 +3,12 @@ import * as styles from './MsgContent.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs } from '../../actions'
+import { log } from '../../data/app.data'
 import { simulateMessage } from '../../data/user.data'
 import { pushMsg } from '../../data/message.data'
 
 import { transformString, prefixUrl } from '../../utils'
-import { MSG_DIRECTION, page as PageConfig } from '../../utils/config'
+import { MSG_DIRECTION, page as PageConfig, TRACK_DIRECTION } from '../../utils/config'
 import { xssFilter } from '../../utils/xss'
 import { createTextMsg, pushRtMessage } from '../../utils/message'
 
@@ -70,6 +71,7 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
       simulateMessage(url)
     } else {
       const { msg_id } = await pushMsg(msg)
+      log({ msg_id, direction: TRACK_DIRECTION.user })
       msgId = msg_id
     }
 

@@ -3,14 +3,14 @@ import * as styles from './ChatInput.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList } from '../../actions'
-import { getStsToken } from '../../data/app.data'
+import { getStsToken, log } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './SugList'
 
 import { debounce, getOssUrl } from '../../utils'
-import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig } from '../../utils/config'
+import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig, TRACK_DIRECTION } from '../../utils/config'
 import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
@@ -125,6 +125,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     try {
       const { msg_id } = await pushMsg(msg)
+      log({ msg_id, direction: TRACK_DIRECTION.user })
       const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
       this.props.setRtMsgs(message)
 

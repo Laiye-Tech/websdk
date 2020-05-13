@@ -6,7 +6,7 @@ import { connect, Dispatch } from 'nerv-redux'
 import { closeImageModal, closeVideoModal } from '../actions'
 
 // API
-import { login } from '../data/app.data'
+import { login, log } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
 import { createUserTag } from '../data/user.data'
 
@@ -25,9 +25,6 @@ import QuickReply from '../components/ChatInput/QuickReply'
 
 // interfaces
 import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo } from '../../interfaces'
-
-const logger = require('web-logger')
-console.log('logger --->', logger)
 
 interface IProps extends AppInfo {
   imageModal: ModalInfo
@@ -123,7 +120,8 @@ class App extends Nerv.Component<IProps, IState> {
 
     // 发送一条进入事件消息
     const enterMsg = createEventMsg('ENTER')
-    pushMsg(enterMsg)
+    const { msg_id } = await pushMsg(enterMsg)
+    log({ msg_id })
 
     setTimeout(() => {
       this.scrollToBottom()

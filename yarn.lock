@@ -5001,7 +5001,7 @@ uuid@7.0.2:
 
 uuid@7.0.3:
   version "7.0.3"
-  resolved "https://npm.laiye.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  resolved "http://npm.laiye.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
 
 uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
@@ -5045,9 +5045,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-logger@1.0.1:
-  version "1.0.1"
-  resolved "https://npm.laiye.com/web-logger/-/web-logger-1.0.1.tgz#136a66820ff7abd62bd0cc719873cd8de720329f"
+web-logger@1.0.4:
+  version "1.0.4"
+  resolved "http://npm.laiye.com/web-logger/-/web-logger-1.0.4.tgz#653d2e840c5126527a8d478f5535c21626f85123"
   dependencies:
     uuid "7.0.3"
     whatwg-fetch "3.0.0"

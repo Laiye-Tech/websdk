@@ -1,6 +1,7 @@
 import { Store } from 'redux'
 import { setRtMsgs } from '../actions'
-import { MSG_DIRECTION } from '../utils/config'
+import { log } from '../data/app.data'
+import { MSG_DIRECTION, TRACK_DIRECTION } from '../utils/config'
 
 // 融云是一个单例对象
 let _instance: null | RongIMLib.RongIMClient = null
@@ -72,7 +73,7 @@ function startProducer() {
       const content = msg.content as any
       if (typeof content.extra !== 'undefined') {
         const msgBody = JSON.parse(content.extra)
-        // console.log('msgBody --->', msgBody)
+        log({ msg_id: msgBody.msg_id, direction: TRACK_DIRECTION.staff })
 
         if (store) {
           store.dispatch(setRtMsgs({...msgBody, direction: MSG_DIRECTION.genius}))

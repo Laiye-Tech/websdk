@@ -106,6 +106,11 @@ const EXT_COLOR = {
   csv: '#7715d2'
 }
 
+const TRACK_DIRECTION = {
+  user: '1',
+  staff: '0'
+}
+
 // 背景颜色 对应 字体颜色是黑色
 const BACKGROUND_COLOR = ['#ffd500']
 
@@ -150,5 +155,6 @@ export {
   page,
   language,
   interactionConfig,
-  BACKGROUND_COLOR
+  BACKGROUND_COLOR,
+  TRACK_DIRECTION
 }

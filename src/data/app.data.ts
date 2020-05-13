@@ -1,6 +1,8 @@
 import postForm from '../utils/request'
-import { BASE_URL, getAppInfo } from '../utils/config'
+import { BASE_URL, getAppInfo, getUserId } from '../utils/config'
 import { IUserInput, ISDKConfigInfo, IOSSAuth } from '../../interfaces'
+
+const logger = require('web-logger')
 
 export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigInfo> {
   const query = {
@@ -28,4 +30,8 @@ export function login(pubkey: string, userInfo: IUserInput): Promise<ISDKConfigI
 export function getStsToken(): Promise<IOSSAuth> {
   const url = `${BASE_URL}/resource/oss/auth/write`
   return postForm(url, {})
+}
+
+export function log(log: {[key: string]: string}) {
+  logger.log({...log, user_id: getUserId() })
 }
