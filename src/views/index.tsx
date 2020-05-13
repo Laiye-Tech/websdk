@@ -22,6 +22,7 @@ import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
 import ImgModal from '../components/Common/ImageModal'
 import VideoModal from '../components/Common/VideoModal'
 import QuickReply from '../components/ChatInput/QuickReply'
+import ErrorHeader from '../components/Common/ErrorHeader'
 
 // interfaces
 import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo } from '../../interfaces'
@@ -38,6 +39,10 @@ interface IState {
   startTs: string
   visibile: boolean
   isPhone: boolean
+  errHeader: {
+    visibile: boolean
+    message: string
+  }
 }
 
 const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
@@ -49,7 +54,11 @@ class App extends Nerv.Component<IProps, IState> {
     pageConfig: null,
     startTs: '',
     visibile: false,
-    isPhone: false
+    isPhone: false,
+    errHeader: {
+      visibile: false,
+      message: ''
+    }
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -133,6 +142,33 @@ class App extends Nerv.Component<IProps, IState> {
     window.websdk = {
       toggleSDkVisible: this.togglePanel
     }
+
+    window.addEventListener('offline', this.onOfflineChange)
+    window.addEventListener('online', this.onOnlineChange)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('offline', this.onOfflineChange)
+    window.removeEventListener('online', this.onOnlineChange)
+  }
+
+  // 断网
+  onOfflineChange = () => {
+    const errHeader = {
+      visibile: true,
+      message: language.get('NetWork').offline
+    }
+
+    this.setState({ errHeader })
+  }
+
+  onOnlineChange = () => {
+    this.setState({
+      errHeader: {
+        visibile: false,
+        message: ''
+      }
+    })
   }
 
   // 通过js创建style样式，因为项目主题颜色是传入的，用到:hover这种样式时，就不能写到less里了
@@ -181,7 +217,7 @@ class App extends Nerv.Component<IProps, IState> {
 
   render () {
     const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos } = this.props
-    const { pageConfig, startTs, visibile, isPhone } = this.state
+    const { pageConfig, startTs, visibile, isPhone, errHeader } = this.state
 
     if (!pageConfig) {
       return null
@@ -198,7 +234,9 @@ class App extends Nerv.Component<IProps, IState> {
 
     const enterImg = pageConfig.entry_image || initImg
     const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
-    const isFull = !isPhone && fullScreen ? styles.fullScreen : ''
+    const isFull = !isPhone && fullScreen
+    const largePanel = isFull ? styles.fullScreen : ''
+
     let position = {}
 
     if (typeof pos !== 'undefined') {
@@ -210,7 +248,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     return (
       <Nerv.Fragment>
-        <div className={`${styles.app} ${isFull}`} style={position}>
+        <div className={`${styles.app} ${largePanel}`} style={position}>
           <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden} ${styles['full-container']}`}>
             <header className={styles.header}>
               <dl>
@@ -241,6 +279,8 @@ class App extends Nerv.Component<IProps, IState> {
           <div className={styles.entryImg} style={{ backgroundColor }} onClick={this.togglePanel}>
             <img src={visibile ? closeImg : enterImg} className={enterImgStyle} />
           </div>
+
+          {errHeader.visibile ? <ErrorHeader message={errHeader.message} isFull={isFull}/> : null}
         </div>
 
         {imageModal.visible ? (
