@@ -126,8 +126,6 @@
 }
 
 .entryImg {
-  width: 64px;
-  height: 64px;
   margin-top: 10px;
   display: inline-block;
   border-radius: 50%;
@@ -136,7 +134,7 @@
   overflow: hidden;
   box-shadow: 0 8px 16px 0 rgba(66, 91, 109, 0.3);
 
-  img {
+  & img {
     position: absolute;
     left: 0;
     right: 0;
@@ -145,15 +143,35 @@
     margin: auto;
   }
 
-  .closeImg {
+  & .closeImg {
     width: 60%;
   }
 
-  .enterAvatar {
-    width: 48px;
-    height: 48px;
+  & .enterAvatar {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
   }
+}
+
+.enterImg-48 {
+  width: 48px;
+  height: 48px;
+}
+
+.enterImg-64 {
+  width: 64px;
+  height: 64px;
+}
+
+.enterImg-72 {
+  width: 72px;
+  height: 72px;
+}
+
+.enterImg-96 {
+  width: 96px;
+  height: 96px;
 }
 
 .fullScreen {

@@ -106,6 +106,8 @@ class GeniusMsg extends Nerv.Component {
     const avatarShape = AVATAR_SHAPE[PageConfig.get('avatar_shape')]
     const chatBar = CHAT_BAR[PageConfig.get('chat_bar')]
     const avatar = PageConfig.get('bot_avatar')
+    // bot_avatar_chose 2表示禁用
+    const isShowBotAvatat = PageConfig.get('bot_avatar_chose') !== 2 && Boolean(avatar)
 
     const hasOwnContent =
       message.msg_type === 'IMAGE' ||
@@ -127,11 +129,13 @@ class GeniusMsg extends Nerv.Component {
     return(
       <div className={`${styles.msgContent}`}>
         <dl className={`${styles.msgContainer} ${styles.geniusMsg}`}>
-          <dt className={styles.userInfo}>
-            <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
-              <img src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
-            </div>
-          </dt>
+          {isShowBotAvatat ? (
+            <dt className={styles.userInfo}>
+              <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
+                <img src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
+              </div>
+            </dt>
+          ) : null}
 
           <dd className={styles.msgBody}>
             <div className={`${styles.contentBody} ${cls} ${chatBar}`}>

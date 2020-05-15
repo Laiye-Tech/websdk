@@ -231,6 +231,10 @@ class App extends Nerv.Component<IProps, IState> {
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
     // 是否展示历史消息
     const showHistory = interactionConfig.get('show_history')
+    // header_chose 2表示禁用
+    const isShowHeaderAvatar = pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
+    // 入口图标大小
+    const enterImgSize = pageConfig.entry_image_size
 
     const enterImg = pageConfig.entry_image || initImg
     const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
@@ -252,9 +256,11 @@ class App extends Nerv.Component<IProps, IState> {
           <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden} ${styles['full-container']}`}>
             <header className={styles.header}>
               <dl>
-                <dt>
-                  <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
-                </dt>
+                {isShowHeaderAvatar ? (
+                  <dt>
+                    <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
+                  </dt>
+                ) : null}
                 <dd>{pageConfig.title}</dd>
               </dl>
 
@@ -276,7 +282,11 @@ class App extends Nerv.Component<IProps, IState> {
             </footer>
           </div>
 
-          <div className={styles.entryImg} style={{ backgroundColor }} onClick={this.togglePanel}>
+          <div
+            className={`${styles.entryImg} ${styles[`enterImg-${enterImgSize}`]}`}
+            style={{ backgroundColor }}
+            onClick={this.togglePanel}
+          >
             <img src={visibile ? closeImg : enterImg} className={enterImgStyle} />
           </div>
 
