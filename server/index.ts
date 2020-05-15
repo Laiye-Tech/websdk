@@ -1,8 +1,6 @@
 const http = require('http')
 const url = require('url')
 const fs = require('fs')
-const path = require('path')
-const port = require('../pm2.json').port
 
 /**
  * @file node server for test
@@ -53,4 +51,4 @@ http.createServer((req, res) => {
 
   res.writeHead(200, { 'Content-Type': 'text/html' })
   res.end(html)
-}).listen(port)
+}).listen(8082)

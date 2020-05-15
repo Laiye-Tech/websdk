@@ -1,6 +1,6 @@
 {
   "name": "websdk-new",
-  "version": "3.30.0",
+  "version": "5.0.0",
   "description": "Nerv.js 兼容到IE9",
   "main": "dist/IMLib.js",
   "author": "malei",
@@ -12,7 +12,6 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js",
     "node": "node ./dist/server.js",
-    "pm2": "pm2 start pm2.json",
     "build:qa": "better-npm-run build:qa",
     "build": "better-npm-run build"
   },
@@ -37,7 +36,7 @@
     "redux": "4.0.5",
     "redux-actions": "2.6.5",
     "uuid": "7.0.2",
-    "web-logger": "1.0.4",
+    "web-logger": "1.0.5",
     "whatwg-fetch": "3.0.0",
     "xss": "1.0.6"
   },

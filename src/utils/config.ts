@@ -9,7 +9,7 @@ let interaction: IInteractionConfig
 const pkg = require('../../package.json')
 // const isProd = process.env.NODE_ENV === 'production'
 // const MODE = window.__WEB_SDK_CONF__ && window.__WEB_SDK_CONF__.ENV.MODE
-const BASE_URL = 'https://testcb2.wul.ai'
+const BASE_URL = 'https://newtestcb2.wul.ai'
 
 // if (MODE === 'pre') {
 //   BASE_URL = 'https://precb2.wul.ai'

@@ -5045,9 +5045,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-web-logger@1.0.4:
-  version "1.0.4"
-  resolved "http://npm.laiye.com/web-logger/-/web-logger-1.0.4.tgz#653d2e840c5126527a8d478f5535c21626f85123"
+web-logger@1.0.5:
+  version "1.0.5"
+  resolved "http://npm.laiye.com/web-logger/-/web-logger-1.0.5.tgz#281853bd2e9ca0c44dbb952eb6907be30c166c99"
   dependencies:
     uuid "7.0.3"
     whatwg-fetch "3.0.0"
