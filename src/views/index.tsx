@@ -1,4 +1,4 @@
-import Nerv, { Fragment } from 'nervjs'
+import * as Nerv from 'nervjs'
 import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
@@ -46,6 +46,7 @@ interface IState {
   }
   isError: boolean
   errMsg: string
+}
 
 const initialPage = {
   avatar_shape: 0,
@@ -290,12 +291,14 @@ class App extends Nerv.Component<IProps, IState> {
       }
     }
 
+    const isHiddenApp = visibile || fullScreen ? '' : styles.hidden
+    const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${styles['full-container']}`
+    const windowHeight = isPhone ? `${pageConfig.screen_ratio}%` : null
+
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
-          <div
-            className={`${styles.container} ${borderShape} ${visibile || fullScreen ? '' : styles.hidden} ${styles['full-container']}`}
-          >
+          <div className={containerStyle} style={{height: windowHeight}}>
             <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
@@ -320,10 +323,10 @@ class App extends Nerv.Component<IProps, IState> {
 
             <footer className={styles.footer}>
               {isRenderChatInput ? (
-                <Fragment>
+                <Nerv.Fragment>
                    <ChatInput />
                    <QuickReply />
-                </Fragment>
+                </Nerv.Fragment>
               ) : null}
             </footer>
 
