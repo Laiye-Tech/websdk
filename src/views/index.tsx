@@ -1,4 +1,4 @@
-import * as Nerv from 'nervjs'
+import Nerv, { Fragment } from 'nervjs'
 import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
@@ -279,6 +279,8 @@ class App extends Nerv.Component<IProps, IState> {
     const isFull = !isPhone && fullScreen
     const largePanel = isFull ? styles.fullScreen : ''
 
+    const isRenderChatInput = !!Object.keys(language.get('Logo')).length
+
     let position = {}
 
     if (typeof pos !== 'undefined') {
@@ -317,8 +319,12 @@ class App extends Nerv.Component<IProps, IState> {
             </main>
 
             <footer className={styles.footer}>
-              <ChatInput />
-              <QuickReply />
+              {isRenderChatInput ? (
+                <Fragment>
+                   <ChatInput />
+                   <QuickReply />
+                </Fragment>
+              ) : null}
             </footer>
 
             {isError ? <TipsModal message={errMsg} /> : null}
