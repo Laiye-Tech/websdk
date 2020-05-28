@@ -23,9 +23,10 @@ import ImgModal from '../components/Common/ImageModal'
 import VideoModal from '../components/Common/VideoModal'
 import QuickReply from '../components/ChatInput/QuickReply'
 import ErrorHeader from '../components/Common/ErrorHeader'
+import TipsModal from '../components/Common/TipsModal'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IError } from '../../interfaces'
 
 interface IProps extends AppInfo {
   imageModal: ModalInfo
@@ -35,7 +36,7 @@ interface IProps extends AppInfo {
   closeVideoModal: () => void
 }
 interface IState {
-  pageConfig: IPageConfig | null
+  pageConfig: IPageConfig
   startTs: string
   visibile: boolean
   isPhone: boolean
@@ -43,6 +44,29 @@ interface IState {
     visibile: boolean
     message: string
   }
+  isError: boolean
+  errMsg: string
+
+const initialPage = {
+  avatar_shape: 0,
+  bot_avatar: '',
+  bot_avatar_chose: 0,
+  chat_bar: 0,
+  frame_shape: 0,
+  header_avatar: '',
+  header_chose: 0,
+  qa_feedback: '',
+  theme_color: '',
+  theme_chose: 0,
+  font_color: '',
+  title: '',
+  user_avatar: '',
+  user_avatar_chose: 0,
+  entry_image: '',
+  entry_image_chose: 0,
+  entry_image_size: 0,
+  screen_ratio: 0,
+  language_code: ''
 }
 
 const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
@@ -51,14 +75,16 @@ class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   props: IProps
   state: IState = {
-    pageConfig: null,
+    pageConfig: initialPage,
     startTs: '',
     visibile: false,
     isPhone: false,
     errHeader: {
       visibile: false,
       message: ''
-    }
+    },
+    isError: false,
+    errMsg: ''
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -69,8 +95,8 @@ class App extends Nerv.Component<IProps, IState> {
     }
   }
 
-  async componentDidMount() {
-    const { pubkey, userInfo, autoOpen, tagValues } = this.props
+  componentDidMount() {
+    const { pubkey, userInfo, autoOpen } = this.props
 
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone, visibile: !!autoOpen })
@@ -84,8 +110,28 @@ class App extends Nerv.Component<IProps, IState> {
 
     // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
+    this.startLogin(pubkey, user)
+
+    setTimeout(() => {
+      this.scrollToBottom()
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('offline', this.onOfflineChange)
+    window.removeEventListener('online', this.onOnlineChange)
+  }
+
+  startLogin = async (pubkey, user) => {
+    const { userInfo } = this.props
     const res = await login(pubkey, user)
 
+    // @ts-ignore
+    if (res.code) {
+      // @ts-ignore
+      this.setState({ isError: true, errMsg: res.message })
+      return
+    }
     // 功能设置
     interactionConfig.set(res.interaction_config)
 
@@ -114,15 +160,6 @@ class App extends Nerv.Component<IProps, IState> {
       window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
     }
 
-    // 用户属性设置
-    if (typeof tagValues !== 'undefined' && tagValues.length) {
-      try {
-        createUserTag(tagValues)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
     // 连接融云
     await loadRongCloud()
     await openSocket(res.rong_key, res.rong_token)
@@ -132,9 +169,7 @@ class App extends Nerv.Component<IProps, IState> {
     const { msg_id } = await pushMsg(enterMsg)
     log({ msg_id })
 
-    setTimeout(() => {
-      this.scrollToBottom()
-    }, 1000)
+    this.setUserTag()
 
     // 加载阿里云OSS
     await loadAliOSS()
@@ -147,9 +182,16 @@ class App extends Nerv.Component<IProps, IState> {
     window.addEventListener('online', this.onOnlineChange)
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('offline', this.onOfflineChange)
-    window.removeEventListener('online', this.onOnlineChange)
+  setUserTag = () => {
+    const { tagValues } = this.props
+    // 用户属性设置
+    if (typeof tagValues !== 'undefined' && tagValues.length) {
+      try {
+        createUserTag(tagValues)
+      } catch (err) {
+        console.error(err)
+      }
+    }
   }
 
   // 断网
@@ -217,11 +259,7 @@ class App extends Nerv.Component<IProps, IState> {
 
   render () {
     const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos } = this.props
-    const { pageConfig, startTs, visibile, isPhone, errHeader } = this.state
-
-    if (!pageConfig) {
-      return null
-    }
+    const { pageConfig, startTs, visibile, isPhone, errHeader, isError, errMsg } = this.state
 
     // 主题颜色
     const backgroundColor = pageConfig.theme_color
@@ -230,7 +268,7 @@ class App extends Nerv.Component<IProps, IState> {
     // 窗口形状
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
     // 是否展示历史消息
-    const showHistory = interactionConfig.get('show_history')
+    const showHistory = isError ? interactionConfig.get('show_history') : false
     // header_chose 2表示禁用
     const isShowHeaderAvatar = pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
     // 入口图标大小
@@ -253,7 +291,9 @@ class App extends Nerv.Component<IProps, IState> {
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
-          <div className={`${styles.container} ${borderShape} ${visibile ? '' : styles.hidden} ${styles['full-container']}`}>
+          <div
+            className={`${styles.container} ${borderShape} ${visibile || fullScreen ? '' : styles.hidden} ${styles['full-container']}`}
+          >
             <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
@@ -280,6 +320,8 @@ class App extends Nerv.Component<IProps, IState> {
               <ChatInput />
               <QuickReply />
             </footer>
+
+            {isError ? <TipsModal message={errMsg} /> : null}
           </div>
 
           <div

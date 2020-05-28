@@ -1,10 +1,11 @@
 {
   "presets": [
     [
-      "@babel/env",
+      "@babel/preset-env",
       {
         "spec": true,
         "useBuiltIns": "usage",
+        "corejs": "3",
         "targets": {
           "browsers": ["ie >= 9", "Chrome >= 21", "Firefox >= 1", "Edge >= 13", "last 3 versions"]
         }

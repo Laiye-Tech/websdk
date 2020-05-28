@@ -51,7 +51,8 @@ import {
   IPageConfig,
   IOSSAuth,
   IOSSUploadResult,
-  IInteractionConfig
+  IInteractionConfig,
+  IError
 } from './app.type'
 
 // 消息相关
@@ -97,5 +98,6 @@ export {
   IUserSugList,
   ITagValuesInput,
   ISugList,
-  IInteractionConfig
+  IInteractionConfig,
+  IError
 }

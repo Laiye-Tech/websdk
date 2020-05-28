@@ -6,10 +6,10 @@ const webpack = require('webpack')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const version = require('./package.json').version
 const isProd = process.env.NODE_ENV === 'production'
-const TerserPlugin = require('terser-webpack-plugin')
 
 const clientConfig = {
   mode: process.env.NODE_ENV,
@@ -55,6 +55,7 @@ const clientConfig = {
       },
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         loader: 'awesome-typescript-loader',
         options: {
           transpileOnly: true

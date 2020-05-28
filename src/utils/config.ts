@@ -26,7 +26,7 @@ const page = {
     pageConfig = {...configOb}
   },
   get: (propertyKey: keyof IPageConfig) => {
-    return pageConfig[propertyKey]
+    return typeof interaction !== 'undefined' ? pageConfig[propertyKey] : null
   }
 }
 
@@ -35,7 +35,7 @@ const language = {
     envLanguage = require(`../../locales/${languageCode}`).default
   },
   get: propertyKey => {
-    return envLanguage[propertyKey]
+    return typeof interaction !== 'undefined' ? envLanguage[propertyKey] : {}
   }
 }
 
@@ -44,7 +44,7 @@ const interactionConfig = {
     interaction = {...configOb}
   },
   get: (propertyKey: keyof IInteractionConfig) => {
-    return interaction[propertyKey]
+    return typeof interaction !== 'undefined' ? interaction[propertyKey] : null
   }
 }
 

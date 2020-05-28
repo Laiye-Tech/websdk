@@ -176,8 +176,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const themeColor = PageConfig.get('theme_color') as string
     const chatShape = TEXTAREA_SHAPE[frameShape]
     const bgColor = textContent ? themeColor : '#b3bdc5'
-    const pcPlaceholder = language.get('ChatInput').pcPlaceholder
-    const mobilePlaceholder = language.get('ChatInput').placeholder
+    const pcPlaceholder = language.get('ChatInput').pcPlaceholder || ''
+    const mobilePlaceholder = language.get('ChatInput').placeholder || ''
     const placeholder = isPhone ? mobilePlaceholder : pcPlaceholder
     const wulaiLogo = language.get('Logo').waterMark
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean

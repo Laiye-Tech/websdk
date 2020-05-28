@@ -8,6 +8,12 @@ export interface ISDKConfigInfo {
   interaction_config: IInteractionConfig
 }
 
+export interface IError {
+  code: number
+  error: string
+  message: string
+}
+
 export interface IPageConfig {
   avatar_shape: number
   bot_avatar: string

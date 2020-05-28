@@ -28,8 +28,8 @@ export async function request(url: string, options?: any) {
   try {
     const res = await fetch(url, opt)
     if (!res.ok) {
-      console.log(res)
-      throw Error('')
+      const type = res.headers.get('Content-Type')
+      return type && type.indexOf('json') !== -1 ? res.json() : res.text()
     }
 
     // 登录接口获取session
