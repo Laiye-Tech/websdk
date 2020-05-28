@@ -4,7 +4,7 @@ import * as styles from './MsgContent.less'
 import MsgContent from './MsgContent'
 
 import { satisfactionEvaluate } from '../../data/message.data'
-import { AVATAR_SHAPE, CHAT_BAR, page as PageConfig, language } from '../../utils/config'
+import { AVATAR_SHAPE, CHAT_BAR, page as PageConfig, language, interactionConfig } from '../../utils/config'
 
 import { IMsgBodyInfo, SATISFACTION_ENUM, EvaluateInfo } from '../../../interfaces'
 
@@ -66,9 +66,10 @@ class GeniusMsg extends Nerv.Component {
     // this.setState({ isShowReportBtn: enableEvaluate })
   }
 
-  // 点赞点踩
-  changeAnswerStatus = (idx: number) => () => {
-    const icon = ANSWER_LIST[idx].icon
+  // 点赞点踩 & 举报
+  changeAnswerStatus = (idx?: number) => () => {
+    const isReport = typeof idx === 'undefined'
+    const icon = !isReport ? ANSWER_LIST[idx].icon : 'https://cdn.wul.ai/weapp/invalid-name%403x.png'
     this.setState({ selectIcon: icon, isShowAnswerCard: false })
 
     const msg = this.props.message
@@ -76,7 +77,7 @@ class GeniusMsg extends Nerv.Component {
       bot_id: {
         knowledge_id: `${msg.bot.qa.knowledge_id}`
       },
-      satisfaction: ANSWER_LIST[idx].satisfaction,
+      satisfaction: !isReport ? ANSWER_LIST[idx].satisfaction : SATISFACTION_ENUM.REPORT,
       msg_id: msg.msg_id,
       user_id: msg.user_id
     }
@@ -108,6 +109,11 @@ class GeniusMsg extends Nerv.Component {
     const avatar = PageConfig.get('bot_avatar')
     // bot_avatar_chose 2表示禁用
     const isShowBotAvatat = PageConfig.get('bot_avatar_chose') !== 2 && Boolean(avatar)
+    const Satisfaction = language.get('Satisfaction')
+
+    // 举报
+    const reportBtnVisible = interactionConfig.get('enable_report')
+    const reportTxt = Satisfaction.report
 
     const hasOwnContent =
       message.msg_type === 'IMAGE' ||
@@ -118,7 +124,6 @@ class GeniusMsg extends Nerv.Component {
     const alRight = posRight ? styles['answer-pos-right'] : ''
     const alTop = posTop ? styles['answer-pos-top'] : ''
     const cls = !hasOwnContent ? styles.content : ''
-    const Satisfaction = language.get('Satisfaction')
     const answerList = ANSWER_LIST.map(answer => {
       return {
         ...answer,
@@ -141,7 +146,7 @@ class GeniusMsg extends Nerv.Component {
             <div className={`${styles.contentBody} ${cls} ${chatBar}`}>
               <MsgContent message={message}/>
 
-              {isShowReportBtn ? (
+              {isShowReportBtn || reportBtnVisible ? (
                 <div className={styles.answer}>
                   {selectIcon ? <img src={selectIcon}/> : <span onClick={this.showAnswerCard}/>}
 
@@ -153,6 +158,13 @@ class GeniusMsg extends Nerv.Component {
                           <p>{answer.title}</p>
                         </li>
                       ))}
+
+                      {reportBtnVisible ? (
+                        <li key="report" onClick={this.changeAnswerStatus()}>
+                          <img src="https://cdn.wul.ai/weapp/invalid-name%403x.png"/>
+                          <p>{reportTxt}</p>
+                        </li>
+                      ) : null}
                     </ul>
                   ) : null}
                 </div>

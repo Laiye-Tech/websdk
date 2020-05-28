@@ -15,7 +15,6 @@ const UserMsg = (props: IProps) => {
   const { message } = props
 
   const bgColor = PageConfig.get('theme_color') as string
-  console.log('--->', PageConfig.get('avatar_shape'))
   const avatarShape = AVATAR_SHAPE[PageConfig.get('avatar_shape')]
   const chatBar = CHAT_BAR[PageConfig.get('chat_bar')]
   const avatar = PageConfig.get('user_avatar')
