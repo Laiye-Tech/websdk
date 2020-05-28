@@ -3,7 +3,8 @@ import { filterXSS } from 'xss'
 const options = {
   whiteList: {
     a: ['href', 'title', 'target'],
-    img: ['src']
+    img: ['src'],
+    br: []
   }
 }
 
