@@ -309,7 +309,7 @@ class App extends Nerv.Component<IProps, IState> {
     // 窗口形状
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
     // 是否展示历史消息
-    const showHistory = isError ? interactionConfig.get('show_history') : false
+    const showHistory = !isError ? interactionConfig.get('show_history') : false
     // header_chose 2表示禁用
     const isShowHeaderAvatar = pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
     // 入口图标大小
