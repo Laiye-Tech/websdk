@@ -74,6 +74,8 @@ const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-15348
 const closeImg = 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png'
 class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
+  timer = null
+  autoTimer = null
   props: IProps
   state: IState = {
     pageConfig: initialPage,
@@ -121,6 +123,7 @@ class App extends Nerv.Component<IProps, IState> {
   componentWillUnmount() {
     window.removeEventListener('offline', this.onOfflineChange)
     window.removeEventListener('online', this.onOnlineChange)
+    this.stopSillyCheck()
   }
 
   startLogin = async (pubkey, user) => {
@@ -161,6 +164,14 @@ class App extends Nerv.Component<IProps, IState> {
       window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
     }
 
+    // 如果默认是关闭的状态 需要读取“自动邀请会话”配置
+    if (!this.props.autoOpen) {
+      const autoPop = res.interaction_config.auto_pop
+      if (autoPop > 0) {
+        this.applySillyCheck('autoPop', autoPop)
+      }
+    }
+
     // 连接融云
     await loadRongCloud()
     await openSocket(res.rong_key, res.rong_token)
@@ -181,6 +192,26 @@ class App extends Nerv.Component<IProps, IState> {
 
     window.addEventListener('offline', this.onOfflineChange)
     window.addEventListener('online', this.onOnlineChange)
+  }
+
+  applySillyCheck = (type: 'popAfter' | 'autoPop', time: number) => {
+    const id = setInterval(() => {
+      this.togglePanel()
+      this.stopSillyCheck()
+    }, time * 1000)
+
+    type === 'popAfter' ? this.timer = id : this.autoTimer = id
+  }
+
+  // 清除定时器
+  stopSillyCheck = () => {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
+
+    if (this.autoTimer) {
+      clearInterval(this.autoTimer)
+    }
   }
 
   setUserTag = () => {
@@ -255,7 +286,16 @@ class App extends Nerv.Component<IProps, IState> {
 
   // 控制会话框显示/隐藏
   togglePanel = () => {
-    this.setState({ visibile: !this.state.visibile })
+    this.setState({ visibile: !this.state.visibile }, () => {
+      if (this.state.visibile) {
+        this.stopSillyCheck()
+      } else {
+        const popAfterClose = interactionConfig.get('pop_after_close') as number
+        if (popAfterClose > 0) {
+          this.applySillyCheck('popAfter', popAfterClose)
+        }
+      }
+    })
   }
 
   render () {
