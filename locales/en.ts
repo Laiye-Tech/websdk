@@ -20,7 +20,7 @@ export default {
     waterMark: 'https://cdn.wul.ai/sdk/logo_en.png'
   },
   Tips: {
-    delete: 'The bot has been deleted and can not be uesd',
+    delete: 'The bot has been deleted and can not be used',
     reload: 'reload',
     alertTitle: 'prompt'
   },
