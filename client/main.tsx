@@ -26,7 +26,7 @@ export default function MyApp(props) {
     <Provider store={store}>
       <Wulai {...props.data}/>
     </Provider>,
-    document.getElementById('app')
+    document.getElementById('wulai-websdk')
   )
 }
 
