@@ -2,7 +2,7 @@ import * as Nerv from 'nervjs'
 import * as styles from './ChatInput.less'
 import { connect, Dispatch } from 'nerv-redux'
 
-import { setRtMsgs, setUserSugList } from '../../actions'
+import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
 import { getStsToken, log } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
@@ -18,6 +18,7 @@ interface IProps {
   userSugList: ISugList[]
   setRtMsgs: (msg: IMsgBodyInfo) => void
   setUserSugList: (sugList: ISugList[]) => void
+  openToastPanel: (message: string) => void
 }
 
 interface IState {
@@ -140,7 +141,9 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   // 发送图片消息
   onInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const urls = await this.handleUpload(evt)
-    this.sendMsg('IMAGE', urls[0])
+    if (urls) {
+      this.sendMsg('IMAGE', urls[0])
+    }
   }
 
   // 上传
@@ -152,15 +155,17 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const file: any = evt.target.files[0] // 获取当前选中的文件
     const imgMasSize = 1024 * 1024 * 10 // 10MB
 
+    const uploader = language.get('Uploader')
+
     // 检查文件类型
     if (['jpeg', 'png', 'gif'].indexOf(file.type.split('/')[1]) < 0) {
-      console.error('图片类型仅支持 jpeg/png/gif')
+      this.props.openToastPanel(uploader.imgType)
       return
     }
 
     // 文件大小限制
     if (file.size > imgMasSize) {
-      console.error('图片大小不能超过10MB哦')
+      this.props.openToastPanel(uploader.imgSize)
       return
     }
 
@@ -225,7 +230,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setRtMsgs: message => dispatch(setRtMsgs(message)),
-  setUserSugList: (sug: ISugList[]) => dispatch(setUserSugList(sug))
+  setUserSugList: (sug: ISugList[]) => dispatch(setUserSugList(sug)),
+  openToastPanel: (message: string) => dispatch(toggleToastPanel({message, visible: true}))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatInput) as any

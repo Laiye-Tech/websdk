@@ -13,6 +13,10 @@ const initialState: IAuthState = {
   videoModal: {
     visible: false,
     src: null
+  },
+  toastPanel: {
+    visible: false,
+    message: ''
   }
 }
 
@@ -22,6 +26,7 @@ export const IMAGE_MODAL_CLOSE = 'IMAGE_MODAL_CLOSE'
 export const VIDEO_MODAL_OPEN = 'VIDEO_MODAL_OPEN'
 export const VIDEO_MODAL_CLOSE = 'VIDEO_MODAL_CLOSE'
 export const USER_SUG_LIST = 'USER_SUG_LIST'
+export const TOAST_PANEL_VISIBLE = 'TOAST_PANEL_VISIBLE'
 
 export default handleActions<IAuthState>({
   [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
@@ -84,6 +89,16 @@ export default handleActions<IAuthState>({
     return {
       ...state,
       sugList: payload
+    }
+  },
+
+  [TOAST_PANEL_VISIBLE]: (state: IAuthState, { payload }: any) => {
+    return {
+      ...state,
+      toastPanel: {
+        message: payload.message,
+        visible: payload.visible
+      }
     }
   }
 }, initialState)

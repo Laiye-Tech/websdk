@@ -36,12 +36,18 @@ export type ModalInfo = {
   src: string
 }
 
+export interface IToastPanel {
+  visible: boolean
+  message: string
+}
+
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
   sugList: ISugList[]
   imageModal: ModalInfo
   videoModal: ModalInfo
   quickReplys: string[]
+  toastPanel: IToastPanel
 }
 
 // -----------------------------------------------------------------------------

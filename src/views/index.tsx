@@ -24,13 +24,15 @@ import VideoModal from '../components/Common/VideoModal'
 import QuickReply from '../components/ChatInput/QuickReply'
 import ErrorHeader from '../components/Common/ErrorHeader'
 import TipsModal from '../components/Common/TipsModal'
+import Toast from '../components/Common/Toast'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IError } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IAuthState, IToastPanel } from '../../interfaces'
 
 interface IProps extends AppInfo {
   imageModal: ModalInfo
   videoModal: ModalInfo
+  toastPanel: IToastPanel
   rtMsgList: IMsgBodyInfo[]
   closeImageModal: () => void
   closeVideoModal: () => void
@@ -299,7 +301,7 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
-    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos } = this.props
+    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos, toastPanel } = this.props
     const { pageConfig, startTs, visibile, isPhone, errHeader, isError, errMsg } = this.state
 
     // 主题颜色
@@ -382,6 +384,7 @@ class App extends Nerv.Component<IProps, IState> {
           </div>
 
           {errHeader.visibile ? <ErrorHeader message={errHeader.message} isFull={isFull}/> : null}
+          {toastPanel.visible ? <Toast message={toastPanel.message}/> : null}
         </div>
 
         {imageModal.visible ? (
@@ -396,10 +399,11 @@ class App extends Nerv.Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = state => ({
-  rtMsgList: state.todos.rtMsgList,
-  imageModal: state.todos.imageModal,
-  videoModal: state.todos.videoModal
+const mapStateToProps = ({ todos }: { todos: IAuthState }) => ({
+  rtMsgList: todos.rtMsgList,
+  imageModal: todos.imageModal,
+  videoModal: todos.videoModal,
+  toastPanel: todos.toastPanel
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
