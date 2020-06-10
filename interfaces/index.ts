@@ -41,6 +41,10 @@ export interface IToastPanel {
   message: string
 }
 
+export interface ITipsModal extends IToastPanel {
+  showBtn: boolean
+}
+
 export interface IAuthState {
   rtMsgList: IMsgBodyInfo[]
   sugList: ISugList[]
@@ -48,6 +52,7 @@ export interface IAuthState {
   videoModal: ModalInfo
   quickReplys: string[]
   toastPanel: IToastPanel
+  tipsModal: ITipsModal
 }
 
 // -----------------------------------------------------------------------------

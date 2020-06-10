@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions'
-import { IMsgBodyInfo, ISugList, IToastPanel } from '../interfaces'
+import { IMsgBodyInfo, ISugList, IToastPanel, ITipsModal } from '../interfaces'
 
 import {
   RT_MSG_LIST,
@@ -8,7 +8,8 @@ import {
   IMAGE_MODAL_CLOSE,
   VIDEO_MODAL_CLOSE,
   USER_SUG_LIST,
-  TOAST_PANEL_VISIBLE
+  TOAST_PANEL_VISIBLE,
+  TIPS_MODAL_VISIBLE
 } from './reducer'
 
 const setRtMsgs = createAction(RT_MSG_LIST, (msg: IMsgBodyInfo) => msg)
@@ -18,6 +19,7 @@ const closeImageModal = createAction(IMAGE_MODAL_CLOSE)
 const closeVideoModal = createAction(VIDEO_MODAL_CLOSE)
 const setUserSugList = createAction(USER_SUG_LIST, (sugList: ISugList[]) => sugList)
 const toggleToastPanel = createAction(TOAST_PANEL_VISIBLE, (payload: IToastPanel) => payload)
+const toggleTipsModal = createAction(TIPS_MODAL_VISIBLE, (payload: ITipsModal) => payload)
 
 export {
   setRtMsgs,
@@ -26,5 +28,6 @@ export {
   closeVideoModal,
   showVideoModal,
   setUserSugList,
-  toggleToastPanel
+  toggleToastPanel,
+  toggleTipsModal
 }

@@ -17,6 +17,11 @@ const initialState: IAuthState = {
   toastPanel: {
     visible: false,
     message: ''
+  },
+  tipsModal: {
+    visible: false,
+    message: '',
+    showBtn: false
   }
 }
 
@@ -27,6 +32,7 @@ export const VIDEO_MODAL_OPEN = 'VIDEO_MODAL_OPEN'
 export const VIDEO_MODAL_CLOSE = 'VIDEO_MODAL_CLOSE'
 export const USER_SUG_LIST = 'USER_SUG_LIST'
 export const TOAST_PANEL_VISIBLE = 'TOAST_PANEL_VISIBLE'
+export const TIPS_MODAL_VISIBLE = 'TIPS_MODAL_VISIBLE'
 
 export default handleActions<IAuthState>({
   [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
@@ -98,6 +104,17 @@ export default handleActions<IAuthState>({
       toastPanel: {
         message: payload.message,
         visible: payload.visible
+      }
+    }
+  },
+
+  [TIPS_MODAL_VISIBLE]: (state: IAuthState, { payload }: any) => {
+    return {
+      ...state,
+      tipsModal: {
+        message: payload.message,
+        visible: payload.visible,
+        showBtn: payload.showBtn
       }
     }
   }

@@ -3,7 +3,7 @@ import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { closeImageModal, closeVideoModal } from '../actions'
+import { closeImageModal, closeVideoModal, toggleTipsModal } from '../actions'
 
 // API
 import { login, log } from '../data/app.data'
@@ -27,15 +27,17 @@ import TipsModal from '../components/Common/TipsModal'
 import Toast from '../components/Common/Toast'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IAuthState, IToastPanel } from '../../interfaces'
+import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IAuthState, IToastPanel, ITipsModal } from '../../interfaces'
 
 interface IProps extends AppInfo {
   imageModal: ModalInfo
   videoModal: ModalInfo
   toastPanel: IToastPanel
+  tipsModal: ITipsModal
   rtMsgList: IMsgBodyInfo[]
   closeImageModal: () => void
   closeVideoModal: () => void
+  openTipsModal: (message: string) => void
 }
 interface IState {
   pageConfig: IPageConfig
@@ -47,7 +49,6 @@ interface IState {
     message: string
   }
   isError: boolean
-  errMsg: string
 }
 
 const initialPage = {
@@ -88,8 +89,7 @@ class App extends Nerv.Component<IProps, IState> {
       visibile: false,
       message: ''
     },
-    isError: false,
-    errMsg: ''
+    isError: false
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -135,7 +135,8 @@ class App extends Nerv.Component<IProps, IState> {
     // @ts-ignore
     if (res.code) {
       // @ts-ignore
-      this.setState({ isError: true, errMsg: res.message })
+      this.props.openTipsModal(res.message)
+      this.setState({ isError: true })
       return
     }
     // 功能设置
@@ -301,8 +302,8 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   render () {
-    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos, toastPanel } = this.props
-    const { pageConfig, startTs, visibile, isPhone, errHeader, isError, errMsg } = this.state
+    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos, toastPanel, tipsModal } = this.props
+    const { pageConfig, startTs, visibile, isPhone, errHeader, isError } = this.state
 
     // 主题颜色
     const backgroundColor = pageConfig.theme_color
@@ -372,7 +373,7 @@ class App extends Nerv.Component<IProps, IState> {
               ) : null}
             </footer>
 
-            {isError ? <TipsModal message={errMsg} /> : null}
+            {tipsModal.visible ? <TipsModal message={tipsModal.message} /> : null}
           </div>
 
           <div
@@ -403,12 +404,14 @@ const mapStateToProps = ({ todos }: { todos: IAuthState }) => ({
   rtMsgList: todos.rtMsgList,
   imageModal: todos.imageModal,
   videoModal: todos.videoModal,
-  toastPanel: todos.toastPanel
+  toastPanel: todos.toastPanel,
+  tipsModal: todos.tipsModal
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   closeImageModal: () => dispatch(closeImageModal(null)),
-  closeVideoModal: () => dispatch(closeVideoModal(null))
+  closeVideoModal: () => dispatch(closeVideoModal(null)),
+  openTipsModal: (message: string) => dispatch(toggleTipsModal({ visible: true, showBtn: false, message}))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App) as any

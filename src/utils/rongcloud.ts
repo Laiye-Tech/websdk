@@ -1,7 +1,7 @@
 import { Store } from 'redux'
-import { setRtMsgs } from '../actions'
+import { setRtMsgs, toggleTipsModal } from '../actions'
 import { log } from '../data/app.data'
-import { MSG_DIRECTION, TRACK_DIRECTION } from '../utils/config'
+import { MSG_DIRECTION, TRACK_DIRECTION, language} from '../utils/config'
 
 // 融云是一个单例对象
 let _instance: null | RongIMLib.RongIMClient = null
@@ -112,7 +112,13 @@ export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMC
 
       switch (status) {
         case STATUS.KICKED_OFFLINE_BY_OTHER_CLIENT:
-          console.error('用户账户在其他设备登录，本机会被踢掉线。')
+          if (store) {
+            store.dispatch(toggleTipsModal({
+              visible: true,
+              message: language.get('NetWork').rongMsg,
+              showBtn: true
+            }))
+          }
           break
         case STATUS.DISCONNECTED:
         case STATUS.NETWORK_UNAVAILABLE:
@@ -122,9 +128,6 @@ export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMC
             if (typeof navigator !== 'undefined') {
               if (navigator.onLine) {
                 Monitor.reconnect()
-              } else {
-                // alert('请检查您的网络.')
-                // console.error('请检查您的网络.')
               }
             }
           }

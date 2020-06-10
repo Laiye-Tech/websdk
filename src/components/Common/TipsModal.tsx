@@ -1,18 +1,30 @@
 import * as Nerv from 'nervjs'
 import * as styles from './style.less'
+import { connect, Dispatch } from 'nerv-redux'
 
 import { language } from '../../utils/config'
 
+// actions
+import { toggleTipsModal } from '../../actions'
+
+import { ITipsModal } from '../../../interfaces'
+
 interface IProps {
   message: string
-  btnVisible?: boolean
+  tipsModal: ITipsModal
+  close: () => void
 }
 
 const TipsModal = (props: IProps) => {
-  const { message, btnVisible = true } = props
+  const { message, close, tipsModal } = props
 
   const title = language.get('Tips').alertTitle || '提示'
   const okText = language.get('Tips').reload
+
+  const closeModal = () => {
+    close()
+    location.reload()
+  }
 
   return(
     <div className={styles['tips-modal']}>
@@ -24,8 +36,8 @@ const TipsModal = (props: IProps) => {
           </div>
         </div>
 
-        {!btnVisible ? (
-          <div className={styles['msg-box-btns']}>
+        {tipsModal.showBtn ? (
+          <div className={styles['msg-box-btns']} onClick={closeModal}>
             {okText}
           </div>
         ) : null}
@@ -34,4 +46,12 @@ const TipsModal = (props: IProps) => {
   )
 }
 
-export default TipsModal
+const mapStateToProps = ({ todos }) => ({
+  tipsModal: todos.tipsModal
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  close: () => dispatch(toggleTipsModal({ message: '', visible: false, showBtn: false }))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TipsModal)

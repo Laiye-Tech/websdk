@@ -93,7 +93,6 @@ class QuickReplyMsg extends Nerv.Component {
 
     if (!quickReplys.length) return null
 
-    // const quickReplys = ['测试', '测试111', 'Cesskjdkls', '你好呀', '啊啊啊']
     const { leftArrowVisible, rightArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
