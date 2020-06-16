@@ -89,7 +89,7 @@ class RtMsgPanel extends Nerv.Component {
     return(
       <div>
         {!hasMore && <div className={styles.tips}>{noMoreText}</div>}
-        {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
+        {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id} isHistory/>)}
         {filterMsg.length ? <div className={styles.tips}>{text}</div> : null}
       </div>
     )

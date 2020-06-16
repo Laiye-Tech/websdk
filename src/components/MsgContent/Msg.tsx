@@ -7,15 +7,16 @@ import { IMsgBodyInfo } from '../../../interfaces'
 
 interface IProps {
   message: IMsgBodyInfo
+  isHistory?: boolean
 }
 
 function Msg(props: IProps) {
-  const { message } = props
+  const { message, isHistory = false } = props
 
   return(
     <Fragment>
       {message.direction === MSG_DIRECTION.genius ? (
-        <GeniusMsg message={message} />
+        <GeniusMsg message={message} isHistory={isHistory}/>
       ) : (
         <UserMsg message={message}/>
       )}

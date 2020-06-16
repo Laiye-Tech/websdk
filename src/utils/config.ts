@@ -7,8 +7,8 @@ let pageConfig: IPageConfig
 let envLanguage: any
 let interaction: IInteractionConfig
 const pkg = require('../../package.json')
-// const BASE_URL = 'https://newtestcb2.wul.ai'
-const BASE_URL = 'https://precb2.wul.ai'
+const BASE_URL = 'https://newtestcb2.wul.ai'
+// const BASE_URL = 'https://precb2.wul.ai'
 // const BASE_URL = 'https://cb2.wul.ai'
 
 const page = {

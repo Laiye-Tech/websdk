@@ -17,6 +17,8 @@ window.__APP_STORE__ = store
 
 logger.initConfig({
   reportUrl: 'https://newtesttracking.wul.ai/v1/log/track',
+  // reportUrl: 'https://pretracking.wul.ai/v1/log/track',
+  // reportUrl: 'https://tracking.wul.ai/v1/log/track',
   projectId: 'web-sdk',
   isLog: true
 })

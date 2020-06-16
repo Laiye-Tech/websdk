@@ -10,6 +10,7 @@ import { IMsgBodyInfo, SATISFACTION_ENUM, EvaluateInfo } from '../../../interfac
 
 interface IProps {
   message: IMsgBodyInfo
+  isHistory: boolean
 }
 
 interface IState {
@@ -62,8 +63,6 @@ class GeniusMsg extends Nerv.Component {
     if (enableEvaluate) {
       this.setState({ isShowReportBtn: this.props.message.enable_evaluate })
     }
-
-    // this.setState({ isShowReportBtn: enableEvaluate })
   }
 
   // 点赞点踩 & 举报
@@ -100,7 +99,7 @@ class GeniusMsg extends Nerv.Component {
   }
 
   render() {
-    const { message } = this.props
+    const { message, isHistory } = this.props
     const { selectIcon, isShowReportBtn, isShowAnswerCard, posRight, posTop } = this.state
 
     const bgColor = PageConfig.get('theme_color') as string
@@ -146,13 +145,13 @@ class GeniusMsg extends Nerv.Component {
             <div className={`${styles.contentBody} ${cls} ${chatBar}`}>
               <MsgContent message={message}/>
 
-              {isShowReportBtn || reportBtnVisible ? (
+              {!isHistory && (isShowReportBtn || reportBtnVisible) ? (
                 <div className={styles.answer}>
                   {selectIcon ? <img src={selectIcon}/> : <span onClick={this.showAnswerCard}/>}
 
                   {isShowAnswerCard ? (
                     <ul className={`${styles.answerList} ${alRight} ${alTop}`}>
-                      {answerList.map((answer, idx) => (
+                      {isShowReportBtn && answerList.map((answer, idx) => (
                         <li key={answer.type} onClick={this.changeAnswerStatus(idx)}>
                           <img src={answer.icon}/>
                           <p>{answer.title}</p>
