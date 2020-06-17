@@ -92,6 +92,7 @@ const clientConfig = {
 
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.MODE': JSON.stringify(process.env.MODE)
     })
   ],
 
@@ -135,6 +136,7 @@ const serverConfig = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.SDK_VERSION': JSON.stringify(version),
+      'process.env.MODE': JSON.stringify(process.env.MODE)
     })
   ]
 }

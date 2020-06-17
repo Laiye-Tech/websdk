@@ -10,22 +10,39 @@
     "node": ">=10"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js",
+    "dev": "better-npm-run dev",
     "node": "node ./dist/server.js",
     "build:qa": "better-npm-run build:qa",
+    "build:pre": "better-npm-run build:pre",
     "build": "better-npm-run build"
   },
   "betterScripts": {
+    "dev": {
+      "command": "webpack-dev-server --config webpack.config.js",
+      "env": {
+        "NODE_ENV": "development",
+        "MODE": "dev"
+      }
+    },
     "build:qa": {
       "command": "webpack --progress --colors",
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "MODE": "qa"
+      }
+    },
+    "build:pre": {
+      "command": "webpack --progress --colors",
+      "env": {
+        "NODE_ENV": "production",
+        "MODE": "pre"
       }
     },
     "build": {
       "command": "webpack --progress --colors",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "MODE": "prod"
       }
     }
   },

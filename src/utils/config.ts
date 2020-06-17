@@ -6,11 +6,25 @@ import { DIRECTION, IPageConfig, IInteractionConfig } from '../../interfaces'
 let pageConfig: IPageConfig
 let envLanguage: any
 let interaction: IInteractionConfig
+const MODE = process.env.MODE
 const pkg = require('../../package.json')
-const BASE_URL = 'https://newtestcb2.wul.ai'
-// const BASE_URL = 'https://precb2.wul.ai'
-// const BASE_URL = 'https://cb2.wul.ai'
 
+let BASE_URL = ''
+let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
+
+if (MODE === 'dev') {
+  BASE_URL = 'https://testcb2.wul.ai'
+} else if (MODE === 'qa') {
+  BASE_URL = 'https://newtestcb2.wul.ai'
+} else if (MODE === 'pre') {
+  BASE_URL = 'https://precb2.wul.ai'
+  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
+} else {
+  BASE_URL = 'https://cb2.wul.ai'
+  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
+}
+
+console.log(process.env.MODE)
 const page = {
   set: (configOb: IPageConfig): void => {
     pageConfig = {...configOb}
@@ -131,6 +145,7 @@ function getUserId() {
 }
 
 export {
+  REPORT_URL,
   BASE_URL,
   MSG_DIRECTION,
   getAppInfo,
