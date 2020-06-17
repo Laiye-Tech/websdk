@@ -374,6 +374,7 @@ class App extends Nerv.Component<IProps, IState> {
             </footer>
 
             {tipsModal.visible ? <TipsModal message={tipsModal.message} /> : null}
+            {toastPanel.visible ? <Toast message={toastPanel.message}/> : null}
           </div>
 
           <div
@@ -385,7 +386,6 @@ class App extends Nerv.Component<IProps, IState> {
           </div>
 
           {errHeader.visibile ? <ErrorHeader message={errHeader.message} isFull={isFull}/> : null}
-          {toastPanel.visible ? <Toast message={toastPanel.message}/> : null}
         </div>
 
         {imageModal.visible ? (
