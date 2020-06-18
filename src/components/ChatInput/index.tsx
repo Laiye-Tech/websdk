@@ -175,7 +175,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     const stsToken = await getStsToken()
-    return getOssUrl(stsToken, file)
+
+    try {
+      const res = await getOssUrl(stsToken, file)
+      return res
+    } catch (err) {
+      this.props.openToastPanel(err.message)
+    }
   }
 
   render() {
