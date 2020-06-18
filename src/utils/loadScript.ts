@@ -70,7 +70,7 @@ async function loadAliOSS() {
   if (typeof window.require !== 'undefined') {
     window.require.config({
       paths: {
-        oss: 'https://gosspublic.alicdn.com/aliyun-oss-sdk.min'
+        oss: 'https://gosspublic.alicdn.com/aliyun-oss-sdk-6.9.0.min'
       }
     })
 
@@ -86,7 +86,7 @@ async function loadAliOSS() {
       }
     })
   } else {
-     await loadScript('https://gosspublic.alicdn.com/aliyun-oss-sdk.min.js')
+     await loadScript('https://gosspublic.alicdn.com/aliyun-oss-sdk-6.9.0.min.js')
      return window.OSS
   }
 }

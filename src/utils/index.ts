@@ -56,7 +56,7 @@ export function getOssUrl(stsToken: IOSSAuth, file: any) {
     return console.error('Can not get STS.')
   }
 
-  const client = new window.OSS.Wrapper({
+  const client = new window.OSS({
     accessKeyId: stsToken.access_key_id,
     accessKeySecret: stsToken.access_key_secret,
     stsToken: stsToken.security_token,
