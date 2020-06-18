@@ -158,7 +158,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     const file: any = evt.target.files[0] // 获取当前选中的文件
-    const imgMasSize = 1024 * 1024 * 1 // 10MB
+    const imgMasSize = 1024 * 1024 * 10 // 10MB
 
     const uploader = language.get('Uploader')
 
