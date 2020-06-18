@@ -30,6 +30,7 @@ interface IState {
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
+  $input: HTMLInputElement | null = null
   props: IProps
 
   state: IState = {
@@ -144,6 +145,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     if (urls) {
       this.sendMsg('IMAGE', urls[0])
     }
+
+    if (this.$input) {
+      this.$input.value = ''
+    }
   }
 
   // 上传
@@ -153,7 +158,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     const file: any = evt.target.files[0] // 获取当前选中的文件
-    const imgMasSize = 1024 * 1024 * 10 // 10MB
+    const imgMasSize = 1024 * 1024 * 1 // 10MB
 
     const uploader = language.get('Uploader')
 
@@ -201,7 +206,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         <div className={styles.toolbar}>
           <div className={styles.pullLeft}>
             <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
-              <input type="file" accept="image/*" className={styles.uploader} onChange={this.onInputChange}/>
+              <input
+                type="file"
+                accept="image/*"
+                className={styles.uploader}
+                onChange={this.onInputChange}
+                ref={input => this.$input = input}
+              />
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                 <g fill="none" fill-rule="evenodd">
                   <path id="instagram" fill="#b3bdc5" d="M17.429 9.714a.857.857 0 1 1 0-1.715.857.857 0 0 1 0 1.715M12 15.428A3.432 3.432 0 0 1 8.571 12 3.432 3.432 0 0 1 12 8.571 3.432 3.432 0 0 1 15.429 12 3.432 3.432 0 0 1 12 15.428m6.286-9.714H12A1.716 1.716 0 0 0 10.286 4H9.142a1.717 1.717 0 0 0-1.714 1.714H5.714A1.717 1.717 0 0 0 4 7.43v9.142a1.717 1.717 0 0 0 1.714 1.715h12.572A1.717 1.717 0 0 0 20 16.57V7.43a1.716 1.716 0 0 0-1.714-1.715"/>

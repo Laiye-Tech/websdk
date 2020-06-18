@@ -24,7 +24,6 @@ if (MODE === 'dev') {
   REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
 }
 
-console.log(process.env.MODE)
 const page = {
   set: (configOb: IPageConfig): void => {
     pageConfig = {...configOb}
