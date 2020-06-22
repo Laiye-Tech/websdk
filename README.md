@@ -35,8 +35,7 @@
     new websdk({
         data: {
             pubkey: 'xxxxxxxxxxxxxxxxxxxx'
-        },
-        el: 'body'
+        }
     })
 </script>
 ```
@@ -97,8 +96,7 @@
                     user_attribute_value: { name: '女' }
                 }
             ]
-        },
-        el: 'body'
+        }
     })
 </script>
 ```
