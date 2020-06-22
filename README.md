@@ -4,6 +4,7 @@
 - yarn dev
 - http://localhost:8082
 
+## 打包命令
 * 测试环境执行：`npm run build:qa`
 * 灰度环境执行：`npm run build:pre`
 * 线上环境执行：`npm run build`
