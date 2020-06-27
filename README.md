@@ -24,46 +24,46 @@
 ```
 ├── actions.ts
 ├── components
-│   ├── ChatInput 输入框相关
+│   ├── ChatInput // 输入框相关
 │   │   ├── ChatInput.less
-│   │   ├── QuickReply.tsx 预置回复组件
-│   │   ├── SugList.tsx 用户输入联想组件
-│   │   └── index.tsx 输入框
+│   │   ├── QuickReply.tsx // 预置回复组件
+│   │   ├── SugList.tsx // 用户输入联想组件
+│   │   └── index.tsx // 输入框
 │   ├── Common
-│   │   ├── ErrorHeader.tsx 断网提示
-│   │   ├── ImageModal.tsx 图片放大弹层
-│   │   ├── TipsModal.tsx 融云多端登录提示 & 接口错误提示
-│   │   ├── Toast.tsx 上传文件失败后提示 3s之后消失
-│   │   ├── VideoModal.tsx 视频弹层
+│   │   ├── ErrorHeader.tsx // 断网提示
+│   │   ├── ImageModal.tsx // 图片放大弹层
+│   │   ├── TipsModal.tsx // 融云多端登录提示 & 接口错误提示
+│   │   ├── Toast.tsx // 上传文件失败后提示 3s之后消失
+│   │   ├── VideoModal.tsx // 视频弹层
 │   │   └── style.less
 │   ├── MsgContent 消息相关
-│   │   ├── FileContent.tsx 文件消息
-│   │   ├── GeniusMsg.tsx 机器人发送的消息
-│   │   ├── ImgContent.tsx 图片消息
-│   │   ├── Msg.tsx 消息方向，用来判断加载用户/机器人消息
+│   │   ├── FileContent.tsx // 文件消息
+│   │   ├── GeniusMsg.tsx // 机器人发送的消息
+│   │   ├── ImgContent.tsx // 图片消息
+│   │   ├── Msg.tsx // 消息方向，用来判断加载用户/机器人消息
 │   │   ├── MsgContent.less
-│   │   ├── MsgContent.tsx 用来区分消息类型，加载对应组件
-│   │   ├── RichTextContent.tsx 图文消息
-│   │   ├── ShareLinkContent.tsx 卡片消息
-│   │   ├── TextContent.tsx 文本消息
-│   │   ├── UserMsg.tsx 用户消息
-│   │   ├── VideoContent.tsx 视频消息
-│   │   └── VoiceContent.tsx 语音消息
+│   │   ├── MsgContent.tsx // 用来区分消息类型，加载对应组件
+│   │   ├── RichTextContent.tsx // 图文消息
+│   │   ├── ShareLinkContent.tsx // 卡片消息
+│   │   ├── TextContent.tsx // 文本消息
+│   │   ├── UserMsg.tsx // 用户消息
+│   │   ├── VideoContent.tsx // 视频消息
+│   │   └── VoiceContent.tsx // 语音消息
 │   └── MsgPanel
-│       ├── HistoryMsgPanel.tsx 历史消息组件
-│       └── RtMsgPanel.tsx 实时消息组件
+│       ├── HistoryMsgPanel.tsx // 历史消息组件
+│       └── RtMsgPanel.tsx // 实时消息组件
 ├── data
-│   ├── app.data.ts 其它接口
-│   ├── message.data.ts 消息相关接口
-│   └── user.data.ts 用户相关接口
+│   ├── app.data.ts // 其它接口
+│   ├── message.data.ts // 消息相关接口
+│   └── user.data.ts // 用户相关接口
 ├── reducer.ts
 ├── utils
-│   ├── config.ts 项目的一些基础配置（环境变量、头像形状、文件背景颜色、项目接触配置等）
-│   ├── index.ts 封装的一些公共方法
-│   ├── loadScript.ts 加载script标签的方法
-│   ├── message.ts 消息相关的方法，一般用来发送消息，如果要增加一种消息类型，这里也需要改动
+│   ├── config.ts // 项目的一些基础配置（环境变量、头像形状、文件背景颜色、项目接触配置等）
+│   ├── index.ts // 封装的一些公共方法
+│   ├── loadScript.ts // 加载script标签的方法
+│   ├── message.ts // 消息相关的方法，一般用来发送消息，如果要增加一种消息类型，这里也需要改动
 │   ├── request.ts
-│   ├── rongcloud.ts 融云相关
+│   ├── rongcloud.ts // 融云相关
 │   └── xss.ts
 └── views
     ├── index.less
