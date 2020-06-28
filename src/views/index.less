@@ -204,7 +204,9 @@
   }
 
   .entryImg {
-    display: none;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
   }
 
   .container {
@@ -230,6 +232,10 @@
 
   .full-container {
     & .header .closeBtn {
+      display: none;
+    }
+
+    & .entryImg {
       display: none;
     }
   }
