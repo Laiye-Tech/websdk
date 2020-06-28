@@ -11,6 +11,7 @@
 
 ## web sdk上线
 - 在dist目录下找到对应当前版本的IMLib-xxx.min.js，上传到阿里云cdn上
+- 如果是测试或者灰度，打包之后需要手动改一下文件名，分别对应`test-IMLib-xxx.min.js`，`Pre-IMLib-xxx.min.js`
 - [登录阿里云后台](https://signin.aliyun.com/laiye/login.htm) 账号: `monitor@laiye` 密码: `laiye@2018`
 - 访问[对象存储模块](https://oss.console.aliyun.com/bucket/oss-cn-beijing/saas-frontend/object?path=)，在根目录下上传js文件
 
