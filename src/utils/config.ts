@@ -13,7 +13,7 @@ let BASE_URL = ''
 let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
 
 if (MODE === 'dev') {
-  BASE_URL = 'https://testcb2.wul.ai'
+  BASE_URL = 'https://newtestcb2.wul.ai'
 } else if (MODE === 'qa') {
   BASE_URL = 'https://newtestcb2.wul.ai'
 } else if (MODE === 'pre') {

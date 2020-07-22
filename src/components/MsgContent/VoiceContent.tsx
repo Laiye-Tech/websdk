@@ -16,6 +16,7 @@ class VoiceContent extends Nerv.Component<IProps, IState> {
   props: IProps
   state: IState
 
+  // 当前播放的音频、需要唯一性
   $audio: HTMLAudioElement | null = null
 
   constructor(props) {
@@ -26,12 +27,43 @@ class VoiceContent extends Nerv.Component<IProps, IState> {
     }
   }
 
+  componentDidMount() {
+    // 监听用户是否离开此页面、如果离开、则暂停当前音频
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        visibilitychange()
+      },
+      false
+    )
+
+    const visibilitychange = () => {
+      if (!this.$audio) {
+        return
+      }
+
+      if (document.hidden) {
+        this.setState({ isPlaying: false })
+        this.$audio.pause()
+      }
+    }
+  }
+
   playAudio = async (evt: any) => {
     evt.stopPropagation()
 
     if (!this.$audio) {
       console.log('Audio elements does not exist.')
       return Promise.resolve(false)
+    }
+
+    // 判断页面中是否有其他audio、使得其他停止、只播放当前音频
+    const audios = document.getElementsByTagName('audio')
+
+    for (let i = 0; i < audios.length; i++) {
+      if (audios[i] !== this.$audio) {
+        audios[i].pause()
+      }
     }
 
     if (!this.state.isPlaying) {
@@ -68,17 +100,26 @@ class VoiceContent extends Nerv.Component<IProps, IState> {
     const bgColor = PageConfig.get('theme_color') as string
     const style = { backgroundColor: bgColor }
 
-    return(
+    return (
       <div className={styles.voiceWrapper}>
         <div className={styles.audioMask} onClick={this.playAudio}>
           <span style={isPlaying ? { color: bgColor } : {}}>{btnText}</span>
 
-          <ul className={`${styles.animation} ${isPlaying ? styles.actived : ''}`}>
-            {[1, 2, 3, 4].map(item => <li key={item} style={isPlaying ? style : {}}/>)}
+          <ul
+            className={`${styles.animation} ${isPlaying ? styles.actived : ''}`}
+          >
+            {[1, 2, 3, 4].map(item => (
+              <li key={item} style={isPlaying ? style : {}} />
+            ))}
           </ul>
         </div>
 
-        <audio className={styles.audio} preload="true" src={resource_url} ref={audio => (this.$audio = audio)}/>
+        <audio
+          className={styles.audio}
+          preload="true"
+          src={resource_url}
+          ref={audio => (this.$audio = audio)}
+        />
       </div>
     )
   }
