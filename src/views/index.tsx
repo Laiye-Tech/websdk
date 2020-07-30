@@ -10,7 +10,14 @@ import { login, log } from '../data/app.data'
 import { pushMsg } from '../data/message.data'
 import { createUserTag } from '../data/user.data'
 
-import { getUserInfo, HEADER_AVATAR_SHAPE, FRAME_SHAPE, page as PageConfig, language, interactionConfig } from '../utils/config'
+import {
+  getUserInfo,
+  HEADER_AVATAR_SHAPE,
+  FRAME_SHAPE,
+  page as PageConfig,
+  language,
+  interactionConfig
+} from '../utils/config'
 import { init as openSocket } from '../utils/rongcloud'
 import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
 import { createEventMsg } from '../utils/message'
@@ -27,7 +34,15 @@ import TipsModal from '../components/Common/TipsModal'
 import Toast from '../components/Common/Toast'
 
 // interfaces
-import { IPageConfig, AppInfo, IMsgBodyInfo, ModalInfo, IAuthState, IToastPanel, ITipsModal } from '../../interfaces'
+import {
+  IPageConfig,
+  AppInfo,
+  IMsgBodyInfo,
+  ModalInfo,
+  IAuthState,
+  IToastPanel,
+  ITipsModal
+} from '../../interfaces'
 
 interface IProps extends AppInfo {
   imageModal: ModalInfo
@@ -73,8 +88,10 @@ const initialPage = {
   language_code: ''
 }
 
-const initImg = 'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
-const closeImg = 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png'
+const initImg =
+  'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png'
+const closeImg =
+  'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/6c64b84b-c00f-4eb4-b358-6880766adaa7.png'
 class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   timer = null
@@ -148,7 +165,9 @@ class App extends Nerv.Component<IProps, IState> {
     // 设置语言
     language.set(res.page_config.language_code)
 
-    this.setState({ pageConfig: res.page_config, startTs: res.start_ts }, () => this.addStyleByJs())
+    this.setState({ pageConfig: res.page_config, startTs: res.start_ts }, () =>
+      this.addStyleByJs()
+    )
 
     const input = {
       pubkey,
@@ -203,7 +222,7 @@ class App extends Nerv.Component<IProps, IState> {
       this.stopSillyCheck()
     }, time * 1000)
 
-    type === 'popAfter' ? this.timer = id : this.autoTimer = id
+    type === 'popAfter' ? (this.timer = id) : (this.autoTimer = id)
   }
 
   // 清除定时器
@@ -301,9 +320,25 @@ class App extends Nerv.Component<IProps, IState> {
     })
   }
 
-  render () {
-    const { imageModal, videoModal, closeImageModal, closeVideoModal, fullScreen, pos, toastPanel, tipsModal } = this.props
-    const { pageConfig, startTs, visibile, isPhone, errHeader, isError } = this.state
+  render() {
+    const {
+      imageModal,
+      videoModal,
+      closeImageModal,
+      closeVideoModal,
+      fullScreen,
+      pos,
+      toastPanel,
+      tipsModal
+    } = this.props
+    const {
+      pageConfig,
+      startTs,
+      visibile,
+      isPhone,
+      errHeader,
+      isError
+    } = this.state
 
     // 主题颜色
     const backgroundColor = pageConfig.theme_color
@@ -314,7 +349,8 @@ class App extends Nerv.Component<IProps, IState> {
     // 是否展示历史消息
     const showHistory = !isError ? interactionConfig.get('show_history') : false
     // header_chose 2表示禁用
-    const isShowHeaderAvatar = pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
+    const isShowHeaderAvatar =
+      pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
     // 入口图标大小
     const enterImgSize = pageConfig.entry_image_size
 
@@ -335,6 +371,7 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     const isHiddenApp = visibile || fullScreen ? '' : styles.hidden
+    window.webSdkVisible = !isHiddenApp
     const isFullScreen = fullScreen ? styles['full-container'] : ''
     const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${isFullScreen}`
     const windowHeight = isPhone ? `${pageConfig.screen_ratio}%` : null
@@ -342,23 +379,31 @@ class App extends Nerv.Component<IProps, IState> {
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
-          <div className={containerStyle} style={{height: windowHeight}}>
+          <div className={containerStyle} style={{ height: windowHeight }}>
             <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
                   <dt>
-                    <img className={avatarShape} src={pageConfig.header_avatar} style={{ backgroundColor }}/>
+                    <img
+                      className={avatarShape}
+                      src={pageConfig.header_avatar}
+                      style={{ backgroundColor }}
+                    />
                   </dt>
                 ) : null}
                 <dd>{pageConfig.title}</dd>
               </dl>
 
               <i className={styles.closeBtn} onClick={this.togglePanel}>
-                <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"/>
+                <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png" />
               </i>
             </header>
 
-            <main className={styles.msgContainer} ref={this.setContentRef} id="msg-scroll-panel">
+            <main
+              className={styles.msgContainer}
+              ref={this.setContentRef}
+              id="msg-scroll-panel"
+            >
               <div className={styles.message}>
                 {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
                 <RtMsgPanel />
@@ -368,34 +413,43 @@ class App extends Nerv.Component<IProps, IState> {
             <footer className={styles.footer}>
               {isRenderChatInput ? (
                 <Nerv.Fragment>
-                   <ChatInput />
-                   <QuickReply />
+                  <ChatInput />
+                  <QuickReply />
                 </Nerv.Fragment>
               ) : null}
             </footer>
 
-            {tipsModal.visible ? <TipsModal message={tipsModal.message} /> : null}
-            {toastPanel.visible ? <Toast message={toastPanel.message}/> : null}
+            {tipsModal.visible ? (
+              <TipsModal message={tipsModal.message} />
+            ) : null}
+            {toastPanel.visible ? <Toast message={toastPanel.message} /> : null}
           </div>
 
           <div
-            className={`${styles.entryImg} ${styles[`enterImg-${enterImgSize}`]}`}
+            className={`${styles.entryImg} ${
+              styles[`enterImg-${enterImgSize}`]
+            }`}
             style={{ backgroundColor }}
             onClick={this.togglePanel}
           >
-            <img src={visibile ? closeImg : enterImg} className={enterImgStyle} />
+            <img
+              src={visibile ? closeImg : enterImg}
+              className={enterImgStyle}
+            />
           </div>
 
-          {errHeader.visibile ? <ErrorHeader message={errHeader.message} isFull={isFull}/> : null}
+          {errHeader.visibile ? (
+            <ErrorHeader message={errHeader.message} isFull={isFull} />
+          ) : null}
         </div>
 
         {imageModal.visible ? (
           <ImgModal url={imageModal.src} closeImageModal={closeImageModal} />
-        ) : null }
+        ) : null}
 
         {videoModal.visible ? (
           <VideoModal url={videoModal.src} closeVideoModal={closeVideoModal} />
-        ) : null }
+        ) : null}
       </Nerv.Fragment>
     )
   }
@@ -412,7 +466,11 @@ const mapStateToProps = ({ todos }: { todos: IAuthState }) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   closeImageModal: () => dispatch(closeImageModal(null)),
   closeVideoModal: () => dispatch(closeVideoModal(null)),
-  openTipsModal: (message: string) => dispatch(toggleTipsModal({ visible: true, showBtn: false, message}))
+  openTipsModal: (message: string) =>
+    dispatch(toggleTipsModal({ visible: true, showBtn: false, message }))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App) as any
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App) as any

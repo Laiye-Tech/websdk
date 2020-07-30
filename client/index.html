@@ -20,7 +20,7 @@
     <div id="wulai-websdk"></div>
     <script>
       window.onload = function() {
-        new websdk({
+        const sdk = new websdk({
           data: {
             pubkey: 'qi8opGXC4v6oWTKyI245UoKPicEFIy9K001c421433e2b02edc',
             autoOpen: true
@@ -31,6 +31,13 @@
             //     user_attribute_value: { name: '女' }
             //   }
             // ]
+          }
+        })
+
+        Object.defineProperty(sdk, 'getWebSdkVisible', {
+          writable: false,
+          value: function() {
+            return window.webSdkVisible
           }
         })
       }

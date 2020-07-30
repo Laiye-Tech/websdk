@@ -9,7 +9,9 @@ import { REPORT_URL } from '../src/utils/config'
 const logger = require('web-logger')
 
 const initialState = {}
-const enhancer = window['devToolsExtension'] ? window['devToolsExtension']()(createStore) : createStore
+const enhancer = window['devToolsExtension']
+  ? window['devToolsExtension']()(createStore)
+  : createStore
 const rootReducer = combineReducers({
   todos
 })
@@ -25,9 +27,8 @@ logger.initConfig({
 export default function MyApp(props) {
   Nerv.render(
     <Provider store={store}>
-      <Wulai {...props.data}/>
+      <Wulai {...props.data} />
     </Provider>,
     document.getElementById('wulai-websdk')
   )
 }
-
