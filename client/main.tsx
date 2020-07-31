@@ -33,7 +33,7 @@ export default function MyApp(props) {
   )
 
   return {
-    gwtWebSdkVisible: () => {
+    getWebSdkVisible: () => {
       return window.webSdkVisible
     }
   }
