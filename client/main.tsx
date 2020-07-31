@@ -31,4 +31,8 @@ export default function MyApp(props) {
     </Provider>,
     document.getElementById('wulai-websdk')
   )
+
+  return {
+    webSdkVisible: window.webSdkVisible
+  }
 }
