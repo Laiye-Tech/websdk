@@ -34,12 +34,11 @@
           }
         })
 
-        Object.defineProperty(sdk, 'getWebSdkVisible', {
-          writable: false,
-          value: function() {
+        sdk.__proto__ = {
+          getWebSdkVisible() {
             return window.webSdkVisible
           }
-        })
+        }
       }
     </script>
   </body>
