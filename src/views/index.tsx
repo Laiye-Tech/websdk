@@ -371,7 +371,8 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     const isHiddenApp = visibile || fullScreen ? '' : styles.hidden
-    window.webSdkVisible = !isHiddenApp
+    window.webSdkVisible = !!isHiddenApp
+
     const isFullScreen = fullScreen ? styles['full-container'] : ''
     const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${isFullScreen}`
     const windowHeight = isPhone ? `${pageConfig.screen_ratio}%` : null
