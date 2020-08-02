@@ -100,7 +100,8 @@ class App extends Nerv.Component<IProps, IState> {
   state: IState = {
     pageConfig: initialPage,
     startTs: '',
-    visibile: false,
+    // 默认false
+    visibile: Boolean(window.localStorage.getItem('webSdkVisible')),
     isPhone: false,
     errHeader: {
       visibile: false,
@@ -371,7 +372,7 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     const isHiddenApp = visibile || fullScreen ? '' : styles.hidden
-    window.webSdkVisible = !isHiddenApp
+    window.localStorage.setItem('webSdkVisibile', !isHiddenApp ? 'true' : '')
 
     const isFullScreen = fullScreen ? styles['full-container'] : ''
     const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${isFullScreen}`
