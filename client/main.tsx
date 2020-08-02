@@ -25,6 +25,11 @@ logger.initConfig({
 })
 
 export default function MyApp(props) {
+  window.localStorage.setItem(
+    'webSdkVisible',
+    props.data.autoOpen ? 'true' : ''
+  )
+
   Nerv.render(
     <Provider store={store}>
       <Wulai {...props.data} />

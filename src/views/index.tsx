@@ -119,10 +119,10 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    const { pubkey, userInfo, autoOpen } = this.props
+    const { pubkey, userInfo } = this.props
 
     const isPhone = document.body.clientWidth <= 414
-    this.setState({ isPhone, visibile: !!autoOpen })
+    this.setState({ isPhone })
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
