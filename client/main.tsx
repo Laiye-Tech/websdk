@@ -25,8 +25,14 @@ logger.initConfig({
 })
 
 export default function MyApp(props) {
-  if (props.data.autoOpen) {
-    window.localStorage.setItem('webSdkVisible', 'true')
+  if (
+    props.data.hasOwnProperty('autoOpen') &&
+    window.sessionStorage.getItem('webSdkVisible') === null
+  ) {
+    window.sessionStorage.setItem(
+      'webSdkVisible',
+      props.data.autoOpen ? 'true' : ''
+    )
   }
 
   Nerv.render(
