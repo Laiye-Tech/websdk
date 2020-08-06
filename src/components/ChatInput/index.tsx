@@ -10,8 +10,18 @@ import { getUserInputSugList } from '../../data/user.data'
 import SugList from './SugList'
 
 import { debounce, getOssUrl } from '../../utils'
-import { TEXTAREA_SHAPE, page as PageConfig, language, interactionConfig, TRACK_DIRECTION } from '../../utils/config'
-import { createTextMsg, pushRtMessage, createImageMsg } from '../../utils/message'
+import {
+  TEXTAREA_SHAPE,
+  page as PageConfig,
+  language,
+  interactionConfig,
+  TRACK_DIRECTION
+} from '../../utils/config'
+import {
+  createTextMsg,
+  pushRtMessage,
+  createImageMsg
+} from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
 interface IProps {
@@ -86,7 +96,9 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   onPressEnter = (evt: any) => {
     const event = evt.nativeEvent as KeyboardEvent
-    const textContent = this.$textarea ? this.$textarea.value : this.state.textContent
+    const textContent = this.$textarea
+      ? this.$textarea.value
+      : this.state.textContent
     const text = textContent.replace(/(^\s*)|(\s*$)/g, '')
     if (!text) {
       event.preventDefault()
@@ -198,45 +210,72 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const wulaiLogo = language.get('Logo').waterMark
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
 
-    return(
-      <div className={`${styles.chatInput} ${chatShape}`}>
-        <textarea
-          placeholder={`${placeholder}`}
-          maxLength={2000}
-          ref={input => this.$textarea = input}
-          value={textContent}
-          onChange={this.inputAnswer}
-          onKeyDown={this.handleKeyDown}
-        />
-
-        <div className={styles.toolbar}>
-          <div className={styles.pullLeft}>
-            <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
-              <input
-                type="file"
-                accept="image/*"
-                className={styles.uploader}
-                onChange={this.onInputChange}
-                ref={input => this.$input = input}
+    const renderLeft = (
+      <div className={`${styles.pullLeft} ${!isPhone ? styles.pcLeft : null}`}>
+        <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
+          <input
+            type="file"
+            accept="image/*"
+            className={styles.uploader}
+            onChange={this.onInputChange}
+            ref={input => (this.$input = input)}
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g fill="none" fill-rule="evenodd">
+              <path
+                id="instagram"
+                fill="#b3bdc5"
+                d="M17.429 9.714a.857.857 0 1 1 0-1.715.857.857 0 0 1 0 1.715M12 15.428A3.432 3.432 0 0 1 8.571 12 3.432 3.432 0 0 1 12 8.571 3.432 3.432 0 0 1 15.429 12 3.432 3.432 0 0 1 12 15.428m6.286-9.714H12A1.716 1.716 0 0 0 10.286 4H9.142a1.717 1.717 0 0 0-1.714 1.714H5.714A1.717 1.717 0 0 0 4 7.43v9.142a1.717 1.717 0 0 0 1.714 1.715h12.572A1.717 1.717 0 0 0 20 16.57V7.43a1.716 1.716 0 0 0-1.714-1.715"
               />
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g fill="none" fill-rule="evenodd">
-                  <path id="instagram" fill="#b3bdc5" d="M17.429 9.714a.857.857 0 1 1 0-1.715.857.857 0 0 1 0 1.715M12 15.428A3.432 3.432 0 0 1 8.571 12 3.432 3.432 0 0 1 12 8.571 3.432 3.432 0 0 1 15.429 12 3.432 3.432 0 0 1 12 15.428m6.286-9.714H12A1.716 1.716 0 0 0 10.286 4H9.142a1.717 1.717 0 0 0-1.714 1.714H5.714A1.717 1.717 0 0 0 4 7.43v9.142a1.717 1.717 0 0 0 1.714 1.715h12.572A1.717 1.717 0 0 0 20 16.57V7.43a1.716 1.716 0 0 0-1.714-1.715"/>
-                </g>
-              </svg>
-            </div>
-          </div>
+            </g>
+          </svg>
+        </div>
+      </div>
+    )
 
-          <div className={styles.pullRight} style={{ backgroundColor: bgColor }} onClick={this.onPressEnter}>
-            <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png"/>
+    return (
+      <div className={`${styles.footerInput}`}>
+        {isPhone ? renderLeft : null}
+        <div className={`${styles.chatInput} ${chatShape}`}>
+          {!isPhone ? renderLeft : null}
+          <textarea
+            placeholder={`${placeholder}`}
+            maxLength={2000}
+            ref={input => (this.$textarea = input)}
+            value={textContent}
+            onChange={this.inputAnswer}
+            onKeyDown={this.handleKeyDown}
+          />
+
+          <div className={styles.toolbar}>
+            <div
+              className={styles.pullRight}
+              style={{ backgroundColor: bgColor }}
+              onClick={this.onPressEnter}
+            >
+              <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png" />
+            </div>
           </div>
         </div>
 
-        {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
+        {userSugList.length ? <SugList sendMsg={this.sendMsg} /> : null}
 
         {/* 免费版展示水印 */}
-        {showLogo ? <img src={wulaiLogo} className={styles.logo}/> : null}
+        {showLogo ? <img src={wulaiLogo} className={styles.logo} /> : null}
       </div>
+
+      // <div className={`${styles.chatInput} ${chatShape}`}>
+
+      //   {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
+
+      //   {/* 免费版展示水印 */}
+      //   {showLogo ? <img src={wulaiLogo} className={styles.logo}/> : null}
+      // </div>
     )
   }
 }
@@ -248,7 +287,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setRtMsgs: message => dispatch(setRtMsgs(message)),
   setUserSugList: (sug: ISugList[]) => dispatch(setUserSugList(sug)),
-  openToastPanel: (message: string) => dispatch(toggleToastPanel({message, visible: true}))
+  openToastPanel: (message: string) =>
+    dispatch(toggleToastPanel({ message, visible: true }))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatInput) as any
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatInput) as any

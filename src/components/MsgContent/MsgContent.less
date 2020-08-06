@@ -7,7 +7,8 @@
 .clearfix {
   overflow: hidden;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     display: table;
     content: '';
   }
@@ -117,6 +118,7 @@
   position: relative;
   margin: 0;
   display: flex;
+  width: 100%;
 
   & .userInfo {
     width: 36px;
@@ -197,6 +199,7 @@
 
   & .msgBody {
     margin-right: 8px;
+    width: 100%;
 
     & .bubbleDrip {
       border-radius: 24px 0 24px 24px;
@@ -444,7 +447,8 @@
       border-radius: 1px;
       background: #b3bdc5;
 
-      &:nth-of-type(2),&:nth-of-type(4) {
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
         margin-top: 2px;
       }
     }
@@ -458,7 +462,8 @@
     & li {
       animation: playing 1s ease-in-out infinite;
 
-      &:nth-of-type(2),&:nth-of-type(4) {
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
         margin-top: 2px;
         animation-delay: .5s;
       }
@@ -468,6 +473,7 @@
       0% {
         margin-top: 0;
       }
+
       50% {
         margin-top: 2px;
       }
