@@ -3,7 +3,11 @@ import { connect, Dispatch } from 'nerv-redux'
 
 import * as styles from './ChatInput.less'
 
-import { page as PageConfig, TRACK_DIRECTION, interactionConfig } from '../../utils/config'
+import {
+  page as PageConfig,
+  TRACK_DIRECTION,
+  interactionConfig
+} from '../../utils/config'
 import { createTextMsg, pushRtMessage } from '../../utils/message'
 
 import { setRtMsgs } from '../../actions'
@@ -37,11 +41,17 @@ class QuickReplyMsg extends Nerv.Component {
     this.moveQuickReplyList()()
   }
 
+  componentDidUpdate = prevProps => {
+    if (prevProps.quickReplys !== this.props.quickReplys) {
+      this.moveQuickReplyList()()
+    }
+  }
+
   moveQuickReplyList = (direction?: 'left' | 'right') => () => {
-    if (!this.props.quickReplys.length) return
+    if (!this.props.quickReplys.length || !this.$ul) return
 
     if (typeof direction !== 'undefined') {
-      direction === 'right' ? this.index += 1 : this.index -= 1
+      direction === 'right' ? (this.index += 1) : (this.index -= 1)
     }
 
     const ulWith = this.$ul.clientWidth
@@ -51,7 +61,7 @@ class QuickReplyMsg extends Nerv.Component {
     // 获取翻页页数
     const pageSize = Math.ceil(ulScrollWith / ulWith)
 
-    if (pageSize >= 2) {
+    if (pageSize > 1) {
       this.setState({ rightArrowVisible: true })
     }
 
@@ -72,7 +82,7 @@ class QuickReplyMsg extends Nerv.Component {
       this.setState({ leftArrowVisible: false })
     }
 
-    if (this.index === children.length - 1 || (this.index === pageSize)) {
+    if (this.index === children.length - 1 || this.index === pageSize) {
       this.setState({ rightArrowVisible: false })
     }
   }
@@ -96,18 +106,21 @@ class QuickReplyMsg extends Nerv.Component {
     const { leftArrowVisible, rightArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
-    return(
-      <div className={styles['quick-reply']} style={showLogo ? {top: '-68px'} : null}>
+    return (
+      <div
+        className={styles['quick-reply']}
+        style={showLogo ? { top: '-68px' } : null}
+      >
         <div
           className={styles.arrow}
           onClick={this.moveQuickReplyList('left')}
-          style={{ display: leftArrowVisible ? 'block' : 'none'}}
+          style={{ display: leftArrowVisible ? 'block' : 'none' }}
         >
-          <span/>
+          <span />
         </div>
 
         <div className={styles.replyList}>
-          <ul ref={el => this.$ul = el}>
+          <ul ref={el => (this.$ul = el)}>
             {quickReplys.map((item, index) => (
               <li
                 key={`${index}-${item}`}
@@ -123,9 +136,9 @@ class QuickReplyMsg extends Nerv.Component {
         <div
           className={`${styles.arrow} ${styles.rightArrow}`}
           onClick={this.moveQuickReplyList('right')}
-          style={{ display: rightArrowVisible ? 'block' : 'none'}}
+          style={{ display: rightArrowVisible ? 'block' : 'none' }}
         >
-          <span/>
+          <span />
         </div>
       </div>
     )
@@ -140,4 +153,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setRtMsgs: message => dispatch(setRtMsgs(message))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuickReplyMsg)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuickReplyMsg)
