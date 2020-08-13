@@ -28,7 +28,9 @@ interface IState {
 
 class QuickReplyMsg extends Nerv.Component {
   props: IProps
+  // 标志目前滚动到第几个快捷回复了
   index: number = 0
+  offsetWidth: number = 0
 
   $ul: HTMLUListElement | null
 
@@ -38,53 +40,25 @@ class QuickReplyMsg extends Nerv.Component {
   }
 
   componentDidMount() {
-    this.moveQuickReplyList()()
+    this.moveQuickReplyList()
   }
 
   componentDidUpdate = prevProps => {
     if (prevProps.quickReplys !== this.props.quickReplys) {
-      this.moveQuickReplyList()()
+      this.moveQuickReplyList()
     }
   }
 
-  moveQuickReplyList = (direction?: 'left' | 'right') => () => {
+  moveQuickReplyList = () => {
     if (!this.props.quickReplys.length || !this.$ul) return
 
-    if (typeof direction !== 'undefined') {
-      direction === 'right' ? (this.index += 1) : (this.index -= 1)
-    }
-
     const ulWith = this.$ul.clientWidth
+    this.offsetWidth = ulWith / 2
     const ulScrollWith = this.$ul.scrollWidth
-    const children = Array.prototype.slice.call(this.$ul.children)
 
     // 获取翻页页数
     const pageSize = Math.ceil(ulScrollWith / ulWith)
-
-    if (pageSize > 1) {
-      this.setState({ rightArrowVisible: true })
-    }
-
-    // 计算滚动距离
-    let leftWidth = 0
-    for (let i = 0; i < this.index; i++) {
-      leftWidth += children[i].clientWidth + 8
-    }
-
-    this.$ul.style.transform = `translateX(-${leftWidth}px)`
-    this.$ul.style.transition = 'all .3s'
-
-    if (this.index <= children.length - 2 && this.index > 0) {
-      this.setState({ rightArrowVisible: true, leftArrowVisible: true })
-    }
-
-    if (this.index <= 0) {
-      this.setState({ leftArrowVisible: false })
-    }
-
-    if (this.index === children.length - 1 || this.index === pageSize) {
-      this.setState({ rightArrowVisible: false })
-    }
+    this.setState({ rightArrowVisible: pageSize > 1 ? true : false })
   }
 
   // 发送消息
@@ -98,6 +72,35 @@ class QuickReplyMsg extends Nerv.Component {
     this.props.setRtMsgs(message)
   }
 
+  handleMove = (type: 'right' | 'left') => {
+    // 每次移动最多半个ul宽度像素
+    const _scrollLeft = this.$ul.scrollLeft || 0
+
+    this.$ul.scrollLeft =
+      type === 'left'
+        ? _scrollLeft - this.offsetWidth
+        : this.offsetWidth + _scrollLeft
+    this.$ul.style.transition = 'all .3s'
+
+    this.handleUlScroll()
+  }
+
+  handleUlScroll = () => {
+    // 如果到最右边、显示左边箭头、隐藏右边、反之亦然
+    const ulScrollLeft = this.$ul.scrollLeft
+    const ulScrollWith = this.$ul.scrollWidth
+
+    // 到达最右边
+    this.setState({
+      rightArrowVisible:
+        ulScrollLeft + this.$ul.clientWidth < ulScrollWith ? true : false
+    })
+
+    this.setState({
+      leftArrowVisible: ulScrollLeft ? true : false
+    })
+  }
+
   render() {
     const { quickReplys } = this.props
 
@@ -109,18 +112,22 @@ class QuickReplyMsg extends Nerv.Component {
     return (
       <div
         className={styles['quick-reply']}
+        id="replay"
         style={showLogo ? { top: '-68px' } : null}
       >
         <div
           className={styles.arrow}
-          onClick={this.moveQuickReplyList('left')}
+          onClick={() => this.handleMove('left')}
           style={{ display: leftArrowVisible ? 'block' : 'none' }}
         >
           <span />
         </div>
 
         <div className={styles.replyList}>
-          <ul ref={el => (this.$ul = el)}>
+          <ul
+            ref={el => (this.$ul = el)}
+            onScroll={e => this.handleUlScroll(e.target)}
+          >
             {quickReplys.map((item, index) => (
               <li
                 key={`${index}-${item}`}
@@ -135,7 +142,7 @@ class QuickReplyMsg extends Nerv.Component {
 
         <div
           className={`${styles.arrow} ${styles.rightArrow}`}
-          onClick={this.moveQuickReplyList('right')}
+          onClick={() => this.handleMove('right')}
           style={{ display: rightArrowVisible ? 'block' : 'none' }}
         >
           <span />

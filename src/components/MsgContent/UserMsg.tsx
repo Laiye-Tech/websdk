@@ -3,7 +3,12 @@ import * as styles from './MsgContent.less'
 
 import MsgContent from './MsgContent'
 
-import { AVATAR_SHAPE, CHAT_BAR, page as PageConfig, BACKGROUND_COLOR } from '../../utils/config'
+import {
+  AVATAR_SHAPE,
+  CHAT_BAR,
+  page as PageConfig,
+  BACKGROUND_COLOR
+} from '../../utils/config'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
@@ -20,7 +25,8 @@ const UserMsg = (props: IProps) => {
   const avatar = PageConfig.get('user_avatar')
 
   // user_avatar_chose 2表示禁用
-  const isShowUserAvatar = PageConfig.get('user_avatar_chose') !== 2 && Boolean(avatar)
+  const isShowUserAvatar =
+    PageConfig.get('user_avatar_chose') !== 2 && Boolean(avatar)
 
   // theme_chose 1 表示自定义背景颜色
   const isCustomColor = (PageConfig.get('theme_chose') as number) === 1
@@ -41,31 +47,37 @@ const UserMsg = (props: IProps) => {
     message.msg_type === 'VIDEO'
 
   const cls = !hasOwnContent ? styles.content : ''
-  const style = !hasOwnContent ? {
-    backgroundColor: bgColor,
-    color: fontColor
-  } : {}
+  const style = !hasOwnContent
+    ? {
+        backgroundColor: bgColor,
+        color: fontColor
+      }
+    : {}
 
-  return(
-    <div className={`${styles.msgContent} ${styles.clearfix}`}>
+  return (
+    <div
+      className={`${styles.msgContent} ${styles.clearfix}  ${styles.userMsg}`}
+    >
       <dl className={`${styles.msgContainer} ${styles.userMsg}`}>
         <dd className={styles.msgBody}>
           <div className={`${cls} ${chatBar}`} style={style}>
             <MsgContent message={message} />
           </div>
-
-          <span className={styles.hiddenId}>#{message.msg_id}</span>
         </dd>
-
         {isShowUserAvatar ? (
           <dt className={styles.userInfo}>
-            <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
-              <img src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
+            <div
+              className={`${styles.avatar} ${avatarShape}`}
+              style={{ backgroundColor: bgColor }}
+            >
+              <img
+                src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}
+              />
             </div>
           </dt>
         ) : null}
-
       </dl>
+      <span className={styles.hiddenId}>#{message.msg_id}</span>
     </div>
   )
 }

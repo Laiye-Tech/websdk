@@ -4,9 +4,19 @@ import * as styles from './MsgContent.less'
 import MsgContent from './MsgContent'
 
 import { satisfactionEvaluate } from '../../data/message.data'
-import { AVATAR_SHAPE, CHAT_BAR, page as PageConfig, language, interactionConfig } from '../../utils/config'
+import {
+  AVATAR_SHAPE,
+  CHAT_BAR,
+  page as PageConfig,
+  language,
+  interactionConfig
+} from '../../utils/config'
 
-import { IMsgBodyInfo, SATISFACTION_ENUM, EvaluateInfo } from '../../../interfaces'
+import {
+  IMsgBodyInfo,
+  SATISFACTION_ENUM,
+  EvaluateInfo
+} from '../../../interfaces'
 
 interface IProps {
   message: IMsgBodyInfo
@@ -22,26 +32,29 @@ interface IState {
 }
 
 const ANSWER_LIST: {
-  title: string,
-  icon: string,
-  satisfaction: SATISFACTION_ENUM,
+  title: string
+  icon: string
+  satisfaction: SATISFACTION_ENUM
   type: string
 }[] = [
   {
     title: '满意',
-    icon: 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/68e7fdd9-1e93-4993-b668-6dd4554093e0.png',
+    icon:
+      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/68e7fdd9-1e93-4993-b668-6dd4554093e0.png',
     satisfaction: SATISFACTION_ENUM.THUMB_UP,
     type: 'thumbUp'
   },
   {
     title: '内容不满意',
-    icon: 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/14ab3428-57ec-460b-b33e-408d399a4e94.png',
+    icon:
+      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/14ab3428-57ec-460b-b33e-408d399a4e94.png',
     satisfaction: SATISFACTION_ENUM.BAD_ANSWER,
     type: 'badAnswer'
   },
   {
     title: '回答不匹配',
-    icon: 'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/aeeed67b-0e21-44f2-979e-787c7121705f.png',
+    icon:
+      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/aeeed67b-0e21-44f2-979e-787c7121705f.png',
     satisfaction: SATISFACTION_ENUM.WRONG_ANSWER,
     type: 'wrongAnswer'
   }
@@ -59,7 +72,8 @@ class GeniusMsg extends Nerv.Component {
   }
 
   componentDidMount() {
-    const enableEvaluate = typeof this.props.message.enable_evaluate !== 'undefined'
+    const enableEvaluate =
+      typeof this.props.message.enable_evaluate !== 'undefined'
     if (enableEvaluate) {
       this.setState({ isShowReportBtn: this.props.message.enable_evaluate })
     }
@@ -68,7 +82,9 @@ class GeniusMsg extends Nerv.Component {
   // 点赞点踩 & 举报
   changeAnswerStatus = (idx?: number) => () => {
     const isReport = typeof idx === 'undefined'
-    const icon = !isReport ? ANSWER_LIST[idx].icon : 'https://cdn.wul.ai/weapp/invalid-name%403x.png'
+    const icon = !isReport
+      ? ANSWER_LIST[idx].icon
+      : 'https://cdn.wul.ai/weapp/invalid-name%403x.png'
     this.setState({ selectIcon: icon, isShowAnswerCard: false })
 
     const msg = this.props.message
@@ -76,7 +92,9 @@ class GeniusMsg extends Nerv.Component {
       bot_id: {
         knowledge_id: `${msg.bot.qa.knowledge_id}`
       },
-      satisfaction: !isReport ? ANSWER_LIST[idx].satisfaction : SATISFACTION_ENUM.REPORT,
+      satisfaction: !isReport
+        ? ANSWER_LIST[idx].satisfaction
+        : SATISFACTION_ENUM.REPORT,
       msg_id: msg.msg_id,
       user_id: msg.user_id
     }
@@ -100,14 +118,21 @@ class GeniusMsg extends Nerv.Component {
 
   render() {
     const { message, isHistory } = this.props
-    const { selectIcon, isShowReportBtn, isShowAnswerCard, posRight, posTop } = this.state
+    const {
+      selectIcon,
+      isShowReportBtn,
+      isShowAnswerCard,
+      posRight,
+      posTop
+    } = this.state
 
     const bgColor = PageConfig.get('theme_color') as string
     const avatarShape = AVATAR_SHAPE[PageConfig.get('avatar_shape')]
     const chatBar = CHAT_BAR[PageConfig.get('chat_bar')]
     const avatar = PageConfig.get('bot_avatar')
     // bot_avatar_chose 2表示禁用
-    const isShowBotAvatat = PageConfig.get('bot_avatar_chose') !== 2 && Boolean(avatar)
+    const isShowBotAvatat =
+      PageConfig.get('bot_avatar_chose') !== 2 && Boolean(avatar)
     const Satisfaction = language.get('Satisfaction')
 
     // 举报
@@ -130,37 +155,50 @@ class GeniusMsg extends Nerv.Component {
       }
     })
 
-    return(
+    return (
       <div className={`${styles.msgContent}`}>
         <dl className={`${styles.msgContainer} ${styles.geniusMsg}`}>
           {isShowBotAvatat ? (
             <dt className={styles.userInfo}>
-              <div className={`${styles.avatar} ${avatarShape}`} style={{ backgroundColor: bgColor }}>
-                <img src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}/>
+              <div
+                className={`${styles.avatar} ${avatarShape}`}
+                style={{ backgroundColor: bgColor }}
+              >
+                <img
+                  src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}
+                />
               </div>
             </dt>
           ) : null}
 
           <dd className={styles.msgBody}>
             <div className={`${styles.contentBody} ${cls} ${chatBar}`}>
-              <MsgContent message={message}/>
+              <MsgContent message={message} />
 
               {!isHistory && (isShowReportBtn || reportBtnVisible) ? (
                 <div className={styles.answer}>
-                  {selectIcon ? <img src={selectIcon}/> : <span onClick={this.showAnswerCard}/>}
+                  {selectIcon ? (
+                    <img src={selectIcon} />
+                  ) : (
+                    <span onClick={this.showAnswerCard} />
+                  )}
 
                   {isShowAnswerCard ? (
                     <ul className={`${styles.answerList} ${alRight} ${alTop}`}>
-                      {isShowReportBtn && answerList.map((answer, idx) => (
-                        <li key={answer.type} onClick={this.changeAnswerStatus(idx)}>
-                          <img src={answer.icon}/>
-                          <p>{answer.title}</p>
-                        </li>
-                      ))}
+                      {isShowReportBtn &&
+                        answerList.map((answer, idx) => (
+                          <li
+                            key={answer.type}
+                            onClick={this.changeAnswerStatus(idx)}
+                          >
+                            <img src={answer.icon} />
+                            <p>{answer.title}</p>
+                          </li>
+                        ))}
 
                       {reportBtnVisible ? (
                         <li key="report" onClick={this.changeAnswerStatus()}>
-                          <img src="https://cdn.wul.ai/weapp/invalid-name%403x.png"/>
+                          <img src="https://cdn.wul.ai/weapp/invalid-name%403x.png" />
                           <p>{reportTxt}</p>
                         </li>
                       ) : null}
@@ -169,10 +207,10 @@ class GeniusMsg extends Nerv.Component {
                 </div>
               ) : null}
             </div>
-
-            <span className={styles.hiddenId}>#{message.msg_id}</span>
           </dd>
         </dl>
+
+        <span className={styles.hiddenId}>#{message.msg_id}</span>
       </div>
     )
   }
