@@ -20,7 +20,7 @@ const html = `
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
     <title>网页机器人</title>
   </head>
-  <body style="background: #eceef0">
+  <body style="background: #eceef0, margin: 0">
     <script type="text/javascript" src="./IMLib-${version}.min.js?_t=${Date.now()}"></script>
       <script>
         new websdk({

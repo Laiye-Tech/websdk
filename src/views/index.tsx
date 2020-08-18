@@ -138,6 +138,35 @@ class App extends Nerv.Component<IProps, IState> {
     setTimeout(() => {
       this.scrollToBottom()
     }, 1000)
+
+    // 手机端监听浮层的点击事件、使得websdk关闭
+    if (isPhone) {
+      document.addEventListener('click', e => {
+        this.togglePanel()
+      })
+
+      const ele = document.getElementById('sdk-container')
+      if (ele) {
+        ele.addEventListener('click', event => {
+          const _e = event || window.event // 浏览器兼容性
+
+          if (
+            _e.target.id === 'sdk-close-img' ||
+            _e.target.id === 'sdk-close-btn'
+          ) {
+            return
+          }
+
+          if (_e && _e.stopPropagation) {
+            // this code is for Mozilla and Opera
+            _e.stopPropagation()
+          } else if (_e) {
+            // this code is for IE
+            _e.cancelBubble = true
+          }
+        })
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -381,7 +410,11 @@ class App extends Nerv.Component<IProps, IState> {
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
-          <div className={containerStyle} style={{ height: windowHeight }}>
+          <div
+            className={containerStyle}
+            style={{ height: windowHeight }}
+            id="sdk-container"
+          >
             <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
@@ -396,8 +429,15 @@ class App extends Nerv.Component<IProps, IState> {
                 <dd>{pageConfig.title}</dd>
               </dl>
 
-              <i className={styles.closeBtn} onClick={this.togglePanel}>
-                <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png" />
+              <i
+                className={styles.closeBtn}
+                onClick={this.togglePanel}
+                id="sdk-close-btn"
+              >
+                <img
+                  src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"
+                  id="sdk-close-img"
+                />
               </i>
             </header>
 
