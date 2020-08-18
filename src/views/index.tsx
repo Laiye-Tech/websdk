@@ -122,7 +122,11 @@ class App extends Nerv.Component<IProps, IState> {
     const { pubkey, userInfo } = this.props
 
     const isPhone = document.body.clientWidth <= 414
-    this.setState({ isPhone })
+    this.setState({ isPhone }, () => {
+      if (this.state.visibile) {
+        this.showMask()
+      }
+    })
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
@@ -138,41 +142,34 @@ class App extends Nerv.Component<IProps, IState> {
     setTimeout(() => {
       this.scrollToBottom()
     }, 1000)
-
-    // 手机端监听浮层的点击事件、使得websdk关闭
-    if (isPhone) {
-      document.addEventListener('click', e => {
-        this.togglePanel()
-      })
-
-      const ele = document.getElementById('sdk-container')
-      if (ele) {
-        ele.addEventListener('click', event => {
-          const _e = event || window.event // 浏览器兼容性
-
-          if (
-            _e.target.id === 'sdk-close-img' ||
-            _e.target.id === 'sdk-close-btn'
-          ) {
-            return
-          }
-
-          if (_e && _e.stopPropagation) {
-            // this code is for Mozilla and Opera
-            _e.stopPropagation()
-          } else if (_e) {
-            // this code is for IE
-            _e.cancelBubble = true
-          }
-        })
-      }
-    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('offline', this.onOfflineChange)
     window.removeEventListener('online', this.onOnlineChange)
     this.stopSillyCheck()
+  }
+
+  showMask = () => {
+    const { isPhone } = this.state
+    if (!isPhone) {
+      return false
+    }
+
+    document.getElementById('mask').style.display = 'block'
+    this.setState({ visibile: true })
+    document.body.style.overflow = 'hidden'
+  }
+
+  hiddenMask = () => {
+    const { isPhone } = this.state
+    if (!isPhone) {
+      return false
+    }
+
+    document.getElementById('mask').style.display = 'none'
+    this.setState({ visibile: false })
+    document.body.style.overflow = 'visible'
   }
 
   startLogin = async (pubkey, user) => {
@@ -410,6 +407,7 @@ class App extends Nerv.Component<IProps, IState> {
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
+          <div className={styles.mask} onClick={this.hiddenMask} id="mask" />
           <div
             className={containerStyle}
             style={{ height: windowHeight }}
@@ -431,7 +429,7 @@ class App extends Nerv.Component<IProps, IState> {
 
               <i
                 className={styles.closeBtn}
-                onClick={this.togglePanel}
+                onClick={this.hiddenMask}
                 id="sdk-close-btn"
               >
                 <img
@@ -472,7 +470,7 @@ class App extends Nerv.Component<IProps, IState> {
               styles[`enterImg-${enterImgSize}`]
             }`}
             style={{ backgroundColor }}
-            onClick={this.togglePanel}
+            onClick={this.showMask}
           >
             <img
               src={visibile ? closeImg : enterImg}
