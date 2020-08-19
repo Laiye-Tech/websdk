@@ -123,7 +123,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone }, () => {
-      if (this.state.visibile) {
+      if (this.state.visibile && isPhone) {
         this.showMask()
       }
     })
@@ -152,24 +152,22 @@ class App extends Nerv.Component<IProps, IState> {
 
   showMask = () => {
     const { isPhone } = this.state
-    if (!isPhone) {
-      return false
-    }
+    this.setState({ visibile: true }, this.handleVisible())
 
-    document.getElementById('mask').style.display = 'block'
-    this.setState({ visibile: true })
-    document.body.style.overflow = 'hidden'
+    if (isPhone) {
+      document.getElementById('mask').style.display = 'block'
+      document.body.style.overflow = 'hidden'
+    }
   }
 
   hiddenMask = () => {
     const { isPhone } = this.state
-    if (!isPhone) {
-      return false
-    }
+    this.setState({ visibile: false }, this.handleVisible())
 
-    document.getElementById('mask').style.display = 'none'
-    this.setState({ visibile: false })
-    document.body.style.overflow = 'visible'
+    if (isPhone) {
+      document.getElementById('mask').style.display = 'none'
+      document.body.style.overflow = 'visible'
+    }
   }
 
   startLogin = async (pubkey, user) => {
@@ -333,18 +331,20 @@ class App extends Nerv.Component<IProps, IState> {
     }
   }
 
+  handleVisible = () => {
+    if (this.state.visibile) {
+      this.stopSillyCheck()
+    } else {
+      const popAfterClose = interactionConfig.get('pop_after_close') as number
+      if (popAfterClose > 0) {
+        this.applySillyCheck('popAfter', popAfterClose)
+      }
+    }
+  }
+
   // 控制会话框显示/隐藏
   togglePanel = () => {
-    this.setState({ visibile: !this.state.visibile }, () => {
-      if (this.state.visibile) {
-        this.stopSillyCheck()
-      } else {
-        const popAfterClose = interactionConfig.get('pop_after_close') as number
-        if (popAfterClose > 0) {
-          this.applySillyCheck('popAfter', popAfterClose)
-        }
-      }
-    })
+    this.setState({ visibile: !this.state.visibile }, this.handleVisible())
   }
 
   render() {
@@ -470,7 +470,7 @@ class App extends Nerv.Component<IProps, IState> {
               styles[`enterImg-${enterImgSize}`]
             }`}
             style={{ backgroundColor }}
-            onClick={this.showMask}
+            onClick={visibile ? this.hiddenMask : this.showMask}
           >
             <img
               src={visibile ? closeImg : enterImg}
