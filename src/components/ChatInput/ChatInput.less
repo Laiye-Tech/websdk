@@ -215,7 +215,7 @@
       position: static;
       width: 32px;
       height: 32px;
-      margin-left: 16px;
+      margin: 0 0 0 16px;
       background: #fff;
       border-radius: 50%;
       text-align: center;
@@ -223,7 +223,11 @@
       box-shadow: 0 2px 4px 0 rgba(66, 91, 109, 0.2);
 
       & .picture {
-        margin-top: 4px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 

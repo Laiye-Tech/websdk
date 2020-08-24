@@ -96,6 +96,9 @@ class App extends Nerv.Component<IProps, IState> {
   $content: HTMLDivElement | null = null
   timer = null
   autoTimer = null
+  bodyEl = document.body
+  top = 0
+
   props: IProps
   state: IState = {
     pageConfig: initialPage,
@@ -150,14 +153,30 @@ class App extends Nerv.Component<IProps, IState> {
     this.stopSillyCheck()
   }
 
+  /**
+   * @param isFixed 是否进行固定
+   */
+  stopBodyScroll = isFixed => {
+    if (isFixed) {
+      this.top = window.scrollY
+
+      this.bodyEl.style.position = 'fixed'
+      this.bodyEl.style.top = -top + 'px'
+    } else {
+      this.bodyEl.style.position = ''
+      this.bodyEl.style.top = ''
+
+      window.scrollTo(0, this.top) // 回到原先的top
+    }
+  }
+
   showMask = () => {
     const { isPhone } = this.state
     this.setState({ visibile: true }, this.handleVisible())
 
     if (isPhone) {
       document.getElementById('mask').style.display = 'block'
-      document.body.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
+      this.stopBodyScroll(true)
     }
   }
 
@@ -167,8 +186,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     if (isPhone) {
       document.getElementById('mask').style.display = 'none'
-      document.body.style.overflow = 'visible'
-      document.body.style.position = 'initial'
+      this.stopBodyScroll(false)
     }
   }
 
