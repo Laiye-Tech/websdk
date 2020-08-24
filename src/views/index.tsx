@@ -158,15 +158,17 @@ class App extends Nerv.Component<IProps, IState> {
    */
   stopBodyScroll = isFixed => {
     if (isFixed) {
-      this.top = window.scrollY
-
-      this.bodyEl.style.position = 'fixed'
-      this.bodyEl.style.top = -this.top + 'px'
+      this.top = this.bodyEl.scrollTop || document.documentElement.scrollTop
+      this.bodyEl.style.cssText +=
+        'position:fixed;width:100%;top:-' + this.top + 'px;'
     } else {
       this.bodyEl.style.position = ''
+      const top = this.bodyEl.style.top
+      this.bodyEl.scrollTop = document.documentElement.scrollTop = -parseInt(
+        top,
+        10
+      )
       this.bodyEl.style.top = ''
-
-      window.scrollTo(0, this.top) // 回到原先的top
     }
   }
 
@@ -175,7 +177,10 @@ class App extends Nerv.Component<IProps, IState> {
     this.setState({ visibile: true }, this.handleVisible())
 
     if (isPhone) {
-      document.getElementById('mask').style.display = 'block'
+      const ele = document.getElementById('mask')
+      if (ele) {
+        ele.style.display = 'block'
+      }
       this.stopBodyScroll(true)
     }
   }
@@ -185,7 +190,10 @@ class App extends Nerv.Component<IProps, IState> {
     this.setState({ visibile: false }, this.handleVisible())
 
     if (isPhone) {
-      document.getElementById('mask').style.display = 'none'
+      const ele = document.getElementById('mask')
+      if (ele) {
+        ele.style.display = 'none'
+      }
       this.stopBodyScroll(false)
     }
   }
