@@ -161,7 +161,7 @@ class App extends Nerv.Component<IProps, IState> {
       this.top = window.scrollY
 
       this.bodyEl.style.position = 'fixed'
-      this.bodyEl.style.top = -top + 'px'
+      this.bodyEl.style.top = -this.top + 'px'
     } else {
       this.bodyEl.style.position = ''
       this.bodyEl.style.top = ''
