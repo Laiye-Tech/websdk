@@ -156,6 +156,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     if (isPhone) {
       document.getElementById('mask').style.display = 'block'
+      document.body.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
     }
   }
@@ -166,6 +167,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     if (isPhone) {
       document.getElementById('mask').style.display = 'none'
+      document.body.style.overflow = 'visible'
       document.body.style.position = 'initial'
     }
   }
