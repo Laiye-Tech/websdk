@@ -1,7 +1,7 @@
 .app {
-  position: fixed;
-  z-index: 9999;
+  z-index: 10002;
   text-align: right;
+  position: fixed;
   right: 16px;
   bottom: 16px;
 
@@ -16,9 +16,9 @@
   text-align: left;
   background: #eceef0;
   overflow: hidden;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   box-shadow: 0 36px 120px 0 rgba(66, 91, 109, 0.3);
-  border: 1px solid #D9DEE2;
+  border: 1px solid #d9dee2;
   position: relative;
   visibility: visible;
   // display: block;
@@ -30,14 +30,12 @@
     justify-content: space-between;
 
     dl {
+      display: flex;
       margin: 0;
       flex: 1;
     }
 
     dt {
-      float: left;
-      height: 64px;
-
       img {
         width: 36px;
         height: 36px;
@@ -54,7 +52,6 @@
     }
 
     dd {
-      float: left;
       width: 245px;
       margin-left: 10px;
       font-size: 16px;
@@ -66,7 +63,6 @@
     }
 
     .closeBtn {
-      width: 50px;
       text-align: right;
       line-height: 60px;
       cursor: pointer;
@@ -81,13 +77,9 @@
 
   .msgContainer {
     padding: 0 16px;
-    bottom: 155px;
-    left: 0px;
+    height: calc(100% - 201px);
     overflow-x: hidden;
     overflow-y: auto;
-    position: absolute;
-    right: 0px;
-    top: 64px;
     -webkit-overflow-scrolling: touch;
 
     .message {
@@ -104,9 +96,7 @@
 
   .footer {
     width: 100%;
-    bottom: 16px;
     height: 121px;
-    position: absolute;
   }
 }
 
@@ -196,8 +186,16 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 414px) {
-  .app {
-    position: initial;
+  .mask {
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: none
   }
 
   .entryImg {
@@ -219,12 +217,11 @@
     z-index: 9999;
 
     & .msgContainer {
-      bottom: 110px;
+      height: calc(100% - 144px);
     }
 
     & .footer {
-      height: 100px;
-      bottom: 16px;
+      height: 80px;
     }
   }
 

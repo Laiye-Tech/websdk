@@ -407,7 +407,12 @@ class App extends Nerv.Component<IProps, IState> {
     return (
       <Nerv.Fragment>
         <div className={`${styles.app} ${largePanel}`} style={position}>
-          <div className={containerStyle} style={{ height: windowHeight }}>
+          <div className={styles.mask} onClick={this.hiddenMask} id="mask" />
+          <div
+            className={containerStyle}
+            style={{ height: windowHeight }}
+            id="sdk-container"
+          >
             <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
@@ -422,8 +427,15 @@ class App extends Nerv.Component<IProps, IState> {
                 <dd>{pageConfig.title}</dd>
               </dl>
 
-              <i className={styles.closeBtn} onClick={this.togglePanel}>
-                <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png" />
+              <i
+                className={styles.closeBtn}
+                onClick={this.hiddenMask}
+                id="sdk-close-btn"
+              >
+                <img
+                  src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/9c2ad2c1-1ffb-4f2c-8a2b-460109be9408.png"
+                  id="sdk-close-img"
+                />
               </i>
             </header>
 
