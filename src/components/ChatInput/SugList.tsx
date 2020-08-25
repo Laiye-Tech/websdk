@@ -10,6 +10,8 @@ interface IProps {
 }
 
 const SugList = (props: IProps) => {
+  const isPhone = document.body.clientWidth <= 414
+
   // 点击某一条sug 发送一条文本消息
   const onSugClick = (content: string) => () => {
     props.sendMsg('TEXT', content)
@@ -19,7 +21,7 @@ const SugList = (props: IProps) => {
     <div
       className={styles.sugContainer}
       id="sugContainer"
-      style={{ bottom: '56px' }}
+      style={{ bottom: `${isPhone ? '56px' : '145px'}` }}
     >
       <ul>
         {props.userSugList.map((sug, index) => (
