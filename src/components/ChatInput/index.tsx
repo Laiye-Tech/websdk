@@ -38,12 +38,13 @@ interface IState {
 }
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
+const defaultHeight = 24
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
   $input: HTMLInputElement | null = null
   props: IProps
   lastLength = 0
-  lastHeight = 24
+  lastHeight = defaultHeight
 
   state: IState = {
     textContent: '',
@@ -198,6 +199,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       // 清空输入框 & 清空用户输入联想sug
       this.setState({ textContent: '' })
       this.clearSugList()
+
+      // 如果输入框变高的话、将其重置
+      if (this.lastHeight !== defaultHeight) {
+        this.$textarea.style.height = defaultHeight + 'px'
+        this.lastLength = 0
+        this.lastHeight = defaultHeight
+      }
     } catch (err) {
       console.log('err --->', err)
     }
