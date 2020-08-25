@@ -16,10 +16,16 @@ const SugList = (props: IProps) => {
   }
 
   return (
-    <div className={styles.sugContainer}>
+    <div
+      className={styles.sugContainer}
+      id="sugContainer"
+      style={{ bottom: '72px' }}
+    >
       <ul>
         {props.userSugList.map((sug, index) => (
-          <li key={`${index}`} onClick={onSugClick(sug.suggestion)}>{sug.suggestion}</li>
+          <li key={`${index}`} onClick={onSugClick(sug.suggestion)}>
+            {sug.suggestion}
+          </li>
         ))}
       </ul>
     </div>
@@ -30,4 +36,7 @@ const mapStateToProps = state => ({
   userSugList: state.todos.sugList
 })
 
-export default connect(mapStateToProps, null)(SugList)
+export default connect(
+  mapStateToProps,
+  null
+)(SugList)

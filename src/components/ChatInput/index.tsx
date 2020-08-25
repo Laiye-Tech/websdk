@@ -42,6 +42,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
   $input: HTMLInputElement | null = null
   props: IProps
+  lastLength = 0
+  lastHeight = 24
 
   state: IState = {
     textContent: '',
@@ -50,9 +52,48 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   componentDidMount() {
+    const { userSugList } = this.props
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone })
+
+    this.$textarea.addEventListener('input', () => {
+      const currentLength = this.$textarea.value.length
+
+      // 判断字数如果比之前少了，说明内容正在减少，需要清除高度样式，重新获取
+      if (currentLength < this.lastLength) {
+        this.$textarea.style.height = ''
+      }
+
+      const currentHeight = this.$textarea.scrollHeight
+
+      // 如果内容高度发生了变化，再去设置高度值
+      if (this.lastHeight !== currentHeight || !this.$textarea.style.height) {
+        this.$textarea.style.height = currentHeight + 'px'
+      }
+
+      this.lastLength = currentLength
+      this.lastHeight = currentHeight
+    })
+
+    // // 如果有sug的话、定位高度随之变化
+    // if (userSugList.length) {
+    //   this.changeuserSugListBottom()
+    // }
   }
+
+  // componentDidUpdate = prevProps => {
+  //   if (prevProps.userSugList !== this.props.userSugList) {
+  //     this.changeuserSugListBottom()
+  //   }
+  // }
+
+  // changeuserSugListBottom = () => {
+  //   const sugContainer = document.getElementById('sugContainer')
+
+  //   if (sugContainer) {
+  //     sugContainer.style.bottom = `${this.lastHeight + 8}px`
+  //   }
+  // }
 
   // 清空用户输入联想
   clearSugList = () => {
@@ -81,7 +122,14 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
   }
 
+  // 只针对pc端
   handleKeyDown = (evt: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const { isPhone } = this.state
+
+    if (isPhone) {
+      return
+    }
+
     evt.stopPropagation()
 
     switch (evt.keyCode) {
@@ -244,6 +292,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         <div className={`${styles.chatInput} ${chatShape}`}>
           {!isPhone ? renderLeft : null}
           <textarea
+            style={{ height: '24px' }}
             placeholder={`${placeholder}`}
             maxLength={2000}
             ref={input => (this.$textarea = input)}

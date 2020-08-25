@@ -25,7 +25,9 @@
       height: 56px;
       font-size: 14px;
       line-height: 1.5;
-      margin-left: 16px;
+      margin: 0 0 16px 16px;
+      padding-right: 56px;
+      word-break: break-all;
 
       &::-webkit-input-placeholder {
         color: #B3BDC5;
@@ -232,31 +234,28 @@
     }
 
     .chatInput {
-      width: calc(100% - 83px);
-      height: 48px;
       display: -webkit-flex;
       display: -ms-flex;
       display: flex;
+      min-height: 28px;
+      max-height: 100px;
+      padding: 5px 0;
       border-radius: 32px;
       box-shadow: 0 2px 4px 0 rgba(66, 91, 109, 0.2);
 
       & textarea {
-        box-sizing: border-box;
-        height: 40px;
-        padding-top: 10px;
-        white-space: nowrap;
-        margin-right: 56px;
+        height: 24px;
+        min-height: 24px;
+        max-height: 100px;
+        line-height: 24px;
+        margin: 0 56px 0 24px;
         font-size: 16px;
-        min-height: 40px;
+        padding-right: 0;
       }
     }
   }
 
   .quick-reply {
     top: -34px;
-  }
-
-  .sugContainer {
-    bottom: 72px;
   }
 }
