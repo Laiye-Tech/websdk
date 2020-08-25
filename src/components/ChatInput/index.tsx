@@ -56,6 +56,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone })
 
+    if (!this.$textarea) {
+      return
+    }
+
     this.$textarea.addEventListener('input', () => {
       const currentLength = this.$textarea.value.length
 
