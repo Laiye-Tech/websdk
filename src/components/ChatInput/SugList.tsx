@@ -19,7 +19,7 @@ const SugList = (props: IProps) => {
     <div
       className={styles.sugContainer}
       id="sugContainer"
-      style={{ bottom: '72px' }}
+      style={{ bottom: '56px' }}
     >
       <ul>
         {props.userSugList.map((sug, index) => (

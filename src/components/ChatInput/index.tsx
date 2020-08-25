@@ -79,26 +79,16 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       this.lastLength = currentLength
       this.lastHeight = currentHeight
     })
-
-    // // 如果有sug的话、定位高度随之变化
-    // if (userSugList.length) {
-    //   this.changeuserSugListBottom()
-    // }
   }
 
-  // componentDidUpdate = prevProps => {
-  //   if (prevProps.userSugList !== this.props.userSugList) {
-  //     this.changeuserSugListBottom()
-  //   }
-  // }
+  changeuserSugListBottom = () => {
+    const chatInput = document.getElementById('chatInput')
+    const sugContainer = document.getElementById('sugContainer')
 
-  // changeuserSugListBottom = () => {
-  //   const sugContainer = document.getElementById('sugContainer')
-
-  //   if (sugContainer) {
-  //     sugContainer.style.bottom = `${this.lastHeight + 8}px`
-  //   }
-  // }
+    if (sugContainer && chatInput) {
+      sugContainer.style.bottom = `${chatInput.clientHeight + 8}px`
+    }
+  }
 
   // 清空用户输入联想
   clearSugList = () => {
@@ -107,6 +97,12 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 监听输入框变化 用函数防抖 减少接口请求次数
   inputAnswer = debounce((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { userSugList } = this.props
+    if (userSugList.length) {
+      // 如果有sug的话、定位高度随之变化
+      this.changeuserSugListBottom()
+    }
+
     // 使用$textarea是为了兼容RPA机器人
     const value = this.$textarea ? this.$textarea.value : event.target.value
     this.setState({ textContent: value })
@@ -301,7 +297,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     return (
       <div className={`${styles.footerInput}`}>
         {isPhone ? renderLeft : null}
-        <div className={`${styles.chatInput} ${chatShape}`}>
+        <div className={`${styles.chatInput} ${chatShape}`} id="chatInput">
           {!isPhone ? renderLeft : null}
           <textarea
             style={{ height: '24px' }}
