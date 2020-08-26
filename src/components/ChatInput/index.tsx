@@ -76,12 +76,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      const bodyScrolltop = document.body.scrollTop
+      const height = document.getElementById('sdk-container').style.height
 
       this.$textarea.addEventListener(
         'focus',
         () => {
-          document.body.scrollTop = document.body.scrollHeight
+          document.getElementById('sdk-container').style.height =
+            document.documentElement.clientHeight + 'px'
         },
         false
       )
@@ -89,7 +90,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       this.$textarea.addEventListener(
         'blur',
         () => {
-          document.body.scrollTop = bodyScrolltop
+          document.getElementById('sdk-container').style.height = height
         },
         false
       )
