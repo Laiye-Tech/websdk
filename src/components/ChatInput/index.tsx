@@ -56,6 +56,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone })
 
+    const ua = window.navigator.userAgent.toLocaleLowerCase()
+    const isIOS = /iphone|ipad|ipod/.test(ua)
+    const isAndroid = /android/.test(ua)
+
     if (isPhone && this.$textarea) {
       this.$textarea.addEventListener('input', () => {
         const currentLength = this.$textarea.value.length
@@ -76,11 +80,18 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      const footer = document.getElementById('footer')
+      const container = document.getElementById('sdk-container')
 
-      if (footer) {
+      // 换起的时候、将屏幕的高度适当减少、避免ios上将整个屏幕顶上去的效果
+      const clientTop =
+        document.documentElement.clientHeight || document.body.clientHeight
+      const keyboard = clientTop - window.innerHeight
+      const containerHeight = container.style.height
+
+      if (isIOS && container) {
         this.$textarea.addEventListener('focus', () => {
-          footer.scrollIntoView()
+          container.style.height =
+            parseInt(containerHeight, 10) - keyboard + 'px'
         })
       }
     }
