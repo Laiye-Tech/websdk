@@ -118,24 +118,27 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   // 监听输入框变化 用函数防抖 减少接口请求次数
-  inputAnswer = debounce((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  inputAnswer = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { userSugList } = this.props
     const { isPhone } = this.state
-
-    if (userSugList.length && isPhone) {
-      // 如果有sug的话、定位高度随之变化
-      this.changeuserSugListBottom()
-    }
-
     // 使用$textarea是为了兼容RPA机器人
     const value = this.$textarea ? this.$textarea.value : event.target.value
-    this.setState({ textContent: value })
 
-    if (this.state.showSug) {
-      // 如果value是空 不需要调接口
-      value ? this.getUserSugList(value) : this.clearSugList()
-    }
-  }, 500)
+    this.setState(
+      { textContent: value },
+      debounce(() => {
+        if (userSugList.length && isPhone) {
+          // 如果有sug的话、定位高度随之变化
+          this.changeuserSugListBottom()
+        }
+        if (this.state.showSug) {
+          // 如果value是空 不需要调接口
+          value ? this.getUserSugList(value) : this.clearSugList()
+        }
+      }),
+      500
+    )
+  }
 
   // 获取用户输入联想
   getUserSugList = async (value: string) => {
