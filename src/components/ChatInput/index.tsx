@@ -96,7 +96,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
             document.documentElement.clientHeight || document.body.clientHeight
           const keyboard = clientTop - window.innerHeight
 
-          container.style.height = clientTop - keyboard + 'px'
+          container.style.height = '50%'
         })
 
         this.$textarea.addEventListener('blur', () => {
