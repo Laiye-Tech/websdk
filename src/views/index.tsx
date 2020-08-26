@@ -478,7 +478,7 @@ class App extends Nerv.Component<IProps, IState> {
               </div>
             </main>
 
-            <footer className={styles.footer}>
+            <footer className={styles.footer} id="footer">
               {isRenderChatInput ? (
                 <Nerv.Fragment>
                   <ChatInput />
