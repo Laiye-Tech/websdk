@@ -95,14 +95,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         window.addEventListener('focusout', () => {
           container.style.height = this.containerHeight
         })
-
-        // this.$textarea.addEventListener('focus', () => {
-        //   container.style.height = '45%'
-        // })
-
-        // this.$textarea.addEventListener('blur', () => {
-        //   container.style.height = this.containerHeight
-        // })
       }
     }
   }
