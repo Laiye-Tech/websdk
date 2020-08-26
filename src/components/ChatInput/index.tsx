@@ -75,25 +75,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastLength = currentLength
         this.lastHeight = currentHeight
       })
-
-      const height = document.getElementById('sdk-container').style.height
-
-      this.$textarea.addEventListener(
-        'focus',
-        () => {
-          document.getElementById('sdk-container').style.height =
-            document.documentElement.clientHeight + 'px'
-        },
-        false
-      )
-
-      this.$textarea.addEventListener(
-        'blur',
-        () => {
-          document.getElementById('sdk-container').style.height = height
-        },
-        false
-      )
     }
   }
 
