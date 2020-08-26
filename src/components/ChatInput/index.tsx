@@ -81,27 +81,24 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       })
 
       const container = document.getElementById('sdk-container')
-      // const panel = document.getElementById('msg-scroll-panel')
-
-      // 换起的时候、将屏幕的高度适当减少、避免ios上将整个屏幕顶上去的效果
-      // 先将websdk变为 100%
-      // const clientTop =
-      //   document.documentElement.clientHeight || document.body.clientHeight
-      // const keyboard = clientTop - window.innerHeight
       const containerHeight = container.style.height
 
       if (isIOS && container) {
         this.$textarea.addEventListener('focus', () => {
-          const clientTop =
-            document.documentElement.clientHeight || document.body.clientHeight
-          const keyboard = clientTop - window.innerHeight
-
-          container.style.height = '50%'
+          container.style.height = '45%'
         })
 
         this.$textarea.addEventListener('blur', () => {
           container.style.height = containerHeight
         })
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.userSugList !== this.props.userSugList) {
+      if (this.$textarea) {
+        this.$textarea.focus()
       }
     }
   }
