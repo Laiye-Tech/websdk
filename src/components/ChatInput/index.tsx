@@ -45,6 +45,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   props: IProps
   lastLength = 0
   lastHeight = defaultHeight
+  containerHeight = ''
 
   state: IState = {
     textContent: '',
@@ -55,6 +56,12 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   componentDidMount() {
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone })
+
+    const container = document.getElementById('sdk-container')
+
+    if (container) {
+      this.containerHeight = container.style.height
+    }
 
     const ua = window.navigator.userAgent.toLocaleLowerCase()
     const isIOS = /iphone|ipad|ipod/.test(ua)
@@ -80,25 +87,22 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      const container = document.getElementById('sdk-container')
-      const containerHeight = container.style.height
-
       if (isIOS && container) {
-        this.$textarea.addEventListener('focus', () => {
+        window.addEventListener('focusin', () => {
           container.style.height = '45%'
         })
 
-        this.$textarea.addEventListener('blur', () => {
-          container.style.height = containerHeight
+        window.addEventListener('focusout', () => {
+          container.style.height = this.containerHeight
         })
-      }
-    }
-  }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.userSugList !== this.props.userSugList) {
-      if (this.$textarea) {
-        this.$textarea.focus()
+        // this.$textarea.addEventListener('focus', () => {
+        //   container.style.height = '45%'
+        // })
+
+        // this.$textarea.addEventListener('blur', () => {
+        //   container.style.height = this.containerHeight
+        // })
       }
     }
   }
