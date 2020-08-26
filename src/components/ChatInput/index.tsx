@@ -76,6 +76,14 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
     }
+
+    this.$textarea.addEventListener(
+      'blur',
+      () => {
+        window.scrollTo(0, 0)
+      },
+      false
+    )
   }
 
   changeuserSugListBottom = () => {
