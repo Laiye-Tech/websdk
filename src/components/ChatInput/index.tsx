@@ -75,6 +75,14 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastLength = currentLength
         this.lastHeight = currentHeight
       })
+
+      const container = document.getElementById('sdk-container')
+
+      if (container) {
+        this.$textarea.addEventListener('focus', () => {
+          container.scrollIntoView()
+        })
+      }
     }
   }
 
