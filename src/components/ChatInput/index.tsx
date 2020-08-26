@@ -85,13 +85,17 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
       // 换起的时候、将屏幕的高度适当减少、避免ios上将整个屏幕顶上去的效果
       // 先将websdk变为 100%
-      const clientTop =
-        document.documentElement.clientHeight || document.body.clientHeight
-      const keyboard = clientTop - window.innerHeight
+      // const clientTop =
+      //   document.documentElement.clientHeight || document.body.clientHeight
+      // const keyboard = clientTop - window.innerHeight
       const containerHeight = container.style.height
 
       if (isIOS && container) {
         this.$textarea.addEventListener('focus', () => {
+          const clientTop =
+            document.documentElement.clientHeight || document.body.clientHeight
+          const keyboard = clientTop - window.innerHeight
+
           container.style.height = clientTop - keyboard + 'px'
         })
 
