@@ -81,10 +81,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       })
 
       const container = document.getElementById('sdk-container')
+      const footer = document.getElementById('footer')
       const containerHeight = container.style.height
 
-      if (isIOS && container) {
+      if (isIOS && container && footer) {
         this.$textarea.addEventListener('focus', () => {
+          // 让输入框保持在视图内
+          footer.scrollIntoView()
           container.style.height = '45%'
         })
 
