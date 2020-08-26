@@ -80,7 +80,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
       if (container) {
         this.$textarea.addEventListener('focus', () => {
-          container.scrollIntoView()
+          this.$textarea.scrollIntoView()
         })
       }
     }
