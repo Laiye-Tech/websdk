@@ -441,11 +441,7 @@ class App extends Nerv.Component<IProps, IState> {
             style={{ height: windowHeight }}
             id="sdk-container"
           >
-            <header
-              className={styles.header}
-              id="header"
-              style={{ top: `${100 - parseInt(windowHeight, 10)}%` }}
-            >
+            <header className={styles.header}>
               <dl>
                 {isShowHeaderAvatar ? (
                   <dt>

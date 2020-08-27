@@ -46,7 +46,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   lastLength = 0
   lastHeight = defaultHeight
   containerHeight = ''
-  headerTop = ''
 
   state: IState = {
     textContent: '',
@@ -92,21 +91,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      const header = document.getElementById('header')
-      this.headerTop = header.style.top
-
-      if (isIOS && header && container) {
+      if (isIOS && container) {
         window.addEventListener('focusin', () => {
-          // 将头部绝对定位、top、为偏移量
           container.style.height = '45%'
-          header.style.position = 'absolute'
-          header.style.top = window.pageYOffset + 'px'
         })
 
         window.addEventListener('focusout', () => {
           container.style.height = this.containerHeight
-          header.style.position = 'fixed'
-          header.style.top = this.headerTop
         })
       }
 
