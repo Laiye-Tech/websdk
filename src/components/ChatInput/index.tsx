@@ -98,7 +98,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       if (isIOS && header && container) {
         window.addEventListener('focusin', () => {
           // 将头部绝对定位、top、为偏移量
-          container.style.height = '100%'
+          container.style.height = '45%'
           header.style.position = 'absolute'
           header.style.top = window.pageYOffset + 'px'
         })
