@@ -46,6 +46,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   lastLength = 0
   lastHeight = defaultHeight
   containerHeight = ''
+  headerTop = ''
 
   state: IState = {
     textContent: '',
@@ -91,18 +92,21 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      if (isIOS && container) {
-        window.addEventListener('focusin', () => {
-          // 记录键盘的高度、即为页面滚上去的高度
-          const KeyboardHeight =
-            document.body.scrollTop || document.documentElement.scrollTop
+      const header = document.getElementById('header')
+      this.headerTop = header.style.top
 
-          container.style.height = clientHeight - KeyboardHeight + 'px'
-          window.scrollTo(0, 0)
+      if (isIOS && header && container) {
+        window.addEventListener('focusin', () => {
+          // 将头部绝对定位、top、为偏移量
+          container.style.height = '100%'
+          header.style.position = 'absolute'
+          header.style.top = window.pageYOffset + 'px'
         })
 
         window.addEventListener('focusout', () => {
           container.style.height = this.containerHeight
+          header.style.position = 'fixed'
+          header.style.top = this.headerTop
         })
       }
 
