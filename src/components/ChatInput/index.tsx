@@ -55,6 +55,9 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   componentDidMount() {
     const isPhone = document.body.clientWidth <= 414
+    const clientHeight =
+      document.body.clientHeight || document.documentElement.clientHeight
+
     this.setState({ isPhone })
 
     const container = document.getElementById('sdk-container')
@@ -66,6 +69,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     const ua = window.navigator.userAgent.toLocaleLowerCase()
     const isIOS = /iphone|ipad|ipod/.test(ua)
     const isAndroid = /android/.test(ua)
+    const isXiaomi = /mi\s | redmi | mix\s/.test(ua)
 
     if (isPhone && this.$textarea) {
       this.$textarea.addEventListener('input', () => {
@@ -89,11 +93,27 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
       if (isIOS && container) {
         window.addEventListener('focusin', () => {
-          container.style.height = '45%'
+          // 记录键盘的高度、即为页面滚上去的高度
+          const KeyboardHeight =
+            document.body.scrollTop || document.documentElement.scrollTop
+
+          container.style.height = clientHeight - KeyboardHeight + 'px'
+          window.scrollTo(0, 0)
         })
 
         window.addEventListener('focusout', () => {
           container.style.height = this.containerHeight
+        })
+      }
+
+      // 小米上输入法会盖住输入框部分
+      if (isXiaomi && container) {
+        window.addEventListener('focusin', () => {
+          container.style.marginBottom = '40px'
+        })
+
+        window.addEventListener('focusout', () => {
+          container.style.marginBottom = '0px'
         })
       }
     }

@@ -497,7 +497,10 @@ class App extends Nerv.Component<IProps, IState> {
             className={`${styles.entryImg} ${
               styles[`enterImg-${enterImgSize}`]
             }`}
-            style={{ backgroundColor }}
+            style={{
+              backgroundColor,
+              display: `${isPhone && visibile ? 'none' : 'inline-block'}`
+            }}
             onClick={visibile ? this.hiddenMask : this.showMask}
           >
             <img
