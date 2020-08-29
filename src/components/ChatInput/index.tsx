@@ -46,6 +46,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   lastLength = 0
   lastHeight = defaultHeight
   containerHeight = ''
+  timer = null
 
   state: IState = {
     textContent: '',
@@ -94,6 +95,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       if (isIOS && container) {
         window.addEventListener('focusin', () => {
           container.style.height = '45%'
+
+          // 让输入框到 view
+          this.timer = setTimeout(() => {
+            this.$textarea.scrollIntoView(false)
+          }, 300)
         })
 
         window.addEventListener('focusout', () => {
@@ -112,6 +118,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         })
       }
     }
+  }
+
+  componentWillMount() {
+    clearTimeout(this.timer)
   }
 
   changeuserSugListBottom = () => {
