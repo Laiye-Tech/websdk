@@ -499,7 +499,7 @@ class App extends Nerv.Component<IProps, IState> {
             }`}
             style={{
               backgroundColor,
-              display: `${isPhone && visibile ? 'none' : 'inline-block'}`
+              display: `${isPhone && visibile || isFullScreen ? 'none' : 'inline-block'}`
             }}
             onClick={visibile ? this.hiddenMask : this.showMask}
           >
