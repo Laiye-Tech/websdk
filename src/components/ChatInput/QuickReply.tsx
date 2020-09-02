@@ -124,10 +124,7 @@ class QuickReplyMsg extends Nerv.Component {
         </div>
 
         <div className={styles.replyList}>
-          <ul
-            ref={el => (this.$ul = el)}
-            onScroll={e => this.handleUlScroll(e.target)}
-          >
+          <ul ref={el => (this.$ul = el)} onScroll={this.handleUlScroll}>
             {quickReplys.map((item, index) => (
               <li
                 key={`${index}-${item}`}
