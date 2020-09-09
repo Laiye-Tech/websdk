@@ -125,6 +125,41 @@ class App extends Nerv.Component<IProps, IState> {
     const { pubkey, userInfo } = this.props
 
     const isPhone = document.body.clientWidth <= 414
+
+    // 禁止页面缩放
+    if (isPhone) {
+      window.onload = () => {
+        document.addEventListener('touchstart', event => {
+          // 双指缩放
+          if (event.touches.length > 1) {
+            event.preventDefault()
+          }
+        })
+
+        let lastTouchEnd = 0
+
+        document.addEventListener(
+          'touchend',
+          event => {
+            const now = new Date().getTime()
+
+            if (now - lastTouchEnd <= 300) {
+              event.preventDefault()
+            }
+
+            lastTouchEnd = now
+          },
+          false
+        )
+
+        // 此方法针对ios10版本
+        document.addEventListener('gesturechange', event => {
+          // 双指缩放
+          event.preventDefault()
+        })
+      }
+    }
+
     this.setState({ isPhone }, () => {
       if (this.state.visibile && isPhone) {
         this.showMask()
@@ -499,7 +534,9 @@ class App extends Nerv.Component<IProps, IState> {
             }`}
             style={{
               backgroundColor,
-              display: `${isPhone && visibile || isFullScreen ? 'none' : 'inline-block'}`
+              display: `${
+                (isPhone && visibile) || isFullScreen ? 'none' : 'inline-block'
+              }`
             }}
             onClick={visibile ? this.hiddenMask : this.showMask}
           >
