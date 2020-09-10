@@ -348,6 +348,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         <div className={`${styles.chatInput} ${chatShape}`} id="chatInput">
           {!isPhone ? renderLeft : null}
           <textarea
+            id="footerTextarea"
             style={{ height: `${isPhone ? '24px' : '56px'}` }}
             placeholder={`${placeholder}`}
             maxLength={2000}

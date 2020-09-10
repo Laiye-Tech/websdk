@@ -22,8 +22,7 @@ interface IProps {
 }
 
 interface IState {
-  leftArrowVisible: boolean
-  rightArrowVisible: boolean
+  allArrowVisible: boolean
 }
 
 class QuickReplyMsg extends Nerv.Component {
@@ -33,14 +32,16 @@ class QuickReplyMsg extends Nerv.Component {
   offsetWidth: number = 0
 
   $ul: HTMLUListElement | null
+  ele = document.getElementById('msg-scroll-panel')
+  isPhone = false
 
   state: IState = {
-    leftArrowVisible: false,
-    rightArrowVisible: false
+    allArrowVisible: false
   }
 
   componentDidMount() {
     this.moveQuickReplyList()
+    this.isPhone = document.body.clientWidth <= 414
   }
 
   componentDidUpdate = prevProps => {
@@ -68,21 +69,45 @@ class QuickReplyMsg extends Nerv.Component {
     const { msg_id } = await pushMsg(content)
     log({ msg_id, direction: TRACK_DIRECTION.user })
 
+    this.setState({ allArrowVisible: false })
     const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
     this.props.setRtMsgs(message)
   }
 
-  handleMove = (type: 'right' | 'left') => {
-    // 每次移动最多半个ul宽度像素
-    const _scrollLeft = this.$ul.scrollLeft || 0
+  // handleMove = (type: 'right' | 'left') => {
+  //   // 每次移动最多半个ul宽度像素
+  //   const _scrollLeft = this.$ul.scrollLeft || 0
 
-    this.$ul.scrollLeft =
-      type === 'left'
-        ? _scrollLeft - this.offsetWidth
-        : this.offsetWidth + _scrollLeft
-    this.$ul.style.transition = 'all .3s'
+  //   this.$ul.scrollLeft =
+  //     type === 'left'
+  //       ? _scrollLeft - this.offsetWidth
+  //       : this.offsetWidth + _scrollLeft
+  //   this.$ul.style.transition = 'all .3s'
 
-    this.handleUlScroll()
+  //   this.handleUlScroll()
+  // }
+
+  /**
+   * 展开全部
+   */
+  handleShowAll = () => {
+    this.setState({ allArrowVisible: !this.state.allArrowVisible }, () => {
+      // 展开的时候不让内容区域滚动
+      if (this.ele) {
+        this.ele.style.overflowY = this.state.allArrowVisible
+          ? 'hidden'
+          : 'auto'
+      }
+
+      // 手机端的时候、展开的时候让键盘收起
+      if (this.isPhone && this.state.allArrowVisible) {
+        // 获取到输入框、让其失焦
+        const inputEle = document.getElementById('footerTextarea')
+        if (inputEle) {
+          inputEle.blur()
+        }
+      }
+    })
   }
 
   handleUlScroll = () => {
@@ -103,28 +128,26 @@ class QuickReplyMsg extends Nerv.Component {
 
   render() {
     const { quickReplys } = this.props
-
+    const maxHeight = this.ele ? this.ele.clientHeight * 0.6 + 'px' : '60vh'
     if (!quickReplys.length) return null
 
-    const { leftArrowVisible, rightArrowVisible } = this.state
+    const { allArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
     return (
       <div
-        className={styles['quick-reply']}
+        className={`${styles['quick-reply']} ${
+          allArrowVisible ? styles['all-reply'] : null
+        }`}
         id="replay"
         style={showLogo ? { top: '-68px' } : null}
       >
-        <div
-          className={styles.arrow}
-          onClick={() => this.handleMove('left')}
-          style={{ display: leftArrowVisible ? 'block' : 'none' }}
-        >
-          <span />
-        </div>
-
         <div className={styles.replyList}>
-          <ul ref={el => (this.$ul = el)} onScroll={this.handleUlScroll}>
+          <ul
+            ref={el => (this.$ul = el)}
+            onScroll={this.handleUlScroll}
+            style={{ maxHeight }}
+          >
             {quickReplys.map((item, index) => (
               <li
                 key={`${index}-${item}`}
@@ -138,11 +161,15 @@ class QuickReplyMsg extends Nerv.Component {
         </div>
 
         <div
-          className={`${styles.arrow} ${styles.rightArrow}`}
-          onClick={() => this.handleMove('right')}
-          style={{ display: rightArrowVisible ? 'block' : 'none' }}
+          onClick={this.handleShowAll}
+          className={`${styles.arrowContainer}`}
         >
-          <span />
+          <span>{allArrowVisible ? '收起' : '展开'}</span>
+          <span
+            className={`${styles.arrow} ${
+              allArrowVisible ? styles.bottomArrow : null
+            }`}
+          />
         </div>
       </div>
     )

@@ -136,37 +136,49 @@
 .quick-reply {
   width: 94%;
   position: absolute;
-  top: -48px;
+  bottom: 120px;
   left: 0;
-  display: flex;
   z-index: 2;
   padding: 0 16px 0 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #eceef0;
 
-  & .arrow {
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
+  & .arrowContainer {
+    align-items: center;
+    font-size: 12px;
     cursor: pointer;
-    margin-top: 2px;
+    color: #425b6d;
+    margin-left: auto;
+    width: 58px;
+    display: flex;
+    justify-content: center;
 
-    & span {
+    & .arrow {
       display: inline-block;
-      width: 14px;
-      height: 14px;
-      border-top: 2px solid #ccc;
-      border-left: 2px solid #ccc;
-      transform: rotate(-45deg);
+      width: 6px;
+      height: 6px;
+      border-top: 2px solid #425b6d;
+      border-left: 2px solid #425b6d;
+      transform: rotate(225deg);
+      margin-left: 4px;
+      border-radius: 2px;
+      margin-bottom: 2px;
     }
+  }
 
-    & span:hover {
+  & .arrowContainer:hover {
+    color: #1f77f3;
+
+    & .arrow {
       border-top: 2px solid #1f77f3;
       border-left: 2px solid #1f77f3;
     }
   }
 
-  & .rightArrow {
-    transform: rotate(180deg);
+  & .bottomArrow {
+    transform: rotate(0deg);
     margin-top: -2px;
   }
 
@@ -194,19 +206,46 @@
       cursor: pointer;
       font-size: 14px;
       color: #fff;
-      height: 36px;
-      line-height: 36px;
-      padding: 0 24px;
+      height: 28px;
+      line-height: 28px;
+      padding: 0 12px 0px 12px;
       white-space: nowrap;
-
-      &:first-child {
-        margin-left: 0;
-      }
     }
 
     .fontColor {
       color: #000;
     }
+  }
+}
+
+.all-reply {
+  flex-direction: column;
+  overflow-y: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 -3px 4px 0 rgba(66, 91, 109, 0.17);
+  background-color: #eceef0;
+
+  & .replyList {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  & .replyList ul {
+    display: block;
+    overflow-x: hidden;
+    border-bottom: solid 1px #d9dee2;
+    padding: 8px 16px 16px 8px;
+    overflow-y: auto;
+  }
+
+  & .replyList ul li {
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  & .arrowContainer {
+    height: 60px;
   }
 }
 
@@ -269,6 +308,6 @@
   }
 
   .quick-reply {
-    top: -40px;
+    bottom: 48px
   }
 }
