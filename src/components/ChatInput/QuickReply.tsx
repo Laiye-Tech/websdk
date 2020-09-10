@@ -23,6 +23,7 @@ interface IProps {
 
 interface IState {
   allArrowVisible: boolean
+  showAllVisible: boolean
 }
 
 class QuickReplyMsg extends Nerv.Component {
@@ -35,9 +36,11 @@ class QuickReplyMsg extends Nerv.Component {
   ele = document.getElementById('msg-scroll-panel')
   isPhone = false
   replyListEle = null
+  ulScrollLeft: number = 0
 
   state: IState = {
-    allArrowVisible: false
+    allArrowVisible: false,
+    showAllVisible: true
   }
 
   componentDidMount() {
@@ -47,7 +50,7 @@ class QuickReplyMsg extends Nerv.Component {
     // 监听输入框的状态 、如果是获取焦点、则allArrowVisible 为false
     const inputEle = document.getElementById('footerTextarea')
 
-    if (this.isPhone && inputEle) {
+    if (inputEle) {
       inputEle.addEventListener('focus', () => {
         this.handleShowAll(false)
       })
@@ -69,7 +72,11 @@ class QuickReplyMsg extends Nerv.Component {
 
     // 获取翻页页数
     const pageSize = Math.ceil(ulScrollWith / ulWith)
-    this.setState({ rightArrowVisible: pageSize > 1 ? true : false })
+
+    this.setState({
+      rightArrowVisible: pageSize > 1 ? true : false,
+      showAllVisible: this.$ul.scrollWidth > this.$ul.clientWidth
+    })
   }
 
   // 发送消息
@@ -109,6 +116,11 @@ class QuickReplyMsg extends Nerv.Component {
           : 'auto'
       }
 
+      // 展开的时候、让滚动条到开始位置
+      if (this.$ul) {
+        this.$ul.scrollLeft = visible ? 0 : this.ulScrollLeft
+      }
+
       // 手机端的时候、点击展开的时候让键盘收起
       if (this.isPhone && visible) {
         // 获取到输入框、让其失焦
@@ -122,38 +134,32 @@ class QuickReplyMsg extends Nerv.Component {
 
   handleUlScroll = () => {
     // 如果到最右边、显示左边箭头、隐藏右边、反之亦然
-    const ulScrollLeft = this.$ul.scrollLeft
-    const ulScrollWith = this.$ul.scrollWidth
+    // const ulScrollLeft = this.$ul.scrollLeft
+    // const ulScrollWith = this.$ul.scrollWidth
 
-    // 到达最右边
-    this.setState({
-      rightArrowVisible:
-        ulScrollLeft + this.$ul.clientWidth < ulScrollWith ? true : false
-    })
+    if (!this.state.allArrowVisible) {
+      this.ulScrollLeft = this.$ul.scrollLeft
+    }
+    // // 到达最右边
+    // this.setState({
+    //   rightArrowVisible:
+    //     ulScrollLeft + this.$ul.clientWidth < ulScrollWith ? true : false
+    // })
 
-    this.setState({
-      leftArrowVisible: ulScrollLeft ? true : false
-    })
+    // this.setState({
+    //   leftArrowVisible: ulScrollLeft ? true : false
+    // })
   }
 
   render() {
     const { quickReplys } = this.props
+    const { showAllVisible } = this.state
     const maxHeight = this.ele ? this.ele.clientHeight * 0.6 + 'px' : '60vh'
     if (!quickReplys.length) return null
 
     const { allArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
-
-    let showAllVisible = false
-    // 如果快捷回复一屏幕可以展示、则不展示‘展开按钮’
-    if (this.$ul) {
-      if (!allArrowVisible) {
-        showAllVisible = this.$ul.scrollWidth > this.$ul.clientWidth
-      } else {
-        showAllVisible = true
-      }
-    }
 
     return (
       <div>

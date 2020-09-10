@@ -164,6 +164,11 @@
       border-radius: 2px;
       margin-bottom: 2px;
     }
+
+    & .bottomArrow {
+      transform: rotate(45deg);
+      margin-top: 5px;
+    }
   }
 
   & .arrowContainer:hover {
@@ -173,11 +178,6 @@
       border-top: 2px solid #1f77f3;
       border-left: 2px solid #1f77f3;
     }
-  }
-
-  & .bottomArrow {
-    transform: rotate(0deg);
-    margin-top: -2px;
   }
 
   & .replyList {
@@ -212,6 +212,10 @@
       white-space: nowrap;
     }
 
+    & li:first-child {
+      margin-left: 0
+    }
+
     .fontColor {
       color: #000;
     }
@@ -228,23 +232,30 @@
 
   & .replyList {
     overflow-x: hidden;
-    width: 100%;
     margin-left: 0;
+    margin-right: 0;
+    padding: 16px 16px 16px 8px;
+    border-bottom: solid 1px #d9dee2;
   }
 
   & .replyList ul {
     display: block;
     overflow-x: hidden;
-    border-bottom: solid 1px #d9dee2;
-    padding: 8px 16px 16px 8px;
     overflow-y: auto;
   }
 
   & .replyList ul li {
     display: inline-block;
     margin-top: 8px;
+    margin-left: 8px;
     height: auto;
+    line-height: normal;
+    padding: 6px 12px;
     white-space: normal;
+  }
+
+  & .replyList ul li:first-child {
+    margin-left: 8px;
   }
 
   & .arrowContainer {
