@@ -147,7 +147,7 @@ class QuickReplyMsg extends Nerv.Component {
 
     let showAllVisible = false
     // 如果快捷回复一屏幕可以展示、则不展示‘展开按钮’
-    if (this.$ul) {
+    if (this.$ul && !allArrowVisible) {
       showAllVisible = this.$ul.scrollWidth > this.$ul.clientWidth
     }
 
