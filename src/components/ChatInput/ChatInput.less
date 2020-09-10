@@ -134,12 +134,11 @@
 }
 
 .quick-reply {
-  width: 94%;
+  width: 100%;
   position: absolute;
   bottom: 120px;
   left: 0;
   z-index: 2;
-  padding: 0 16px 0 10px;
   height: 60px;
   display: flex;
   align-items: center;
@@ -150,8 +149,7 @@
     font-size: 12px;
     cursor: pointer;
     color: #425b6d;
-    margin-left: auto;
-    width: 58px;
+    margin-right: 16px;
     display: flex;
     justify-content: center;
 
@@ -185,6 +183,8 @@
   & .replyList {
     flex: 1;
     overflow-x: auto;
+    margin-left: 16px;
+    margin-right: 16px;
 
     & ul {
       margin: 0;
@@ -229,6 +229,7 @@
   & .replyList {
     overflow-x: hidden;
     width: 100%;
+    margin-left: 0;
   }
 
   & .replyList ul {
@@ -242,10 +243,13 @@
   & .replyList ul li {
     display: inline-block;
     margin-top: 8px;
+    height: auto;
+    white-space: normal;
   }
 
   & .arrowContainer {
     height: 60px;
+    margin-left: auto;
   }
 }
 
@@ -308,6 +312,15 @@
   }
 
   .quick-reply {
-    bottom: 48px
+    bottom: 48px;
+
+    & .arrowContainer:hover {
+      color: #425b6d;
+
+      & .arrow {
+        border-top: 2px solid #425b6d;
+        border-left: 2px solid #425b6d;
+      }
+    }
   }
 }

@@ -34,6 +34,7 @@ class QuickReplyMsg extends Nerv.Component {
   $ul: HTMLUListElement | null
   ele = document.getElementById('msg-scroll-panel')
   isPhone = false
+  replyListEle = null
 
   state: IState = {
     allArrowVisible: false
@@ -42,6 +43,15 @@ class QuickReplyMsg extends Nerv.Component {
   componentDidMount() {
     this.moveQuickReplyList()
     this.isPhone = document.body.clientWidth <= 414
+
+    // 监听输入框的状态 、如果是获取焦点、则allArrowVisible 为false
+    const inputEle = document.getElementById('footerTextarea')
+
+    if (this.isPhone && inputEle) {
+      inputEle.addEventListener('focus', () => {
+        this.handleShowAll(false)
+      })
+    }
   }
 
   componentDidUpdate = prevProps => {
@@ -69,7 +79,7 @@ class QuickReplyMsg extends Nerv.Component {
     const { msg_id } = await pushMsg(content)
     log({ msg_id, direction: TRACK_DIRECTION.user })
 
-    this.setState({ allArrowVisible: false })
+    this.handleShowAll(false)
     const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
     this.props.setRtMsgs(message)
   }
@@ -90,8 +100,8 @@ class QuickReplyMsg extends Nerv.Component {
   /**
    * 展开全部
    */
-  handleShowAll = () => {
-    this.setState({ allArrowVisible: !this.state.allArrowVisible }, () => {
+  handleShowAll = (visible: boolean) => {
+    this.setState({ allArrowVisible: visible }, () => {
       // 展开的时候不让内容区域滚动
       if (this.ele) {
         this.ele.style.overflowY = this.state.allArrowVisible
@@ -99,8 +109,8 @@ class QuickReplyMsg extends Nerv.Component {
           : 'auto'
       }
 
-      // 手机端的时候、展开的时候让键盘收起
-      if (this.isPhone && this.state.allArrowVisible) {
+      // 手机端的时候、点击展开的时候让键盘收起
+      if (this.isPhone && visible) {
         // 获取到输入框、让其失焦
         const inputEle = document.getElementById('footerTextarea')
         if (inputEle) {
@@ -134,42 +144,58 @@ class QuickReplyMsg extends Nerv.Component {
     const { allArrowVisible } = this.state
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
-    return (
-      <div
-        className={`${styles['quick-reply']} ${
-          allArrowVisible ? styles['all-reply'] : null
-        }`}
-        id="replay"
-        style={showLogo ? { top: '-68px' } : null}
-      >
-        <div className={styles.replyList}>
-          <ul
-            ref={el => (this.$ul = el)}
-            onScroll={this.handleUlScroll}
-            style={{ maxHeight }}
-          >
-            {quickReplys.map((item, index) => (
-              <li
-                key={`${index}-${item}`}
-                style={{ backgroundColor: bgColor }}
-                onClick={this.sendQuickReplyMsg(item)}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
 
+    let showAllVisible = false
+    // 如果快捷回复一屏幕可以展示、则不展示‘展开按钮’
+    if (this.$ul) {
+      showAllVisible = this.$ul.scrollWidth > this.$ul.clientWidth
+    }
+
+    return (
+      <div>
+        <div id="container-mask" />
         <div
-          onClick={this.handleShowAll}
-          className={`${styles.arrowContainer}`}
+          className={`${styles['quick-reply']} ${
+            allArrowVisible ? styles['all-reply'] : null
+          }`}
+          id="replay"
+          style={showLogo ? { top: '-68px' } : null}
         >
-          <span>{allArrowVisible ? '收起' : '展开'}</span>
-          <span
-            className={`${styles.arrow} ${
-              allArrowVisible ? styles.bottomArrow : null
-            }`}
-          />
+          <div
+            className={styles.replyList}
+            id="replyList"
+            ref={ele => (this.replyListEle = ele)}
+          >
+            <ul
+              ref={el => (this.$ul = el)}
+              onScroll={this.handleUlScroll}
+              style={{ maxHeight }}
+            >
+              {quickReplys.map((item, index) => (
+                <li
+                  key={`${index}-${item}`}
+                  style={{ backgroundColor: bgColor }}
+                  onClick={this.sendQuickReplyMsg(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {showAllVisible ? (
+            <div
+              onClick={() => this.handleShowAll(!allArrowVisible)}
+              className={`${styles.arrowContainer}`}
+            >
+              <span>{allArrowVisible ? '收起' : '展开'}</span>
+              <span
+                className={`${styles.arrow} ${
+                  allArrowVisible ? styles.bottomArrow : null
+                }`}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     )
