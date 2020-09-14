@@ -148,7 +148,7 @@ class QuickReplyMsg extends Nerv.Component {
   render() {
     const { quickReplys } = this.props
     const { showAllVisible } = this.state
-    const maxHeight = this.ele ? this.ele.clientHeight * 0.6 + 'px' : '60vh'
+    const maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '60vh'
     if (!quickReplys.length) return null
 
     const { allArrowVisible } = this.state

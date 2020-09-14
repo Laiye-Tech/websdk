@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   height: 130px;
+  margin-top: 16px;
 
   .chatInput {
     width: 100%;
@@ -114,7 +115,8 @@
     margin: 0;
     padding: 0;
     background: #fff;
-    height: 100%;
+    height: calc(100% + 1px);
+    -webkit-overflow-scrolling: touch;
 
     & li {
       list-style: none;
@@ -134,8 +136,8 @@
 }
 
 .quick-reply {
+  margin-top: 16px;
   width: 100%;
-  margin-bottom: 16px;
   z-index: 2;
   display: flex;
   align-items: center;
