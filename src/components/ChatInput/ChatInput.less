@@ -135,8 +135,8 @@
 
 .quick-reply {
   width: 100%;
+  margin-bottom: 16px;
   z-index: 2;
-  height: 60px;
   display: flex;
   align-items: center;
   background-color: #eceef0;
@@ -227,14 +227,15 @@
   overflow-y: auto;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 -3px 4px 0 rgba(66, 91, 109, 0.17);
+  box-shadow: 0 -3px 4px 0 rgba(66, 91, 109, 0.09);
   background-color: #eceef0;
+  margin-bottom: 0;
 
   & .replyList {
     overflow-x: hidden;
     margin-left: 0;
     margin-right: 0;
-    padding: 16px 16px 0px 8px;
+    padding: 8px 16px 0px 8px;
     border-bottom: solid 1px #d9dee2;
   }
 
@@ -246,7 +247,7 @@
 
   & .replyList ul li {
     display: inline-block;
-    margin-top: 8px;
+    margin-bottom: 8px;
     margin-left: 8px;
     height: auto;
     line-height: normal;
