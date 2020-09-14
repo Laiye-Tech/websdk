@@ -245,7 +245,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       this.clearSugList()
 
       // 如果输入框变高的话、将其重置
-      if (this.lastHeight !== defaultHeight) {
+      if (this.lastHeight !== defaultHeight && this.$textarea) {
         this.$textarea.style.height = defaultHeight + 'px'
         this.lastLength = 0
         this.lastHeight = defaultHeight
