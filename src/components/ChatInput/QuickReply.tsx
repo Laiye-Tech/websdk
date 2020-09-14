@@ -108,38 +108,32 @@ class QuickReplyMsg extends Nerv.Component {
    * 展开全部
    */
   handleShowAll = (visible: boolean) => {
-    this.setState({ allArrowVisible: visible }, () => {
-      // 展开的时候不让内容区域滚动
-      if (this.ele) {
-        this.ele.style.overflowY = this.state.allArrowVisible
-          ? 'hidden'
-          : 'auto'
-      }
+    // 展开的时候不让内容区域滚动
+    if (this.ele) {
+      this.ele.style.overflowY = visible ? 'hidden' : 'auto'
+    }
 
-      // 展开的时候、让滚动条到开始位置
-      if (this.$ul) {
-        this.$ul.scrollLeft = visible ? 0 : this.ulScrollLeft
-      }
+    if (this.$ul) {
+      this.$ul.scrollLeft = visible ? 0 : this.ulScrollLeft
+    }
 
-      // 手机端的时候、点击展开的时候让键盘收起
-      if (this.isPhone && visible) {
-        // 获取到输入框、让其失焦
-        const inputEle = document.getElementById('footerTextarea')
-        if (inputEle) {
-          inputEle.blur()
-        }
+    // 手机端的时候、点击展开的时候让键盘收起
+    if (this.isPhone && visible) {
+      // 获取到输入框、让其失焦
+      const inputEle = document.getElementById('footerTextarea')
+      if (inputEle) {
+        inputEle.blur()
       }
-    })
+    }
+
+    this.setState({ allArrowVisible: visible })
   }
 
   handleUlScroll = () => {
-    // 如果到最右边、显示左边箭头、隐藏右边、反之亦然
-    // const ulScrollLeft = this.$ul.scrollLeft
-    // const ulScrollWith = this.$ul.scrollWidth
-
     if (!this.state.allArrowVisible) {
       this.ulScrollLeft = this.$ul.scrollLeft
     }
+
     // // 到达最右边
     // this.setState({
     //   rightArrowVisible:
@@ -162,51 +156,48 @@ class QuickReplyMsg extends Nerv.Component {
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
 
     return (
-      <div>
-        <div id="container-mask" />
+      <div
+        className={`${styles['quick-reply']} ${
+          allArrowVisible ? styles['all-reply'] : null
+        }`}
+        id="replay"
+        style={showLogo ? { top: '-68px' } : null}
+      >
         <div
-          className={`${styles['quick-reply']} ${
-            allArrowVisible ? styles['all-reply'] : null
-          }`}
-          id="replay"
-          style={showLogo ? { top: '-68px' } : null}
+          className={styles.replyList}
+          id="replyList"
+          ref={ele => (this.replyListEle = ele)}
         >
-          <div
-            className={styles.replyList}
-            id="replyList"
-            ref={ele => (this.replyListEle = ele)}
+          <ul
+            ref={el => (this.$ul = el)}
+            onScroll={this.handleUlScroll}
+            style={{ maxHeight }}
           >
-            <ul
-              ref={el => (this.$ul = el)}
-              onScroll={this.handleUlScroll}
-              style={{ maxHeight }}
-            >
-              {quickReplys.map((item, index) => (
-                <li
-                  key={`${index}-${item}`}
-                  style={{ backgroundColor: bgColor }}
-                  onClick={this.sendQuickReplyMsg(item)}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {showAllVisible ? (
-            <div
-              onClick={() => this.handleShowAll(!allArrowVisible)}
-              className={`${styles.arrowContainer}`}
-            >
-              <span>{allArrowVisible ? '收起' : '展开'}</span>
-              <span
-                className={`${styles.arrow} ${
-                  allArrowVisible ? styles.bottomArrow : null
-                }`}
-              />
-            </div>
-          ) : null}
+            {quickReplys.map((item, index) => (
+              <li
+                key={`${index}-${item}`}
+                style={{ backgroundColor: bgColor }}
+                onClick={this.sendQuickReplyMsg(item)}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
+
+        {showAllVisible ? (
+          <div
+            onClick={() => this.handleShowAll(!allArrowVisible)}
+            className={`${styles.arrowContainer}`}
+          >
+            <span>{allArrowVisible ? '收起' : '展开'}</span>
+            <span
+              className={`${styles.arrow} ${
+                allArrowVisible ? styles.bottomArrow : null
+              }`}
+            />
+          </div>
+        ) : null}
       </div>
     )
   }

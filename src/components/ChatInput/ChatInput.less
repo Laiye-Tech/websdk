@@ -1,7 +1,7 @@
 .footerInput {
   display: flex;
-  height: 100%;
   align-items: center;
+  height: 130px;
 
   .chatInput {
     width: 100%;
@@ -135,9 +135,6 @@
 
 .quick-reply {
   width: 100%;
-  position: absolute;
-  bottom: 120px;
-  left: 0;
   z-index: 2;
   height: 60px;
   display: flex;
@@ -223,6 +220,9 @@
 }
 
 .all-reply {
+  position: absolute;
+  bottom: 131px;
+  left: 0;
   flex-direction: column;
   overflow-y: auto;
   height: auto;
@@ -234,7 +234,7 @@
     overflow-x: hidden;
     margin-left: 0;
     margin-right: 0;
-    padding: 16px 16px 16px 8px;
+    padding: 16px 16px 0px 8px;
     border-bottom: solid 1px #d9dee2;
   }
 
@@ -306,7 +306,7 @@
         min-height: 24px;
         max-height: 90px;
         line-height: 24px;
-        margin: 5px 5px 5px 24px;
+        margin: 8px 16px;
         font-size: 16px;
         padding-right: 0;
         // 输入框聚焦问题
@@ -323,8 +323,6 @@
   }
 
   .quick-reply {
-    bottom: 48px;
-
     & .arrowContainer:hover {
       color: #425b6d;
 
@@ -333,5 +331,9 @@
         border-left: 2px solid #425b6d;
       }
     }
+  }
+
+  .all-reply {
+    bottom: 48px;
   }
 }
