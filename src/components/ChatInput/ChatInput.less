@@ -107,6 +107,7 @@
   max-height: 164px;
   min-height: 41px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: 8px;
   box-shadow: 0 2px 8px 0 rgba(66, 91, 109, 0.2);
   z-index: 3;
@@ -116,7 +117,6 @@
     padding: 0;
     background: #fff;
     height: calc(100% + 1px);
-    -webkit-overflow-scrolling: touch;
 
     & li {
       list-style: none;
@@ -245,6 +245,8 @@
     display: block;
     overflow-x: hidden;
     overflow-y: auto;
+    position: static;
+    -webkit-overflow-scrolling: touch;
   }
 
   & .replyList ul li {
