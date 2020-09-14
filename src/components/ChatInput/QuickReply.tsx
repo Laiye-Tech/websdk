@@ -37,7 +37,7 @@ class QuickReplyMsg extends Nerv.Component {
   isPhone = false
   replyListEle = null
   ulScrollLeft: number = 0
-  maxHeight: string = ''
+  maxHeight: string = '70vh'
   timer: any = null
 
   state: IState = {
@@ -133,6 +133,7 @@ class QuickReplyMsg extends Nerv.Component {
       const inputEle = document.getElementById('footerTextarea')
       if (inputEle) {
         inputEle.blur()
+        this.$ul.style.maxHeight = this.maxHeight
       }
     }
 
