@@ -123,7 +123,7 @@ class QuickReplyMsg extends Nerv.Component {
     if (this.isPhone && visible) {
       // 获取到输入框、让其失焦
       const inputEle = document.getElementById('footerTextarea')
-      if (inputEle) {
+      if (inputEle && this.$ul) {
         inputEle.blur()
         this.$ul.style.maxHeight = this.maxHeight
       }
