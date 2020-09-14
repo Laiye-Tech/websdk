@@ -75,15 +75,7 @@ class QuickReplyMsg extends Nerv.Component {
   }
 
   moveQuickReplyList = () => {
-    if (!this.props.quickReplys.length || !this.$ul) return
-
-    // const ulWith = this.$ul.clientWidth
-    // this.offsetWidth = ulWith / 2
-    // const ulScrollWith = this.$ul.scrollWidth
-
-    // 获取翻页页数
-    // const pageSize = Math.ceil(ulScrollWith / ulWith)
-
+    if (!this.$ul) return
     this.setState({
       showAllVisible: this.$ul.scrollWidth > this.$ul.clientWidth
     })
