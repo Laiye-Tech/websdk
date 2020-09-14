@@ -38,6 +38,7 @@ class QuickReplyMsg extends Nerv.Component {
   replyListEle = null
   ulScrollLeft: number = 0
   maxHeight: string = ''
+  timer: any = null
 
   state: IState = {
     allArrowVisible: false,
@@ -45,7 +46,10 @@ class QuickReplyMsg extends Nerv.Component {
   }
 
   componentDidMount() {
-    this.maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '60vh'
+    this.timer = setTimeout(() => {
+      this.maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '60vh'
+    }, 100)
+
     this.moveQuickReplyList()
     this.isPhone = document.body.clientWidth <= 414
 
@@ -63,6 +67,10 @@ class QuickReplyMsg extends Nerv.Component {
     if (prevProps.quickReplys !== this.props.quickReplys) {
       this.moveQuickReplyList()
     }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer)
   }
 
   moveQuickReplyList = () => {
