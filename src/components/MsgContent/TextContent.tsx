@@ -8,7 +8,11 @@ import { simulateMessage } from '../../data/user.data'
 import { pushMsg } from '../../data/message.data'
 
 import { transformString, prefixUrl } from '../../utils'
-import { MSG_DIRECTION, page as PageConfig, TRACK_DIRECTION } from '../../utils/config'
+import {
+  MSG_DIRECTION,
+  page as PageConfig,
+  TRACK_DIRECTION
+} from '../../utils/config'
 import { xssFilter } from '../../utils/xss'
 import { createTextMsg, pushRtMessage } from '../../utils/message'
 
@@ -61,27 +65,32 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   const decoration = bgColor === '#000000' ? 'underline' : 'initial'
 
   const sendMsg = async (evt: any) => {
-    const url = evt.target.dataset.key
-    const value = evt.target.innerText
+    if (evt && evt.target && evt.target.dataset && evt.target.dataset.key) {
+      const url = evt.target.dataset.key
+      const value = evt.target.innerText
 
-    const msg = createTextMsg(value)
-    let msgId = ''
+      const msg = createTextMsg(value)
+      let msgId = ''
 
-    if (url) {
-      simulateMessage(url)
-    } else {
-      const { msg_id } = await pushMsg(msg)
-      log({ msg_id, direction: TRACK_DIRECTION.user })
-      msgId = msg_id
+      if (url) {
+        simulateMessage(url)
+      } else {
+        const { msg_id } = await pushMsg(msg)
+        log({ msg_id, direction: TRACK_DIRECTION.user })
+        msgId = msg_id
+      }
+
+      const message = pushRtMessage(msg.msg_body, msg.msg_type, msgId)
+      setRtMsgs(message)
     }
-
-    const message = pushRtMessage(msg.msg_body, msg.msg_type, msgId)
-    setRtMsgs(message)
   }
 
-  return(
+  return (
     <Nerv.Fragment>
-      <span dangerouslySetInnerHTML={{__html: content}} className={styles.textContent}/>
+      <span
+        dangerouslySetInnerHTML={{ __html: content }}
+        className={styles.textContent}
+      />
 
       {similarList && similarList.length ? (
         <ul className={styles.similar}>
@@ -105,4 +114,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   setRtMsgs: message => dispatch(setRtMsgs(message))
 })
 
-export default connect(null, mapDispatchToProps)(TextContent) as any
+export default connect(
+  null,
+  mapDispatchToProps
+)(TextContent) as any
