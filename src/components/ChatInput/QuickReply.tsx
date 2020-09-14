@@ -33,7 +33,7 @@ class QuickReplyMsg extends Nerv.Component {
   offsetWidth: number = 0
 
   $ul: HTMLUListElement | null
-  ele = document.getElementById('msg-scroll-panel')
+  ele = null
   isPhone = false
   replyListEle = null
   ulScrollLeft: number = 0
@@ -47,6 +47,7 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentDidMount() {
     this.timer = setTimeout(() => {
+      this.ele = document.getElementById('msg-scroll-panel')
       this.maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '70vh'
     }, 200)
 
@@ -76,15 +77,14 @@ class QuickReplyMsg extends Nerv.Component {
   moveQuickReplyList = () => {
     if (!this.props.quickReplys.length || !this.$ul) return
 
-    const ulWith = this.$ul.clientWidth
-    this.offsetWidth = ulWith / 2
-    const ulScrollWith = this.$ul.scrollWidth
+    // const ulWith = this.$ul.clientWidth
+    // this.offsetWidth = ulWith / 2
+    // const ulScrollWith = this.$ul.scrollWidth
 
     // 获取翻页页数
-    const pageSize = Math.ceil(ulScrollWith / ulWith)
+    // const pageSize = Math.ceil(ulScrollWith / ulWith)
 
     this.setState({
-      rightArrowVisible: pageSize > 1 ? true : false,
       showAllVisible: this.$ul.scrollWidth > this.$ul.clientWidth
     })
   }
