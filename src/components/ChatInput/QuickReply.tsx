@@ -47,8 +47,8 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentDidMount() {
     this.timer = setTimeout(() => {
-      this.maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '60vh'
-    }, 100)
+      this.maxHeight = this.ele ? this.ele.clientHeight * 0.7 + 'px' : '70vh'
+    }, 200)
 
     this.moveQuickReplyList()
     this.isPhone = document.body.clientWidth <= 414
