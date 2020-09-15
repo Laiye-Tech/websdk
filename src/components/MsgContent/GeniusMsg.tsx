@@ -184,11 +184,14 @@ class GeniusMsg extends Nerv.Component {
                   )}
 
                   {isShowAnswerCard ? (
-                    <ul className={`${styles.answerList} ${alRight} ${alTop}`}>
+                    <ul
+                      className={`${styles.answerList} ${alRight} ${alTop}`}
+                      id="answer-ul"
+                    >
                       {isShowReportBtn &&
                         answerList.map((answer, idx) => (
                           <li
-                            key={answer.type}
+                            key={`${idx} ${answer.type}`}
                             onClick={this.changeAnswerStatus(idx)}
                           >
                             <img src={answer.icon} />
