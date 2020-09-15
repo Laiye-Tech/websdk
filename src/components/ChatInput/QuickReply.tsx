@@ -27,6 +27,11 @@ interface IState {
 }
 
 class QuickReplyMsg extends Nerv.Component {
+  // constructor() {
+  //   super()
+  //   this.onAddEventListenerInput = this.addEventListenerInput.bind(this)
+  // }
+
   props: IProps
   // 标志目前滚动到第几个快捷回复了
   index: number = 0
@@ -51,16 +56,9 @@ class QuickReplyMsg extends Nerv.Component {
     }, 200)
 
     this.moveQuickReplyList()
+
     this.isPhone = document.body.clientWidth <= 414
-
-    // 监听输入框的状态 、如果是获取焦点、则allArrowVisible 为false
-    const inputEle = document.getElementById('footerTextarea')
-
-    if (inputEle) {
-      inputEle.addEventListener('focus', () => {
-        this.handleShowAll(false)
-      })
-    }
+    window.addEventListener('focus', () => this.handleShowAll(false))
   }
 
   componentDidUpdate = prevProps => {
@@ -71,10 +69,27 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer)
+    // const inputEle = document.getElementById('footerTextarea')
+
+    // if (inputEle) {
+    //   inputEle.removeEventListener('focus', () => this.handleShowAll(false))
+    // }
+  }
+
+  listenerInputEvent = () => {
+    // 监听输入框的状态 、如果是获取焦点、则allArrowVisible 为false
+    const inputEle = document.getElementById('footerTextarea')
+
+    if (inputEle) {
+      inputEle.addEventListener('focus', () => this.handleShowAll(false))
+    }
   }
 
   moveQuickReplyList = () => {
-    if (!this.$ul) return
+    if (!this.$ul) {
+      return false
+    }
+
     this.setState({
       showAllVisible: this.$ul.scrollWidth > this.$ul.clientWidth
     })
@@ -151,8 +166,6 @@ class QuickReplyMsg extends Nerv.Component {
     const { quickReplys } = this.props
     const { showAllVisible, allArrowVisible } = this.state
 
-    console.log('quickReplys----', quickReplys)
-
     if (!quickReplys || !quickReplys.length) return null
 
     const bgColor = PageConfig.get('theme_color') as string
@@ -164,12 +177,12 @@ class QuickReplyMsg extends Nerv.Component {
           allArrowVisible ? styles['all-reply'] : ''
         }`}
         id="replay"
+        key="replay-panel"
         style={showLogo ? { top: '-68px' } : null}
       >
-        <div className={styles.replyList} id="replyList" key="replay-container">
+        <div className={styles.replyList} id="replyList">
           <ul
             ref={el => (this.$ul = el)}
-            key="replay-ul"
             onScroll={this.handleUlScroll}
             style={{ maxHeight: this.maxHeight }}
           >
