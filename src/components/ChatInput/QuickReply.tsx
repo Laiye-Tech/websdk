@@ -169,6 +169,7 @@ class QuickReplyMsg extends Nerv.Component {
         <div
           className={styles.replyList}
           id="replyList"
+          key="replay-container"
           ref={ele => (this.replyListEle = ele)}
         >
           <ul

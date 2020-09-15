@@ -191,7 +191,7 @@ class GeniusMsg extends Nerv.Component {
                       {isShowReportBtn &&
                         answerList.map((answer, idx) => (
                           <li
-                            key={`${idx} ${answer.type}`}
+                            key={`${idx}-${answer.type}`}
                             onClick={this.changeAnswerStatus(idx)}
                           >
                             <img src={answer.icon} />
