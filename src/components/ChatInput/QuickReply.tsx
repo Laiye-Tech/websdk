@@ -69,20 +69,6 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer)
-    // const inputEle = document.getElementById('footerTextarea')
-
-    // if (inputEle) {
-    //   inputEle.removeEventListener('focus', () => this.handleShowAll(false))
-    // }
-  }
-
-  listenerInputEvent = () => {
-    // 监听输入框的状态 、如果是获取焦点、则allArrowVisible 为false
-    const inputEle = document.getElementById('footerTextarea')
-
-    if (inputEle) {
-      inputEle.addEventListener('focus', () => this.handleShowAll(false))
-    }
   }
 
   moveQuickReplyList = () => {
