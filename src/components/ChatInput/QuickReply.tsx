@@ -56,9 +56,11 @@ class QuickReplyMsg extends Nerv.Component {
     }, 200)
 
     this.moveQuickReplyList()
-
     this.isPhone = document.body.clientWidth <= 414
-    window.addEventListener('focus', () => this.handleShowAll(false))
+    const inputEle = document.getElementById('footerTextarea')
+    if (inputEle) {
+      inputEle.addEventListener('focus', () => this.handleShowAll(false))
+    }
   }
 
   componentDidUpdate = prevProps => {
@@ -69,6 +71,10 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer)
+    const inputEle = document.getElementById('footerTextarea')
+    if (inputEle) {
+      inputEle.removeEventListener('focus', () => this.handleShowAll(false))
+    }
   }
 
   moveQuickReplyList = () => {
