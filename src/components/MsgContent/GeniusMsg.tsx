@@ -186,7 +186,7 @@ class GeniusMsg extends Nerv.Component {
                   {isShowAnswerCard ? (
                     <ul
                       className={`${styles.answerList} ${alRight} ${alTop}`}
-                      id="answer-ul"
+                      key="answer-ul"
                     >
                       {isShowReportBtn &&
                         answerList.map((answer, idx) => (
