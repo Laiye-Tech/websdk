@@ -29,6 +29,7 @@ interface IProps {
   setRtMsgs: (msg: IMsgBodyInfo) => void
   setUserSugList: (sugList: ISugList[]) => void
   openToastPanel: (message: string) => void
+  toogleAllArrowVisible: (visible: boolean) => void
 }
 
 interface IState {
@@ -301,7 +302,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   render() {
-    const { userSugList } = this.props
+    const { userSugList, toogleAllArrowVisible } = this.props
     const { textContent, isPhone } = this.state
 
     const frameShape = PageConfig.get('frame_shape') as number
@@ -356,6 +357,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
             value={textContent}
             onChange={this.inputAnswer}
             onKeyDown={this.handleKeyDown}
+            onFocus={() => toogleAllArrowVisible(false)}
           />
 
           <div className={styles.toolbar}>

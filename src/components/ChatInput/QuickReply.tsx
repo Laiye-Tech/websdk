@@ -17,21 +17,17 @@ import { pushMsg } from '../../data/message.data'
 import { IMsgBodyInfo } from '../../../interfaces'
 
 interface IProps {
+  allArrowVisible: boolean
   quickReplys: string[]
   setRtMsgs: (msg: IMsgBodyInfo) => void
+  toogleAllArrowVisible: (visible: boolean) => void
 }
 
 interface IState {
-  allArrowVisible: boolean
   showAllVisible: boolean
 }
 
 class QuickReplyMsg extends Nerv.Component {
-  // constructor() {
-  //   super()
-  //   this.onAddEventListenerInput = this.addEventListenerInput.bind(this)
-  // }
-
   props: IProps
   // 标志目前滚动到第几个快捷回复了
   index: number = 0
@@ -45,7 +41,6 @@ class QuickReplyMsg extends Nerv.Component {
   timer: any = null
 
   state: IState = {
-    allArrowVisible: false,
     showAllVisible: true
   }
 
@@ -57,10 +52,6 @@ class QuickReplyMsg extends Nerv.Component {
 
     this.moveQuickReplyList()
     this.isPhone = document.body.clientWidth <= 414
-    const inputEle = document.getElementById('footerTextarea')
-    if (inputEle) {
-      inputEle.addEventListener('focus', () => this.handleShowAll(false))
-    }
   }
 
   componentDidUpdate = prevProps => {
@@ -71,10 +62,6 @@ class QuickReplyMsg extends Nerv.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer)
-    const inputEle = document.getElementById('footerTextarea')
-    if (inputEle) {
-      inputEle.removeEventListener('focus', () => this.handleShowAll(false))
-    }
   }
 
   moveQuickReplyList = () => {
@@ -99,23 +86,12 @@ class QuickReplyMsg extends Nerv.Component {
     this.props.setRtMsgs(message)
   }
 
-  // handleMove = (type: 'right' | 'left') => {
-  //   // 每次移动最多半个ul宽度像素
-  //   const _scrollLeft = this.$ul.scrollLeft || 0
-
-  //   this.$ul.scrollLeft =
-  //     type === 'left'
-  //       ? _scrollLeft - this.offsetWidth
-  //       : this.offsetWidth + _scrollLeft
-  //   this.$ul.style.transition = 'all .3s'
-
-  //   this.handleUlScroll()
-  // }
-
   /**
    * 展开全部
    */
   handleShowAll = (visible: boolean) => {
+    const { toogleAllArrowVisible } = this.props
+
     // 展开的时候不让内容区域滚动
     if (this.ele) {
       this.ele.style.overflowY = visible ? 'hidden' : 'auto'
@@ -135,28 +111,20 @@ class QuickReplyMsg extends Nerv.Component {
       }
     }
 
-    this.setState({ allArrowVisible: visible })
+    toogleAllArrowVisible(visible)
   }
 
   handleUlScroll = () => {
-    if (!this.state.allArrowVisible) {
+    const { allArrowVisible } = this.props
+
+    if (!allArrowVisible) {
       this.ulScrollLeft = this.$ul.scrollLeft
     }
-
-    // // 到达最右边
-    // this.setState({
-    //   rightArrowVisible:
-    //     ulScrollLeft + this.$ul.clientWidth < ulScrollWith ? true : false
-    // })
-
-    // this.setState({
-    //   leftArrowVisible: ulScrollLeft ? true : false
-    // })
   }
 
   render() {
-    const { quickReplys } = this.props
-    const { showAllVisible, allArrowVisible } = this.state
+    const { quickReplys, allArrowVisible } = this.props
+    const { showAllVisible } = this.state
 
     if (!quickReplys || !quickReplys.length) return null
 

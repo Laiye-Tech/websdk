@@ -64,6 +64,7 @@ interface IState {
     message: string
   }
   isError: boolean
+  allArrowVisible: boolean
 }
 
 const initialPage = {
@@ -110,7 +111,8 @@ class App extends Nerv.Component<IProps, IState> {
       visibile: false,
       message: ''
     },
-    isError: false
+    isError: false,
+    allArrowVisible: false
   }
 
   componentWillReceiveProps({ rtMsgList }: IProps) {
@@ -152,6 +154,10 @@ class App extends Nerv.Component<IProps, IState> {
     window.removeEventListener('offline', this.onOfflineChange)
     window.removeEventListener('online', this.onOnlineChange)
     this.stopSillyCheck()
+  }
+
+  toogleAllArrowVisible = (visible: boolean) => {
+    this.setState({ allArrowVisible: visible })
   }
 
   /**
@@ -393,7 +399,8 @@ class App extends Nerv.Component<IProps, IState> {
       visibile,
       isPhone,
       errHeader,
-      isError
+      isError,
+      allArrowVisible
     } = this.state
 
     // 主题颜色
@@ -482,8 +489,13 @@ class App extends Nerv.Component<IProps, IState> {
             <footer className={styles.footer} id="footer">
               {isRenderChatInput ? (
                 <Nerv.Fragment>
-                  <QuickReply />
-                  <ChatInput />
+                  <QuickReply
+                    allArrowVisible={allArrowVisible}
+                    toogleAllArrowVisible={this.toogleAllArrowVisible}
+                  />
+                  <ChatInput
+                    toogleAllArrowVisible={this.toogleAllArrowVisible}
+                  />
                 </Nerv.Fragment>
               ) : null}
             </footer>
