@@ -35,7 +35,6 @@ class QuickReplyMsg extends Nerv.Component {
   $ul: HTMLUListElement | null
   ele = null
   isPhone = false
-  replyListEle = null
   ulScrollLeft: number = 0
   maxHeight: string = '70vh'
   timer: any = null
@@ -150,28 +149,24 @@ class QuickReplyMsg extends Nerv.Component {
 
   render() {
     const { quickReplys } = this.props
-    const { showAllVisible } = this.state
+    const { showAllVisible, allArrowVisible } = this.state
 
-    if (!quickReplys.length) return null
+    console.log('quickReplys----', quickReplys)
 
-    const { allArrowVisible } = this.state
+    if (!quickReplys || !quickReplys.length) return null
+
     const bgColor = PageConfig.get('theme_color') as string
     const showLogo = interactionConfig.get('enable_wulai_ad') as boolean
 
     return (
       <div
         className={`${styles['quick-reply']} ${
-          allArrowVisible ? styles['all-reply'] : null
+          allArrowVisible ? styles['all-reply'] : ''
         }`}
         id="replay"
         style={showLogo ? { top: '-68px' } : null}
       >
-        <div
-          className={styles.replyList}
-          id="replyList"
-          key="replay-container"
-          ref={ele => (this.replyListEle = ele)}
-        >
+        <div className={styles.replyList} id="replyList" key="replay-container">
           <ul
             ref={el => (this.$ul = el)}
             key="replay-ul"
