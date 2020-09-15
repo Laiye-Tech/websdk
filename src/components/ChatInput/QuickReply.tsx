@@ -173,6 +173,7 @@ class QuickReplyMsg extends Nerv.Component {
         >
           <ul
             ref={el => (this.$ul = el)}
+            key="replay-ul"
             onScroll={this.handleUlScroll}
             style={{ maxHeight: this.maxHeight }}
           >

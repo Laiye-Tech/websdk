@@ -29,7 +29,10 @@ class RtMsgPanel extends Nerv.Component {
     this.fetchHistoryList()
 
     this.$container = document.getElementById('msg-scroll-panel')
-    this.$container.addEventListener('scroll', throttle(this.onScrollListener, 100))
+    this.$container.addEventListener(
+      'scroll',
+      throttle(this.onScrollListener, 100)
+    )
   }
 
   shouldComponentUpdate(_: IProps, nextState: IState) {
@@ -77,7 +80,8 @@ class RtMsgPanel extends Nerv.Component {
     const filterMsg = messageList
       // 进入事件消息不展示
       .filter(msg => {
-        const isEnterMsg = msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
+        const isEnterMsg =
+          msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
         return !isEnterMsg
       })
       // 消息记录可能会和融云推送的欢迎语重复，需要过滤一下
@@ -86,10 +90,12 @@ class RtMsgPanel extends Nerv.Component {
         return !isHideMsg
       })
 
-    return(
-      <div>
+    return (
+      <div key="history-msg">
         {!hasMore && <div className={styles.tips}>{noMoreText}</div>}
-        {filterMsg.map(msg => <Msg message={msg} key={msg.msg_id} isHistory/>)}
+        {filterMsg.map(msg => (
+          <Msg message={msg} key={msg.msg_id} isHistory />
+        ))}
         {filterMsg.length ? <div className={styles.tips}>{text}</div> : null}
       </div>
     )

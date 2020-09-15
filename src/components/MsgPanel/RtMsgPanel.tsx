@@ -16,9 +16,11 @@ class RtMsgPanel extends Nerv.Component<IProps> {
   render() {
     const { messageList } = this.props
 
-    return(
+    return (
       <div>
-        {messageList.map(msg => <Msg message={msg} key={msg.msg_id}/>)}
+        {messageList.map(msg => (
+          <Msg message={msg} key={msg.msg_id} />
+        ))}
       </div>
     )
   }
