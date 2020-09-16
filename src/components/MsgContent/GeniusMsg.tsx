@@ -62,6 +62,7 @@ const ANSWER_LIST: {
 
 class GeniusMsg extends Nerv.Component {
   props: IProps
+  answerBtn = null
 
   state: IState = {
     selectIcon: '',
@@ -77,6 +78,13 @@ class GeniusMsg extends Nerv.Component {
     if (enableEvaluate) {
       this.setState({ isShowReportBtn: this.props.message.enable_evaluate })
     }
+
+    // 监听点击、让满意度的选择框消失
+    document.addEventListener('click', e => {
+      if (e.target !== this.answerBtn) {
+        this.setState({ isShowAnswerCard: false })
+      }
+    })
   }
 
   // 点赞点踩 & 举报
@@ -180,14 +188,14 @@ class GeniusMsg extends Nerv.Component {
                   {selectIcon ? (
                     <img src={selectIcon} />
                   ) : (
-                    <span onClick={this.showAnswerCard} />
+                    <span
+                      ref={ele => (this.answerBtn = ele)}
+                      onClick={this.showAnswerCard}
+                    />
                   )}
 
                   {isShowAnswerCard ? (
-                    <ul
-                      className={`${styles.answerList} ${alRight} ${alTop}`}
-                      key="answer-ul"
-                    >
+                    <ul className={`${styles.answerList} ${alRight} ${alTop}`}>
                       {isShowReportBtn &&
                         answerList.map((answer, idx) => (
                           <li
