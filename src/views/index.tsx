@@ -149,6 +149,32 @@ class App extends Nerv.Component<IProps, IState> {
     setTimeout(() => {
       this.scrollToBottom()
     }, 1000)
+
+    // 禁止缩放
+    if (isPhone) {
+      document.documentElement.addEventListener(
+        'touchstart',
+        event => {
+          if (event.touches.length > 1) {
+            event.preventDefault()
+          }
+        },
+        false
+      )
+
+      let lastTouchEnd = 0
+      document.documentElement.addEventListener(
+        'touchend',
+        event => {
+          const now = Date.now()
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault()
+          }
+          lastTouchEnd = now
+        },
+        false
+      )
+    }
   }
 
   componentWillUnmount() {
