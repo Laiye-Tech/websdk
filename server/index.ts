@@ -11,18 +11,56 @@ const html = `
   <!DOCTYPE html>
   <html lang="zh">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit|ie-stand|ie-comp"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,
+      minimum-scale=1.0,
+      user-scalable=no,
+      target-densitydpi=device-dpi"
+    />
     <title>网页机器人</title>
   </head>
   <body style="background: #eceef0, margin: 0">
     <script type="text/javascript" src="./IMLib-${version}.min.js?_t=${Date.now()}"></script>
       <script>
+
+      document.addEventListener(
+        'touchstart',
+        event => {
+          if (event.touches.length > 1) {
+            event.preventDefault()
+          }
+        },
+        false
+      )
+
+        document.addEventListener(
+          'touchmove',
+          event => {
+            if (event.touches.length > 1) {
+              event.preventDefault()
+            }
+          },
+          false
+        )
+
+        var lastTouchEnd = 0
+        document.addEventListener(
+          'touchend',
+          event => {
+            var now = Date.now()
+            if (now - lastTouchEnd <= 300) {
+              event.preventDefault()
+            }
+            lastTouchEnd = now
+          },
+          false
+        )
+
         new websdk({
           data: {
             pubkey: 'FuLcN3rXprCb9vbDyHrUrTGtq7zi5faA0089175d1938a21c81', // 吾来平台PubKey
@@ -30,6 +68,7 @@ const html = `
           },
           el: 'body'
         })
+
       </script>
   </body>
   </html>
