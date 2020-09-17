@@ -26,36 +26,6 @@ const html = `
   <body style="background: #eceef0, margin: 0">
     <script type="text/javascript" src="./IMLib-${version}.min.js?_t=${Date.now()}"></script>
       <script>
-      window.onload = () => {
-        document.addEventListener('touchstart', function(event) {
-          if (event.touches.length > 1) {
-            event.preventDefault()
-          }
-        })
-
-        document.addEventListener('touchmove', function(event) {
-          if (event.touches.length > 1) {
-            event.preventDefault()
-          }
-        })
-
-        document.addEventListener('gesturestart', function(event) {
-          event.preventDefault()
-        })
-
-        var lastTouchEnd = 0
-        document.addEventListener(
-          'touchend',
-          function(event) {
-            var now = new Date().getTime()
-            if (now - lastTouchEnd <= 300) {
-              event.preventDefault()
-            }
-            lastTouchEnd = now
-          },
-          false
-        )
-      }
         new websdk({
           data: {
             pubkey: 'FuLcN3rXprCb9vbDyHrUrTGtq7zi5faA0089175d1938a21c81', // 吾来平台PubKey
@@ -63,7 +33,6 @@ const html = `
           },
           el: 'body'
         })
-
       </script>
   </body>
   </html>
