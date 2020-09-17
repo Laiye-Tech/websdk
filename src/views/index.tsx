@@ -152,7 +152,7 @@ class App extends Nerv.Component<IProps, IState> {
 
     // 禁止缩放
     if (isPhone) {
-      document.documentElement.addEventListener(
+      document.addEventListener(
         'touchstart',
         event => {
           if (event.touches.length > 1) {
@@ -163,7 +163,7 @@ class App extends Nerv.Component<IProps, IState> {
       )
 
       let lastTouchEnd = 0
-      document.documentElement.addEventListener(
+      document.addEventListener(
         'touchend',
         event => {
           const now = Date.now()
