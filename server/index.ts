@@ -17,42 +17,37 @@ const html = `
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,
-      minimum-scale=1.0,
-      user-scalable='no',
-      target-densitydpi=device-dpi"
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1,maximum-scale=1"
     />
     <title>网页机器人</title>
   </head>
   <body style="background: #eceef0, margin: 0">
     <script type="text/javascript" src="./IMLib-${version}.min.js?_t=${Date.now()}"></script>
       <script>
-
-      document.addEventListener(
-        'touchstart',
-        event => {
+      window.onload = () => {
+        document.addEventListener('touchstart', function(event) {
           if (event.touches.length > 1) {
             event.preventDefault()
           }
-        },
-        false
-      )
+        })
 
-        document.addEventListener(
-          'touchmove',
-          event => {
-            if (event.touches.length > 1) {
-              event.preventDefault()
-            }
-          },
-          false
-        )
+        document.addEventListener('touchmove', function(event) {
+          if (event.touches.length > 1) {
+            event.preventDefault()
+          }
+        })
+
+        document.addEventListener('gesturestart', function(event) {
+          event.preventDefault()
+        })
 
         var lastTouchEnd = 0
         document.addEventListener(
           'touchend',
-          event => {
-            var now = Date.now()
+          function(event) {
+            var now = new Date().getTime()
             if (now - lastTouchEnd <= 300) {
               event.preventDefault()
             }
@@ -60,7 +55,7 @@ const html = `
           },
           false
         )
-
+      }
         new websdk({
           data: {
             pubkey: 'FuLcN3rXprCb9vbDyHrUrTGtq7zi5faA0089175d1938a21c81', // 吾来平台PubKey
