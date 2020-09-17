@@ -85,7 +85,7 @@ const initialPage = {
   entry_image: '',
   entry_image_chose: 0,
   entry_image_size: 0,
-  screen_ratio: 0,
+  screen_ratio: 100,
   language_code: ''
 }
 
@@ -99,6 +99,7 @@ class App extends Nerv.Component<IProps, IState> {
   autoTimer = null
   bodyEl = document.body
   top = 0
+  isPhone = document.body.clientWidth <= 414
 
   props: IProps
   state: IState = {
@@ -436,9 +437,10 @@ class App extends Nerv.Component<IProps, IState> {
     const isHiddenApp = visibile || fullScreen ? '' : styles.hidden
     window.sessionStorage.setItem('webSdkVisible', !isHiddenApp ? 'true' : '')
 
-    const isFullScreen = fullScreen ? styles['full-container'] : ''
+    const isFullScreen =
+      !this.isPhone && fullScreen ? styles['full-container'] : ''
     const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${isFullScreen}`
-    const windowHeight = isPhone ? `${pageConfig.screen_ratio}%` : null
+    const windowHeight = this.isPhone ? `${pageConfig.screen_ratio}%` : null
 
     return (
       <Nerv.Fragment>
