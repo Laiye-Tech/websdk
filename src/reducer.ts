@@ -34,6 +34,48 @@ export const USER_SUG_LIST = 'USER_SUG_LIST'
 export const TOAST_PANEL_VISIBLE = 'TOAST_PANEL_VISIBLE'
 export const TIPS_MODAL_VISIBLE = 'TIPS_MODAL_VISIBLE'
 
+const handleTouchstart = event => {
+  if (event.touches.length > 1) {
+    event.preventDefault()
+  }
+}
+
+const handleGesturestart = event => {
+  if (event.touches.length > 1) {
+    event.preventDefault()
+  }
+}
+
+const handleTouchend = event => {
+  let lastTouchEnd = 0
+
+  const now = new Date().getTime()
+
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault()
+  }
+
+  lastTouchEnd = now
+}
+
+const allowScale = () => {
+  document.addEventListener('touchstart', event => handleTouchstart(event))
+  document.addEventListener('touchend', event => handleTouchend(event), false)
+  document.addEventListener('gesturestart', event => handleGesturestart(event))
+}
+
+const notAllowScale = () => {
+  document.removeEventListener('touchstart', event => handleTouchstart(event))
+  document.removeEventListener(
+    'touchend',
+    event => handleTouchend(event),
+    false
+  )
+  document.removeEventListener('gesturestart', event =>
+    handleGesturestart(event)
+  )
+}
+
 export default handleActions<IAuthState>(
   {
     [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
@@ -69,6 +111,8 @@ export default handleActions<IAuthState>(
             ', user-scalable=yes'
         )
 
+      allowScale()
+
       return {
         ...state,
         imageModal: {
@@ -92,6 +136,8 @@ export default handleActions<IAuthState>(
             1 +
             ', user-scalable=no'
         )
+
+      notAllowScale()
 
       return {
         ...state,
