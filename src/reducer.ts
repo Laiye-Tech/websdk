@@ -55,7 +55,6 @@ export default handleActions<IAuthState>(
     },
 
     [IMAGE_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {
-      console.log('open----')
       // 修改mate标签、让页面可以缩放
       document
         .querySelector('meta[name="viewport"]')
@@ -80,7 +79,6 @@ export default handleActions<IAuthState>(
     },
 
     [IMAGE_MODAL_CLOSE]: (state: IAuthState) => {
-      console.log('close----')
       // 修改mate标签、让页面不可以缩放
       document
         .querySelector('meta[name="viewport"]')
