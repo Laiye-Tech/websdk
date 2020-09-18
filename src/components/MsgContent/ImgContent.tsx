@@ -23,9 +23,9 @@ const ImgContent = (props: IProps) => {
     showImageModal(url)
   }
 
-  return(
+  return (
     <div className={styles.imageWrapper} onClick={openImgModal}>
-      <img src={url}/>
+      <img src={url} />
     </div>
   )
 }
@@ -34,4 +34,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
   showImageModal: url => dispatch(showImageModal(url))
 })
 
-export default connect(null, mapDispatchToProps)(ImgContent) as any
+export default connect(
+  null,
+  mapDispatchToProps
+)(ImgContent) as any

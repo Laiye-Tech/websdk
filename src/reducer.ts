@@ -34,88 +34,123 @@ export const USER_SUG_LIST = 'USER_SUG_LIST'
 export const TOAST_PANEL_VISIBLE = 'TOAST_PANEL_VISIBLE'
 export const TIPS_MODAL_VISIBLE = 'TIPS_MODAL_VISIBLE'
 
-export default handleActions<IAuthState>({
-  [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
-    const msgList = [...state.rtMsgList]
-    msgList.push(payload)
+export default handleActions<IAuthState>(
+  {
+    [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
+      const msgList = [...state.rtMsgList]
+      msgList.push(payload)
 
-    let quickReplys = []
-    if (payload.direction === MSG_DIRECTION.genius) {
-      quickReplys = payload.quick_reply ? payload.quick_reply.filter(item => item) : []
-    }
+      let quickReplys = []
+      if (payload.direction === MSG_DIRECTION.genius) {
+        quickReplys = payload.quick_reply
+          ? payload.quick_reply.filter(item => item)
+          : []
+      }
 
-    return {
-      ...state,
-      quickReplys,
-      rtMsgList: msgList
-    }
-  },
+      return {
+        ...state,
+        quickReplys,
+        rtMsgList: msgList
+      }
+    },
 
-  [IMAGE_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      imageModal: {
-        src: payload,
-        visible: true
+    [IMAGE_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {
+      console.log('open----')
+      // 修改mate标签、让页面可以缩放
+      document
+        .querySelector('meta[name="viewport"]')
+        .setAttribute(
+          'content',
+          'initial-scale=' +
+            1 +
+            ', maximum-scale=' +
+            3 +
+            ', minimum-scale=' +
+            1 +
+            ', user-scalable=yes'
+        )
+
+      return {
+        ...state,
+        imageModal: {
+          src: payload,
+          visible: true
+        }
+      }
+    },
+
+    [IMAGE_MODAL_CLOSE]: (state: IAuthState) => {
+      console.log('close----')
+      // 修改mate标签、让页面不可以缩放
+      document
+        .querySelector('meta[name="viewport"]')
+        .setAttribute(
+          'content',
+          'initial-scale=' +
+            1 +
+            ', maximum-scale=' +
+            1 +
+            ', minimum-scale=' +
+            1 +
+            ', user-scalable=no'
+        )
+
+      return {
+        ...state,
+        imageModal: {
+          src: '',
+          visible: false
+        }
+      }
+    },
+
+    [VIDEO_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {
+      return {
+        ...state,
+        videoModal: {
+          src: payload,
+          visible: true
+        }
+      }
+    },
+
+    [VIDEO_MODAL_CLOSE]: (state: IAuthState) => {
+      return {
+        ...state,
+        videoModal: {
+          src: '',
+          visible: false
+        }
+      }
+    },
+
+    [USER_SUG_LIST]: (state: IAuthState, { payload }: any) => {
+      return {
+        ...state,
+        sugList: payload
+      }
+    },
+
+    [TOAST_PANEL_VISIBLE]: (state: IAuthState, { payload }: any) => {
+      return {
+        ...state,
+        toastPanel: {
+          message: payload.message,
+          visible: payload.visible
+        }
+      }
+    },
+
+    [TIPS_MODAL_VISIBLE]: (state: IAuthState, { payload }: any) => {
+      return {
+        ...state,
+        tipsModal: {
+          message: payload.message,
+          visible: payload.visible,
+          showBtn: payload.showBtn
+        }
       }
     }
   },
-
-  [IMAGE_MODAL_CLOSE]: (state: IAuthState) => {
-    return {
-      ...state,
-      imageModal: {
-        src: '',
-        visible: false
-      }
-    }
-  },
-
-  [VIDEO_MODAL_OPEN]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      videoModal: {
-        src: payload,
-        visible: true
-      }
-    }
-  },
-
-  [VIDEO_MODAL_CLOSE]: (state: IAuthState) => {
-    return {
-      ...state,
-      videoModal: {
-        src: '',
-        visible: false
-      }
-    }
-  },
-
-  [USER_SUG_LIST]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      sugList: payload
-    }
-  },
-
-  [TOAST_PANEL_VISIBLE]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      toastPanel: {
-        message: payload.message,
-        visible: payload.visible
-      }
-    }
-  },
-
-  [TIPS_MODAL_VISIBLE]: (state: IAuthState, { payload }: any) => {
-    return {
-      ...state,
-      tipsModal: {
-        message: payload.message,
-        visible: payload.visible,
-        showBtn: payload.showBtn
-      }
-    }
-  }
-}, initialState)
+  initialState
+)
