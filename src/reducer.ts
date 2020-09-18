@@ -58,13 +58,13 @@ const handleTouchend = event => {
   lastTouchEnd = now
 }
 
-const allowScale = () => {
+const notAllowScale = () => {
   document.addEventListener('touchstart', event => handleTouchstart(event))
   document.addEventListener('touchend', event => handleTouchend(event), false)
   document.addEventListener('gesturestart', event => handleGesturestart(event))
 }
 
-const notAllowScale = () => {
+const allowScale = () => {
   document.removeEventListener('touchstart', event => handleTouchstart(event))
   document.removeEventListener(
     'touchend',
