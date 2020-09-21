@@ -1,7 +1,7 @@
 import { Store } from 'redux'
 import { setRtMsgs, toggleTipsModal } from '../actions'
 import { log } from '../data/app.data'
-import { MSG_DIRECTION, TRACK_DIRECTION, language} from '../utils/config'
+import { MSG_DIRECTION, TRACK_DIRECTION, language } from '../utils/config'
 
 // 融云是一个单例对象
 let _instance: null | RongIMLib.RongIMClient = null
@@ -76,7 +76,9 @@ function startProducer() {
         log({ msg_id: msgBody.msg_id, direction: TRACK_DIRECTION.staff })
 
         if (store) {
-          store.dispatch(setRtMsgs({...msgBody, direction: MSG_DIRECTION.genius}))
+          store.dispatch(
+            setRtMsgs({ ...msgBody, direction: MSG_DIRECTION.genius })
+          )
         }
       }
     }
@@ -90,7 +92,10 @@ function startProducer() {
  * @param $scope
  * @param geniusToken
  */
-export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMClient> => {
+export const init = (
+  appKey: string,
+  rcToken: string
+): Promise<RongIMLib.RongIMClient> => {
   store = window.__APP_STORE__
   if (_instance) {
     return new Promise(resolve => resolve(_instance))
@@ -113,11 +118,13 @@ export const init = (appKey: string, rcToken: string): Promise<RongIMLib.RongIMC
       switch (status) {
         case STATUS.KICKED_OFFLINE_BY_OTHER_CLIENT:
           if (store) {
-            store.dispatch(toggleTipsModal({
-              visible: true,
-              message: language.get('NetWork').rongMsg,
-              showBtn: true
-            }))
+            store.dispatch(
+              toggleTipsModal({
+                visible: true,
+                message: language.get('NetWork').rongMsg,
+                showBtn: true
+              })
+            )
           }
           break
         case STATUS.DISCONNECTED:
