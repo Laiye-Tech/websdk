@@ -99,8 +99,12 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
           // 让输入框到 view
           this.timer = setTimeout(() => {
-            this.$textarea.scrollIntoView(false)
-          }, 300)
+            this.$textarea.scrollIntoView({
+              behavior: 'smooth',
+              block: 'end',
+              inline: 'nearest'
+            })
+          }, 200)
         })
 
         window.addEventListener('focusout', () => {
