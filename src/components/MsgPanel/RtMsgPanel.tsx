@@ -15,10 +15,13 @@ class RtMsgPanel extends Nerv.Component<IProps> {
 
   render() {
     const { messageList } = this.props
+    const sortMsgList = messageList.sort((a: any, b: any) => {
+      return parseInt(a.msg_ts, 10) - parseInt(b.msg_ts, 10)
+    })
 
     return (
       <div>
-        {messageList.map(msg => (
+        {sortMsgList.map(msg => (
           <Msg message={msg} key={msg.msg_id} />
         ))}
       </div>

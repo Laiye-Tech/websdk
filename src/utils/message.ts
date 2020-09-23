@@ -52,12 +52,13 @@ export function pushRtMessage(
   msgBody: any,
   msgType: MSG_TYPE,
   msgId: string,
+  msg_ts: string,
   direction: DIRECTION = MSG_DIRECTION.user
 ) {
   const msg = {
     user_id: getUserId(),
     msg_id: msgId,
-    msg_ts: '',
+    msg_ts,
     sender_info: {
       avatar_url: '',
       nickname: '',

@@ -241,8 +241,17 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     try {
       const { msg_id } = await pushMsg(msg)
+      // 记录发消息的时间
+      const msg_ts = new Date().valueOf()
+
       log({ msg_id, direction: TRACK_DIRECTION.user })
-      const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
+      const message = pushRtMessage(
+        msg.msg_body,
+        msg.msg_type,
+        msg_id,
+        // 融云的数据是字符串
+        `${msg_ts}`
+      )
       this.props.setRtMsgs(message)
 
       // 清空输入框 & 清空用户输入联想sug
