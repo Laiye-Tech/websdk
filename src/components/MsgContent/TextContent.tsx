@@ -80,7 +80,14 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
         msgId = msg_id
       }
 
-      const message = pushRtMessage(msg.msg_body, msg.msg_type, msgId)
+      // 记录发消息的时间
+      const msg_ts = new Date().valueOf()
+      const message = pushRtMessage(
+        msg.msg_body,
+        msg.msg_type,
+        msgId,
+        `${msg_ts}`
+      )
       setRtMsgs(message)
     }
   }

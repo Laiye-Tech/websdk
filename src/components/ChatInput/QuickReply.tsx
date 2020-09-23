@@ -79,10 +79,16 @@ class QuickReplyMsg extends Nerv.Component {
     const content = createTextMsg(msg)
 
     const { msg_id } = await pushMsg(content)
+    const msg_ts = new Date().valueOf()
     log({ msg_id, direction: TRACK_DIRECTION.user })
 
     this.handleShowAll(false)
-    const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
+    const message = pushRtMessage(
+      content.msg_body,
+      content.msg_type,
+      msg_id,
+      `${msg_ts}`
+    )
     this.props.setRtMsgs(message)
   }
 
