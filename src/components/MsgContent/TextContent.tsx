@@ -14,7 +14,7 @@ import {
   TRACK_DIRECTION
 } from '../../utils/config'
 import { xssFilter } from '../../utils/xss'
-import { createTextMsg, pushRtMessage } from '../../utils/message'
+import { createTextMsg, pushRtMessage, getReply } from '../../utils/message'
 
 import { TextMessage, DIRECTION, IMsgBodyInfo } from '../../../interfaces'
 
@@ -77,6 +77,9 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
       } else {
         const { msg_id } = await pushMsg(msg)
         log({ msg_id, direction: TRACK_DIRECTION.user })
+
+        // 发送完成后调用机器人回复接口
+        getReply(setRtMsgs, msg.msg_body)
         msgId = msg_id
       }
 

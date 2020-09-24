@@ -1,4 +1,4 @@
-import { BASE_URL, getUserId } from '../utils/config'
+import { BASE_URL, getUserId, OPEN_BASE_URL } from '../utils/config'
 import postForm from '../utils/request'
 import { ISendMsgResponse, IHistoryMsg, EvaluateInfo } from '../../interfaces'
 
@@ -10,7 +10,7 @@ const baseUrl = `${BASE_URL}/msg`
  * @return {Object<ISendMsgResponse>}
  * */
 export function pushMsg(body: any): Promise<ISendMsgResponse> {
-  const url = `${baseUrl}/receive`
+  const url = `${OPEN_BASE_URL}/v2/msg/receive`
 
   return postForm(url, body)
 }
@@ -32,7 +32,7 @@ export function getMsgHistory(
     user_id: getUserId()
   }
 
-  const url = `${baseUrl}/history`
+  const url = `${OPEN_BASE_URL}/v2/msg/history`
   return postForm(url, body)
 }
 
@@ -42,7 +42,23 @@ export function getMsgHistory(
  * @return {}
  * */
 export function satisfactionEvaluate(body: EvaluateInfo): Promise<{}> {
-  const url = `${baseUrl}/evaluate`
+  const url = `${OPEN_BASE_URL}/qa/satisfaction/create`
 
+  return postForm(url, body)
+}
+
+/**
+ * 获取机器人回复
+ * @param {string} type 消息类型
+ * @param {string} content  消息内容
+ */
+export function getBotReply(msgBody): Promise<IHistoryMsg> {
+  const body = {
+    msg_body: msgBody,
+    user_id: getUserId(),
+    extra: ''
+  }
+
+  const url = `${OPEN_BASE_URL}/v2/msg/bot-response`
   return postForm(url, body)
 }

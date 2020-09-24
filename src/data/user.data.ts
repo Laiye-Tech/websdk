@@ -1,6 +1,21 @@
 import postForm from '../utils/request'
-import { BASE_URL, getUserId } from '../utils/config'
+import { BASE_URL, getUserId, OPEN_BASE_URL } from '../utils/config'
 import { ISugList, IUserSugList, ITagValuesInput } from '../../interfaces'
+
+/**
+ * 创建用户
+ */
+
+export function createUser(userInfo): Promise<any> {
+  const body = {
+    user_id: userInfo.userId,
+    avatar_url: userInfo.userAvatar,
+    nickname: userInfo.nickName
+  }
+
+  const url = `${OPEN_BASE_URL}/v2/user/create`
+  return postForm(url, body)
+}
 
 /**
  * 获取用户输入的sug
@@ -13,7 +28,7 @@ export async function getUserInputSugList(input: string): Promise<ISugList[]> {
     user_id: getUserId()
   }
 
-  const url = `${BASE_URL}/msg/user/input`
+  const url = `${OPEN_BASE_URL}/v2/msg/user-suggestion/get`
   const { user_suggestions }: IUserSugList = await postForm(url, body)
   return user_suggestions
 }
@@ -22,9 +37,10 @@ export async function getUserInputSugList(input: string): Promise<ISugList[]> {
  * 模拟用户发消息
  * @param {string} hashUrl
  * @return {Object}
- *
- * */
-export async function simulateMessage(hashUrl: string): Promise<{message_id: string}> {
+ */
+export async function simulateMessage(
+  hashUrl: string
+): Promise<{ message_id: string }> {
   const body = {
     hash_id: hashUrl.split('/t/')[1],
     user_type: 'PLATFORM'
@@ -47,7 +63,7 @@ export function createUserTag(attribute: ITagValuesInput[]): Promise<{}> {
     user_attribute_user_attribute_value: attribute
   }
 
-  const url = `${BASE_URL}/user/tag`
+  const url = `${OPEN_BASE_URL}/v2/user/user-attribute/create`
   const res = postForm(url, body)
   return res
 }

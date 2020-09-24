@@ -50,7 +50,7 @@ const clientConfig = {
             options: {
               limit: 10000
             }
-          },
+          }
         ]
       },
       {
@@ -98,7 +98,19 @@ const clientConfig = {
 
   devServer: {
     host: '0.0.0.0',
-    port: 8082
+    port: 8082,
+    proxy: {
+      // '/api': {
+      //   target: 'https://newtestcb2.wul.ai',
+      //   changeOrigin: true,
+      //   pathRewrite: { '^/api': '' }
+      // },
+      '/openapi': {
+        target: 'http://testopenapi.laiye.com',
+        changeOrigin: true,
+        pathRewrite: { '^/openapi': '' }
+      }
+    }
   },
 
   resolve: {

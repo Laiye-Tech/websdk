@@ -8,7 +8,7 @@ import {
   TRACK_DIRECTION,
   interactionConfig
 } from '../../utils/config'
-import { createTextMsg, pushRtMessage } from '../../utils/message'
+import { createTextMsg, pushRtMessage, getReply } from '../../utils/message'
 
 import { setRtMsgs } from '../../actions'
 import { log } from '../../data/app.data'
@@ -76,14 +76,18 @@ class QuickReplyMsg extends Nerv.Component {
 
   // 发送消息
   sendQuickReplyMsg = (msg: string) => async () => {
+    const { setRtMsgs } = this.props
     const content = createTextMsg(msg)
 
     const { msg_id } = await pushMsg(content)
     log({ msg_id, direction: TRACK_DIRECTION.user })
 
+    // 发送完成后调用机器人回复接口
+    getReply(setRtMsgs, content)
+
     this.handleShowAll(false)
     const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
-    this.props.setRtMsgs(message)
+    setRtMsgs(message)
   }
 
   /**

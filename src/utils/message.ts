@@ -1,6 +1,7 @@
 import { MSG_TYPE, DIRECTION } from '../../interfaces'
 import { MSG_DIRECTION } from './config'
 import { getUserId } from '../utils/config'
+import { getBotReply } from '../data/message.data'
 
 /** 文本消息 */
 export function createTextMsg(text: string) {
@@ -52,7 +53,10 @@ export function pushRtMessage(
   msgBody: any,
   msgType: MSG_TYPE,
   msgId: string,
-  direction: DIRECTION = MSG_DIRECTION.user
+  quick_reply = [],
+  bot: any = null,
+  source = MSG_DIRECTION.user,
+  similarResponse: any = []
 ) {
   const msg = {
     user_id: getUserId(),
@@ -67,7 +71,7 @@ export function pushRtMessage(
     msg_body: msgBody,
     extra: '',
     source: '',
-    bot: {
+    bot: bot || {
       qa: {
         knowledge_id: 0,
         standard_question: '',
@@ -76,11 +80,39 @@ export function pushRtMessage(
       }
     },
     enable_evaluate: false,
-    quick_reply: [],
-    similar_response: [],
+    quick_reply,
+    similar_response: similarResponse,
     pub_key: '',
-    direction
+    direction: source
   }
 
   return msg
+}
+
+/**
+ * 接受消息
+ */
+export const getReply = async (setRtMsgs, msg_body) => {
+  // 发送完成后调用机器人回复接口
+
+  const { suggested_response: replyMsg }: any = await getBotReply(msg_body)
+
+  // 将历史数据格式化、保持和发送消息的数据格式一致
+  replyMsg.map(replyMsgItem => {
+    const { bot, response, quick_reply, msg_id: replayMsgId } = replyMsgItem
+    if (response.length) {
+      const msg = response[0]
+
+      const message = pushRtMessage(
+        msg.msg_body,
+        'TEXT',
+        replayMsgId,
+        quick_reply,
+        bot,
+        'TO_USER',
+        msg.similar_response
+      )
+      setRtMsgs(message)
+    }
+  })
 }

@@ -15,9 +15,6 @@ class RtMsgPanel extends Nerv.Component<IProps> {
 
   render() {
     const { messageList } = this.props
-    // const
-    // TO_USER
-
     return (
       <div>
         {messageList.map(msg => (

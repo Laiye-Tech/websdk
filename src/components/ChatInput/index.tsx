@@ -4,7 +4,7 @@ import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
 import { getStsToken, log } from '../../data/app.data'
-import { pushMsg, getBotReply } from '../../data/message.data'
+import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './SugList'
@@ -20,7 +20,8 @@ import {
 import {
   createTextMsg,
   pushRtMessage,
-  createImageMsg
+  createImageMsg,
+  getReply
 } from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
@@ -222,6 +223,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 发消息
   sendMsg = async (msgType: MSG_TYPE, content: any) => {
+    const { setRtMsgs } = this.props
     let msg = null
 
     switch (msgType) {
@@ -243,7 +245,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       const { msg_id } = await pushMsg(msg)
       const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
 
-      this.props.setRtMsgs(message)
+      setRtMsgs(message)
 
       log({ msg_id, direction: TRACK_DIRECTION.user })
       // 清空输入框 & 清空用户输入联想sug
@@ -259,31 +261,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       }
 
       // 发送完成后调用机器人回复接口
-      const { suggested_response: replyMsg } = await getBotReply(msg.msg_body)
-
-      console.log('replyMsg-----', replyMsg)
-
-      const {
-        bot,
-        source,
-        response,
-        quick_reply,
-        msg_id: replayMsgId
-      } = replyMsg
-
-      // 将历史数据格式化、保持和发送消息的数据格式一致
-      response.map(msg => {
-        const message = pushRtMessage(
-          msg.msg_body,
-          'TEXT',
-          replayMsgId,
-          quick_reply,
-          bot,
-          source,
-          msg.similar_response
-        )
-        this.props.setRtMsgs(message)
-      })
+      getReply(setRtMsgs, msg.msg_body)
     } catch (err) {
       console.log('err --->', err)
     }

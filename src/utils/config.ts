@@ -9,7 +9,10 @@ let interaction: IInteractionConfig
 const MODE = process.env.MODE
 const pkg = require('../../package.json')
 
-let BASE_URL = ''
+// 不分环境、统一使用开放接口
+const OPEN_BASE_URL = '/openapi'
+
+let BASE_URL = 'https://newtestcb2.wul.ai'
 let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
 
 if (MODE === 'dev') {
@@ -26,7 +29,7 @@ if (MODE === 'dev') {
 
 const page = {
   set: (configOb: IPageConfig): void => {
-    pageConfig = {...configOb}
+    pageConfig = { ...configOb }
   },
   get: (propertyKey: keyof IPageConfig) => {
     return typeof interaction !== 'undefined' ? pageConfig[propertyKey] : null
@@ -34,7 +37,7 @@ const page = {
 }
 
 const language = {
-  set: (languageCode) => {
+  set: languageCode => {
     envLanguage = require(`../../locales/${languageCode}`).default
   },
   get: propertyKey => {
@@ -44,14 +47,14 @@ const language = {
 
 const interactionConfig = {
   set: (configOb: IInteractionConfig): void => {
-    interaction = {...configOb}
+    interaction = { ...configOb }
   },
   get: (propertyKey: keyof IInteractionConfig) => {
     return typeof interaction !== 'undefined' ? interaction[propertyKey] : null
   }
 }
 
-const MSG_DIRECTION: {[key: string]: DIRECTION} = {
+const MSG_DIRECTION: { [key: string]: DIRECTION } = {
   /** 用户发出的消息 */
   user: 'FROM_USER',
   /** 客服发出的消息 */
@@ -145,6 +148,7 @@ function getUserId() {
 
 export {
   REPORT_URL,
+  OPEN_BASE_URL,
   BASE_URL,
   MSG_DIRECTION,
   getAppInfo,
