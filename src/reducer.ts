@@ -79,7 +79,7 @@ const allowScale = () => {
 export default handleActions<IAuthState>(
   {
     [RT_MSG_LIST]: (state: IAuthState, { payload }: any) => {
-      const msgList = [...state.rtMsgList]
+      const msgList = JSON.parse(JSON.stringify(state.rtMsgList))
       msgList.push(payload)
 
       let quickReplys = []

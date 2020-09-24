@@ -19,6 +19,8 @@ class RtMsgPanel extends Nerv.Component<IProps> {
       return parseInt(a.msg_ts, 10) - parseInt(b.msg_ts, 10)
     })
 
+    console.log('sortMsgList----', sortMsgList)
+
     return (
       <div>
         {sortMsgList.map(msg => (
