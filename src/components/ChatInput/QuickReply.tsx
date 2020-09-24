@@ -83,7 +83,7 @@ class QuickReplyMsg extends Nerv.Component {
     log({ msg_id, direction: TRACK_DIRECTION.user })
 
     // 发送完成后调用机器人回复接口
-    getReply(setRtMsgs, content)
+    getReply(setRtMsgs, content.msg_body)
 
     this.handleShowAll(false)
     const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)

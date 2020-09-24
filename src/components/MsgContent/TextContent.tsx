@@ -4,7 +4,6 @@ import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs } from '../../actions'
 import { log } from '../../data/app.data'
-import { simulateMessage } from '../../data/user.data'
 import { pushMsg } from '../../data/message.data'
 
 import { transformString, prefixUrl } from '../../utils'
@@ -64,28 +63,16 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   const bgColor = PageConfig.get('theme_color') as string
   const decoration = bgColor === '#000000' ? 'underline' : 'initial'
 
-  const sendMsg = async (evt: any) => {
-    if (evt && evt.target && evt.target.dataset && evt.target.dataset.key) {
-      const url = evt.target.dataset.key
-      const value = evt.target.innerText
+  const sendMsg = async (value: string) => {
+    const msg = createTextMsg(value)
+    const { msg_id } = await pushMsg(msg)
+    log({ msg_id, direction: TRACK_DIRECTION.user })
 
-      const msg = createTextMsg(value)
-      let msgId = ''
+    // 发送完成后调用机器人回复接口
+    getReply(setRtMsgs, msg.msg_body)
 
-      if (url) {
-        simulateMessage(url)
-      } else {
-        const { msg_id } = await pushMsg(msg)
-        log({ msg_id, direction: TRACK_DIRECTION.user })
-
-        // 发送完成后调用机器人回复接口
-        getReply(setRtMsgs, msg.msg_body)
-        msgId = msg_id
-      }
-
-      const message = pushRtMessage(msg.msg_body, msg.msg_type, msgId)
-      setRtMsgs(message)
-    }
+    const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
+    setRtMsgs(message)
   }
 
   return (
@@ -100,9 +87,8 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
           {similarList.map(similar => (
             <li
               key={similar.url}
-              data-key={similar.url}
               style={{ color: bgColor, textDecoration: decoration }}
-              onClick={sendMsg}
+              onClick={() => sendMsg(similar.detail.qa.standard_question)}
             >
               {similar.detail.qa.standard_question}
             </li>

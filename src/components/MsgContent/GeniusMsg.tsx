@@ -40,14 +40,14 @@ const ANSWER_LIST: {
   {
     title: '满意',
     icon:
-      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/68e7fdd9-1e93-4993-b668-6dd4554093e0.png',
+      'http://172.17.202.22:9000/laiye-im-saas/websdk/invalid-name%403x.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T113008Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=b2be8ec652683a14d5459a4c0054d6cfe9463bbdba43bf73986a7574bb20c574',
     satisfaction: SATISFACTION_ENUM.THUMB_UP,
     type: 'thumbUp'
   },
   {
     title: '内容不满意',
     icon:
-      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/14ab3428-57ec-460b-b33e-408d399a4e94.png',
+      'http://172.17.202.22:9000/laiye-im-saas/websdk/invalid-name%403x%20%281%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T113047Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=21f3200734814834a1fd048f68ed4f4c8ba311b5d092d6e88f8371da929e77d8',
     satisfaction: SATISFACTION_ENUM.BAD_ANSWER,
     type: 'badAnswer'
   },

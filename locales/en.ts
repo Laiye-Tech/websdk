@@ -17,7 +17,8 @@ export default {
     audioPlaying: 'Audio is playing'
   },
   Logo: {
-    waterMark: 'https://cdn.wul.ai/sdk/logo_en.png'
+    waterMark:
+      'http://172.17.202.22:9000/laiye-im-saas/websdk/logo_en.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T112622Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=fd382e49b12a60b662110ae1a2c4a9f1e841d7946ae6abac11d8a07d3a0efeba'
   },
   Tips: {
     delete: 'The bot has been deleted and can not be used',
@@ -25,7 +26,8 @@ export default {
     alertTitle: 'prompt'
   },
   QCode: {
-    copy: "I created an intelligent chatbot on the platform. Let's experience it",
+    copy:
+      "I created an intelligent chatbot on the platform. Let's experience it",
     successTxt: 'copy succeeded',
     message: 'Scan code to experience chatbot ',
     copyBtn: 'Share address quickly'
@@ -37,7 +39,8 @@ export default {
   },
   NetWork: {
     offline: 'Network disconnected,please check it.',
-    rongMsg: 'The current dialog window is invalid. You can restart the dialog after refreshing'
+    rongMsg:
+      'The current dialog window is invalid. You can restart the dialog after refreshing'
   },
   Image: {
     noImg: 'no image'

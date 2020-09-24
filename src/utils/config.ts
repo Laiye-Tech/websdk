@@ -14,6 +14,9 @@ const OPEN_BASE_URL = '/openapi'
 
 let BASE_URL = 'https://newtestcb2.wul.ai'
 let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
+// 私有部署
+
+const PVT_URL = 'http://172.17.227.171/api'
 
 if (MODE === 'dev') {
   BASE_URL = 'https://newtestcb2.wul.ai'
@@ -147,6 +150,7 @@ function getUserId() {
 }
 
 export {
+  PVT_URL,
   REPORT_URL,
   OPEN_BASE_URL,
   BASE_URL,

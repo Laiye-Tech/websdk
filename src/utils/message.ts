@@ -16,8 +16,7 @@ export function createTextMsg(text: string) {
 export function createImageMsg(url: string, thumbUrl: string = '') {
   const body = {
     image: {
-      resource_url: url,
-      thumbUrl
+      content: url
     }
   }
 
@@ -102,10 +101,11 @@ export const getReply = async (setRtMsgs, msg_body) => {
     const { bot, response, quick_reply, msg_id: replayMsgId } = replyMsgItem
     if (response.length) {
       const msg = response[0]
+      const type = Object.keys(msg_body)[0]
 
       const message = pushRtMessage(
         msg.msg_body,
-        'TEXT',
+        type === 'text' ? 'TEXT' : 'IMAGE',
         replayMsgId,
         quick_reply,
         bot,

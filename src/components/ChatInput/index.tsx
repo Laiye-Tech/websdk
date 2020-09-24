@@ -3,7 +3,7 @@ import * as styles from './ChatInput.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
-import { getStsToken, log } from '../../data/app.data'
+import { getStsToken, log, Upload, handleUpload } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
@@ -15,7 +15,8 @@ import {
   page as PageConfig,
   language,
   interactionConfig,
-  TRACK_DIRECTION
+  TRACK_DIRECTION,
+  PVT_URL
 } from '../../utils/config'
 import {
   createTextMsg,
@@ -97,15 +98,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       if (isIOS && container) {
         window.addEventListener('focusin', () => {
           container.style.height = '45%'
-
-          // // 让输入框到 view
-          // this.timer = setTimeout(() => {
-          //   this.$textarea.scrollIntoView({
-          //     behavior: 'smooth',
-          //     block: 'end',
-          //     inline: 'nearest'
-          //   })
-          // }, 200)
         })
 
         window.addEventListener('focusout', () => {
@@ -267,20 +259,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
   }
 
-  // 发送图片消息
-  onInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const urls = await this.handleUpload(evt)
-    if (urls) {
-      this.sendMsg('IMAGE', urls[0])
-    }
-
-    if (this.$input) {
-      this.$input.value = ''
-    }
-  }
-
   // 上传
-  handleUpload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+  upload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files.length) {
       return
     }
@@ -290,26 +270,41 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     const uploader = language.get('Uploader')
 
-    // 检查文件类型
-    if (['jpeg', 'png', 'gif'].indexOf(file.type.split('/')[1]) < 0) {
-      this.props.openToastPanel(uploader.imgType)
-      return
-    }
-
     // 文件大小限制
     if (file.size > imgMasSize) {
       this.props.openToastPanel(uploader.imgSize)
       return
     }
 
-    const stsToken = await getStsToken()
+    const formData = new FormData()
+    formData.append('img', file)
 
-    try {
-      const res = await getOssUrl(stsToken, file)
-      return res
-    } catch (err) {
-      this.props.openToastPanel(err.message)
-    }
+    const xhr = new XMLHttpRequest()
+
+    const data = xhr.addEventListener('readystatechange', () => {
+      if (xhr.readyState !== 4 || xhr.status !== 200) {
+        return
+      }
+
+      const data = JSON.parse(xhr.response)
+      const { successfully, rows } = data
+
+      if (successfully) {
+        if (rows[0].url) {
+          this.sendMsg('IMAGE', rows[0].url)
+        }
+
+        if (this.$input) {
+          this.$input.value = ''
+        }
+      }
+    })
+
+    xhr.open('post', `${PVT_URL}/paas-knowledge/oss/upload`, true)
+    const fd = new FormData()
+    fd.append('upfiles', file)
+
+    xhr.send(fd)
   }
 
   render() {
@@ -330,10 +325,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       <div className={`${styles.pullLeft} ${!isPhone ? styles.pcLeft : null}`}>
         <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
           <input
+            name="img"
+            accept=".jpeg, .png, .gif"
             type="file"
-            accept="image/*"
             className={styles.uploader}
-            onChange={this.onInputChange}
+            onChange={this.upload}
             ref={input => (this.$input = input)}
           />
           <svg
@@ -377,7 +373,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
               style={{ backgroundColor: bgColor }}
               onClick={this.onPressEnter}
             >
-              <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png" />
+              <img src="http://172.17.202.22:9000/laiye-im-saas/websdk/send.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T112750Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=a8061061066893794038116614b88140988c5de5999ce70c947f4aa873b4f19a" />
             </div>
           </div>
         </div>

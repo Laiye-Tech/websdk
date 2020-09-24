@@ -17,7 +17,8 @@ export default {
     audioPlaying: '正在播放'
   },
   Logo: {
-    waterMark: 'https://cdn.wul.ai/sdk/logo_zh.png'
+    waterMark:
+      'http://172.17.202.22:9000/laiye-im-saas/websdk/logo_zh.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T112726Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=1a4d188598bc9ad0298a8aea4f6bacf65faa564c0aa65a91f8b50720adeaccb5'
   },
   Tips: {
     delete: '该机器人已被删除，暂无法使用',

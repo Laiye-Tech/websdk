@@ -5,7 +5,11 @@ import { getRandomString } from './index'
 
 type RequestMode = 'cors' | 'navigate' | 'no-cors' | 'same-origin'
 
-export default async function postForm<T>(url: string, data: T) {
+export default async function postForm<T>(
+  url: string,
+  data: T,
+  ContentType = 'application/json; charset: UTF-8'
+) {
   const nonce = getRandomString(32)
   const secret = 'MwejoHNTPZYU1HwXDMGW'
   const timestamp = Math.round(new Date().getTime() / 1000)
@@ -19,7 +23,7 @@ export default async function postForm<T>(url: string, data: T) {
     body: JSON.stringify(data),
     mode: 'cors' as RequestMode,
     headers: {
-      'Content-Type': 'application/json; charset: UTF-8',
+      'Content-Type': ContentType,
       'Api-Auth-pubkey': '27c09eP9PmJeZB5ARAIlmixnCHoG8RO80017ec0f1453567a4f',
       'Api-Auth-nonce': nonce,
       'Api-Auth-sign': sign,
@@ -29,7 +33,7 @@ export default async function postForm<T>(url: string, data: T) {
 
   if (url.split('https://newtestcb2.wul.ai')[1]) {
     options.headers = {
-      'Content-Type': 'application/json; charset: UTF-8'
+      'Content-Type': ContentType
     }
   }
 
