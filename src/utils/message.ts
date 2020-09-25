@@ -1,5 +1,5 @@
 import { MSG_TYPE, DIRECTION } from '../../interfaces'
-import { MSG_DIRECTION } from './config'
+import { MSG_DIRECTION, MSG_TYPE_CONST } from './config'
 import { getUserId } from '../utils/config'
 import { getBotReply } from '../data/message.data'
 
@@ -93,26 +93,28 @@ export function pushRtMessage(
  */
 export const getReply = async (setRtMsgs, msg_body) => {
   // 发送完成后调用机器人回复接口
-
   const { suggested_response: replyMsg }: any = await getBotReply(msg_body)
 
   // 将历史数据格式化、保持和发送消息的数据格式一致
   replyMsg.map(replyMsgItem => {
     const { bot, response, quick_reply, msg_id: replayMsgId } = replyMsgItem
     if (response.length) {
-      const msg = response[0]
-      const type = Object.keys(msg_body)[0]
+      response.forEach(item => {
+        const msg = item
+        const type = Object.keys(msg.msg_body)[0]
 
-      const message = pushRtMessage(
-        msg.msg_body,
-        type === 'text' ? 'TEXT' : 'IMAGE',
-        replayMsgId,
-        quick_reply,
-        bot,
-        'TO_USER',
-        msg.similar_response
-      )
-      setRtMsgs(message)
+        const message = pushRtMessage(
+          msg.msg_body,
+          MSG_TYPE_CONST[type],
+          replayMsgId,
+          quick_reply,
+          bot,
+          'TO_USER',
+          msg.similar_response
+        )
+
+        setRtMsgs(message)
+      })
     }
   })
 }

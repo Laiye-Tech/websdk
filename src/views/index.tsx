@@ -495,12 +495,8 @@ class App extends Nerv.Component<IProps, IState> {
     const containerStyle = `${styles.container} ${borderShape} ${isHiddenApp} ${isFullScreen}`
     const windowHeight = this.isPhone ? `${pageConfig.screen_ratio}%` : null
 
-    const string =
-      '<a href="javascript:;" onClick="console.log(123)" />"fdfdfd"</a>'
-
     return (
       <Nerv.Fragment>
-        <span dangerouslySetInnerHTML={{ __html: string }} />
         <div className={`${styles.app} ${largePanel}`} style={position}>
           <div className={styles.mask} onClick={this.hiddenMask} id="mask" />
           <div

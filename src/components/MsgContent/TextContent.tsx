@@ -26,6 +26,17 @@ interface IProps {
 const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   let { content } = body.text
 
+  // document.addEventListener('click', event => {
+  //   // 如果是a标签并且是‘点击’
+  //   if (
+  //     event.target.nodeName === 'A' &&
+  //     event.target.getAttribute('classname') === 'serch-only'
+  //   ) {
+  //     const res = window.sessionStorage.getItem('test')
+  //     console.log('res-----', res)
+  //   }
+  // })
+
   if (typeof content === 'string' && content) {
     content = transformString(content)
   }
@@ -37,12 +48,23 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
 
   content = xssFilter(content)
 
+  // 链接
   const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
+  // a标签
   const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
+  // 换行
   const reg2 = /\n|\\n/g
+  // img标签
   const imgReg = /<img.*?(?:>|\/>)/gi
 
   if (direction === MSG_DIRECTION.genius) {
+    // const reg = /<a\/?.+?\/?>/gi
+
+    // if (reg.test(content)) {
+    //   // 如果是a标签、判断内容是不是‘点击’
+
+    // }
+
     if (imgReg.test(content) || reg1.test(content)) {
       content = content
     } else {
@@ -76,6 +98,7 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   return (
     <Nerv.Fragment key="text-content">
       <span
+        // dangerouslySetInnerHTML={{ __html: body.text.content }}
         dangerouslySetInnerHTML={{ __html: content }}
         className={styles.textContent}
       />

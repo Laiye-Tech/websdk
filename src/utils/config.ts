@@ -134,9 +134,20 @@ function getUserId() {
   return ''
 }
 
+const MSG_TYPE_CONST = {
+  text: 'TEXT',
+  image: 'IMAGE',
+  custom: 'CUSTOM',
+  rich_text: 'RICH_TEXT',
+  video: 'VIDEO',
+  file: 'FILE',
+  voice: 'VOICE',
+  event: 'EVENT',
+  share_link: 'SHARELINK'
+}
+
 export {
   PVT_URL,
-  REPORT_URL,
   OPEN_BASE_URL,
   MSG_DIRECTION,
   getAppInfo,
@@ -152,5 +163,6 @@ export {
   language,
   interactionConfig,
   BACKGROUND_COLOR,
-  TRACK_DIRECTION
+  TRACK_DIRECTION,
+  MSG_TYPE_CONST
 }
