@@ -1,5 +1,5 @@
 import postForm from '../utils/request'
-import { BASE_URL, getUserId, OPEN_BASE_URL } from '../utils/config'
+import { getUserId, OPEN_BASE_URL } from '../utils/config'
 import { ISugList, IUserSugList, ITagValuesInput } from '../../interfaces'
 
 /**
@@ -20,7 +20,7 @@ export function createUser(userInfo): Promise<any> {
  * 获取用户输入的sug
  * @param {string} input
  * @return {IUserSugList}
- * */
+ */
 export async function getUserInputSugList(input: string): Promise<ISugList[]> {
   const body = {
     query: input,
@@ -36,8 +36,7 @@ export async function getUserInputSugList(input: string): Promise<ISugList[]> {
  * 给用户添加属性值
  * @param {Array<ITagValuesInput>} attribute
  * @return {}
- *
- * */
+ */
 export function createUserTag(attribute: ITagValuesInput[]): Promise<{}> {
   const body = {
     user_id: getUserId(),

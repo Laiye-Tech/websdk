@@ -1,14 +1,12 @@
-import { BASE_URL, getUserId, OPEN_BASE_URL } from '../utils/config'
+import { getUserId, OPEN_BASE_URL } from '../utils/config'
 import postForm from '../utils/request'
 import { ISendMsgResponse, IHistoryMsg, EvaluateInfo } from '../../interfaces'
-
-const baseUrl = `${BASE_URL}/msg`
 
 /**
  * 发消息接口
  * @param {any} body
  * @return {Object<ISendMsgResponse>}
- * */
+ */
 export function pushMsg(body: any): Promise<ISendMsgResponse> {
   const url = `${OPEN_BASE_URL}/v2/msg/receive`
 
@@ -20,7 +18,7 @@ export function pushMsg(body: any): Promise<ISendMsgResponse> {
  * @param {string} msgId
  * @param {number} num
  * @return {Object<IHistoryMsg>}
- * */
+ */
 export function getMsgHistory(
   msgId: string = '',
   num: number = 50
@@ -40,7 +38,7 @@ export function getMsgHistory(
  * 点赞点踩接口
  * @param {Object<EvaluateInfo>} body
  * @return {}
- * */
+ */
 export function satisfactionEvaluate(body: EvaluateInfo): Promise<{}> {
   const url = `${OPEN_BASE_URL}/qa/satisfaction/create`
 

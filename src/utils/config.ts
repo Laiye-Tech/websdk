@@ -10,23 +10,16 @@ const MODE = process.env.MODE
 const pkg = require('../../package.json')
 
 // 不分环境、统一使用开放接口
-const OPEN_BASE_URL = '/openapi'
+const OPEN_BASE_URL = 'http://testopenapi.laiye.com'
 
-let BASE_URL = 'https://newtestcb2.wul.ai'
 let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
 // 私有部署
 
 const PVT_URL = 'http://172.17.227.171/api'
 
-if (MODE === 'dev') {
-  BASE_URL = 'https://newtestcb2.wul.ai'
-} else if (MODE === 'qa') {
-  BASE_URL = 'https://newtestcb2.wul.ai'
-} else if (MODE === 'pre') {
-  BASE_URL = 'https://precb2.wul.ai'
+if (MODE === 'pre') {
   REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
-} else {
-  BASE_URL = 'https://cb2.wul.ai'
+} else if (MODE === 'prod') {
   REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
 }
 
@@ -153,7 +146,6 @@ export {
   PVT_URL,
   REPORT_URL,
   OPEN_BASE_URL,
-  BASE_URL,
   MSG_DIRECTION,
   getAppInfo,
   getUserInfo,

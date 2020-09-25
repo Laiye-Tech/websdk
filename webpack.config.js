@@ -105,11 +105,11 @@ const clientConfig = {
       //   changeOrigin: true,
       //   pathRewrite: { '^/api': '' }
       // },
-      '/openapi': {
-        target: 'http://testopenapi.laiye.com',
-        changeOrigin: true,
-        pathRewrite: { '^/openapi': '' }
-      }
+      // '/openapi': {
+      //   target: 'http://testopenapi.laiye.com',
+      //   changeOrigin: true,
+      //   pathRewrite: { '^/openapi': '' }
+      // }
     }
   },
 
