@@ -12,16 +12,8 @@ const pkg = require('../../package.json')
 // 不分环境、统一使用开放接口
 const OPEN_BASE_URL = 'http://testopenapi.laiye.com'
 
-let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
 // 私有部署
-
 const PVT_URL = 'http://172.17.227.171/api'
-
-if (MODE === 'pre') {
-  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
-} else if (MODE === 'prod') {
-  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
-}
 
 const page = {
   set: (configOb: IPageConfig): void => {

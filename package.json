@@ -55,7 +55,6 @@
     "redux": "4.0.5",
     "redux-actions": "2.6.5",
     "uuid": "7.0.2",
-    "web-logger": "1.0.7",
     "whatwg-fetch": "3.0.0",
     "xss": "1.0.6"
   },

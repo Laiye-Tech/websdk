@@ -3,7 +3,7 @@ import * as styles from './ChatInput.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
-import { getStsToken, log, Upload, handleUpload } from '../../data/app.data'
+import { Upload, handleUpload } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
@@ -238,8 +238,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
 
       setRtMsgs(message)
-
-      log({ msg_id, direction: TRACK_DIRECTION.user })
       // 清空输入框 & 清空用户输入联想sug
       this.setState({ textContent: '' })
 

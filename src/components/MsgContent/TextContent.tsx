@@ -3,7 +3,6 @@ import * as styles from './MsgContent.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs } from '../../actions'
-import { log } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 
 import { transformString, prefixUrl } from '../../utils'
@@ -66,7 +65,6 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   const sendMsg = async (value: string) => {
     const msg = createTextMsg(value)
     const { msg_id } = await pushMsg(msg)
-    log({ msg_id, direction: TRACK_DIRECTION.user })
 
     // 发送完成后调用机器人回复接口
     getReply(setRtMsgs, msg.msg_body)
