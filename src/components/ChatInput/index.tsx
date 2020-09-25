@@ -215,6 +215,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 发消息
   sendMsg = async (msgType: MSG_TYPE, content: any) => {
+    window.fn()
+
     const { setRtMsgs } = this.props
     let msg = null
 
