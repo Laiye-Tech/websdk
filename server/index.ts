@@ -25,7 +25,7 @@ const html = `
       <script>
         new websdk({
           data: {
-            pubkey: 'FuLcN3rXprCb9vbDyHrUrTGtq7zi5faA0089175d1938a21c81', // 吾来平台PubKey
+            pubkey: 'pihcy4OlTWAWhQ717pfYNsCjgzMlRwQz004f53383d70e51d83', // 吾来平台PubKey
             autoOpen: true // 是否自动打开
           },
           el: 'body'
