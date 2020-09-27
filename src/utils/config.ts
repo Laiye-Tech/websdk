@@ -10,7 +10,7 @@ const MODE = process.env.MODE
 const pkg = require('../../package.json')
 
 // 不分环境、统一使用开放接口
-const OPEN_BASE_URL = 'http://testopenapi.laiye.com'
+const OPEN_BASE_URL = 'https://newtestopenapi.wul.ai'
 
 // 私有部署
 const PVT_URL = 'http://172.17.227.171/api'
