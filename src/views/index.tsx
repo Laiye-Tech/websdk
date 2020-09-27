@@ -304,15 +304,15 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     // pubkey和用户信息存到端上
-    window.localStorage.setItem('SDK_PUBKEY', pubkey)
+    window.localStorage.setItem('PVT_SDK_PUBKEY', pubkey)
     if (!getUserInfo()) {
       const userInfo = {}
       userInfo[`${pubkey}`] = input
-      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(userInfo))
+      window.localStorage.setItem('PVT_SDK_USER_INFO', JSON.stringify(userInfo))
     } else {
       const info = getUserInfo()
       info[pubkey] = input
-      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
+      window.localStorage.setItem('PVT_SDK_USER_INFO', JSON.stringify(info))
     }
 
     // 如果默认是关闭的状态 需要读取“自动邀请会话”配置

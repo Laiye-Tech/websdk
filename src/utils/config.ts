@@ -116,8 +116,8 @@ function getAppInfo() {
 }
 
 function getUserInfo() {
-  if (window.localStorage.getItem('SDK_USER_INFO')) {
-    const result = JSON.parse(window.localStorage.getItem('SDK_USER_INFO'))
+  if (window.localStorage.getItem('PVT_SDK_USER_INFO')) {
+    const result = JSON.parse(window.localStorage.getItem('PVT_SDK_USER_INFO'))
     return result
   }
 
@@ -126,7 +126,7 @@ function getUserInfo() {
 
 function getUserId() {
   if (getUserInfo()) {
-    const pubkey = window.localStorage.getItem('SDK_PUBKEY')
+    const pubkey = window.localStorage.getItem('PVT_SDK_PUBKEY')
     const userId = getUserInfo()[pubkey].userId
     return userId
   }
