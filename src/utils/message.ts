@@ -92,11 +92,12 @@ export function pushRtMessage(
  * 接受消息
  */
 export const getReply = async (setRtMsgs, msg_body) => {
-  // 发送完成后调用机器人回复接口
+  // 发送完成后调用机器人回复接口、取is_send为true 的回复
   const { suggested_response: replyMsg }: any = await getBotReply(msg_body)
+  const replyMsgList = replyMsg.filter(item => item.is_send)
 
   // 将历史数据格式化、保持和发送消息的数据格式一致
-  replyMsg.map(replyMsgItem => {
+  replyMsgList.map(replyMsgItem => {
     const { bot, response, quick_reply, msg_id: replayMsgId } = replyMsgItem
     if (response.length) {
       response.forEach(item => {
