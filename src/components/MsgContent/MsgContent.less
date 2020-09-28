@@ -12,6 +12,12 @@
   color: #eceef0;
 }
 
+@media screen and (prefers-color-scheme: dark) {
+  .hiddenId {
+    color: #000
+  }
+}
+
 .userMsg>.hiddenId {
   justify-content: flex-end;
   margin: 0;
@@ -509,11 +515,5 @@
     margin-top: 12px;
     cursor: pointer;
     font-size: 14px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  & .hiddenId {
-    color: #000
   }
 }
