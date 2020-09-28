@@ -77,11 +77,11 @@ const defaultUserInfo = {
     'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534854173706-41534855030375.png',
   interaction_config: {
     auto_pop: 60,
-    // 点赞点踩
-    enable_report: true,
+    // 举报按钮
+    enable_report: false,
     enable_wulai_ad: false,
     flow: 'SDK_ASR_TYPE_DEFAULT',
-    fuzzy_sug: false,
+    fuzzy_sug: true,
     pop_after_close: -20,
     reply_msg: [],
     reply_type: 'SDK_USER_AUTO_REPLY_TYPE_DEFAULT',
@@ -542,10 +542,10 @@ class App extends Nerv.Component<IProps, IState> {
               ref={this.setContentRef}
               id="msg-scroll-panel"
             >
-              <div className={styles.message}>
+              <Nerv.Fragment>
                 {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
                 <RtMsgPanel />
-              </div>
+              </Nerv.Fragment>
             </main>
 
             <footer className={styles.footer} id="footer">
