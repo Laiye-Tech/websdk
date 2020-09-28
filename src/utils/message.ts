@@ -54,6 +54,7 @@ export function pushRtMessage(
   msgId: string,
   quick_reply = [],
   bot: any = null,
+  enable_evaluate: boolean = false,
   source = MSG_DIRECTION.user,
   similarResponse: any = []
 ) {
@@ -78,7 +79,7 @@ export function pushRtMessage(
         is_none_intention: false
       }
     },
-    enable_evaluate: false,
+    enable_evaluate,
     quick_reply,
     similar_response: similarResponse,
     pub_key: '',
@@ -110,6 +111,7 @@ export const getReply = async (setRtMsgs, msg_body) => {
           replayMsgId,
           quick_reply,
           bot,
+          msg.enable_evaluate,
           'TO_USER',
           msg.similar_response
         )

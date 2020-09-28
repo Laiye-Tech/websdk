@@ -77,7 +77,8 @@ const defaultUserInfo = {
     'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534854173706-41534855030375.png',
   interaction_config: {
     auto_pop: 60,
-    enable_report: false,
+    // 点赞点踩
+    enable_report: true,
     enable_wulai_ad: false,
     flow: 'SDK_ASR_TYPE_DEFAULT',
     fuzzy_sug: false,
