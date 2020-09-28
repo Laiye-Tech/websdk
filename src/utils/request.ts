@@ -11,7 +11,7 @@ export default async function postForm<T>(
   ContentType = 'application/json; charset: UTF-8'
 ) {
   const nonce = getRandomString(32)
-  const secret = 'xPzl7dAb6Nw5vt2ubs6P'
+  const secret = 'OoZyzuZ3DY7UhTEXrdvS'
   const timestamp = Math.round(new Date().getTime() / 1000)
 
   const sign = CryptoJS.SHA1(nonce + timestamp + secret, '').toString(
@@ -24,7 +24,7 @@ export default async function postForm<T>(
     mode: 'cors' as RequestMode,
     headers: {
       'Content-Type': ContentType,
-      'Api-Auth-pubkey': 'pihcy4OlTWAWhQ717pfYNsCjgzMlRwQz004f53383d70e51d83',
+      'Api-Auth-pubkey': 'qi8opGXC4v6oWTKyI245UoKPicEFIy9K001c421433e2b02edc',
       'Api-Auth-nonce': nonce,
       'Api-Auth-sign': sign,
       'Api-Auth-timestamp': timestamp
