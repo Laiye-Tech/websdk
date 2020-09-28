@@ -542,10 +542,8 @@ class App extends Nerv.Component<IProps, IState> {
               ref={this.setContentRef}
               id="msg-scroll-panel"
             >
-              <Nerv.Fragment>
-                {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
-                <RtMsgPanel />
-              </Nerv.Fragment>
+              {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
+              <RtMsgPanel />
             </main>
 
             <footer className={styles.footer} id="footer">
