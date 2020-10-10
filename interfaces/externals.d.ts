@@ -8,6 +8,6 @@ interface Window {
   __SESSION__: string
   __APP_STORE__: any
   websdk: {
-    toggleSDkVisible: () => void
+    toggleSDkVisible: (visible?: boolean) => void
   }
 }

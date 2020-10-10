@@ -330,7 +330,7 @@ class App extends Nerv.Component<IProps, IState> {
     await loadAliOSS()
 
     window.websdk = {
-      toggleSDkVisible: this.togglePanel
+      toggleSDkVisible: (visible?: boolean) => this.togglePanel(visible)
     }
 
     window.addEventListener('offline', this.onOfflineChange)
@@ -439,8 +439,8 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   // 控制会话框显示/隐藏
-  togglePanel = () => {
-    this.setState({ visibile: !this.state.visibile }, this.handleVisible())
+  togglePanel = (visible: boolean = !this.state.visibile) => {
+    this.setState({ visibile: visible }, this.handleVisible())
   }
 
   render() {
