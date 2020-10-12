@@ -98,8 +98,8 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   return (
     <Nerv.Fragment key="text-content">
       <span
-        // dangerouslySetInnerHTML={{ __html: body.text.content }}
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: body.text.content }}
+        // dangerouslySetInnerHTML={{ __html: content }}
         className={styles.textContent}
       />
 
