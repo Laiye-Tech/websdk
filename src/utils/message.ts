@@ -58,7 +58,7 @@ export function pushRtMessage(
   const msg = {
     user_id: getUserId(),
     msg_id: msgId,
-    msg_ts,
+    msg_ts: '',
     sender_info: {
       avatar_url: '',
       nickname: '',
