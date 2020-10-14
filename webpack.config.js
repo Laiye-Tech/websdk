@@ -19,7 +19,9 @@ const clientConfig = {
     minimize: isProd,
     minimizer: [
       new TerserPlugin({
-        terserOptions: { mangle: false }
+        terserOptions: {
+          mangle: false
+        }
       })
     ]
   },
@@ -41,17 +43,14 @@ const clientConfig = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000
-            }
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 10000
           }
-        ]
+        }]
       },
       {
         test: /\.tsx?$/,
@@ -100,11 +99,13 @@ const clientConfig = {
     host: '0.0.0.0',
     port: 8082,
     proxy: {
-      // '/api': {
-      //   target: 'https://newtestcb2.wul.ai',
-      //   changeOrigin: true,
-      //   pathRewrite: { '^/api': '' }
-      // },
+      '/api': {
+        target: 'http://172.17.227.171',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
       // '/openapi': {
       //   target: 'http://testopenapi.laiye.com',
       //   changeOrigin: true,

@@ -16,7 +16,7 @@ export function createTextMsg(text: string) {
 export function createImageMsg(url: string, thumbUrl: string = '') {
   const body = {
     image: {
-      content: url
+      resource_url: url
     }
   }
 

@@ -150,10 +150,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
           // 如果有sug的话、定位高度随之变化
           this.changeuserSugListBottom()
         }
-        if (this.state.showSug) {
-          // 如果value是空 不需要调接口
-          value ? this.getUserSugList(value) : this.clearSugList()
-        }
+        // if (this.state.showSug) {
+        //   // 如果value是空 不需要调接口
+        //   value ? this.getUserSugList(value) : this.clearSugList()
+        // }
       }),
       500
     )
@@ -215,8 +215,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 发消息
   sendMsg = async (msgType: MSG_TYPE, content: any) => {
-    window.fn()
-
     const { setRtMsgs } = this.props
     let msg = null
 
@@ -373,7 +371,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
               style={{ backgroundColor: bgColor }}
               onClick={this.onPressEnter}
             >
-              <img src="http://172.17.202.22:9000/laiye-im-saas/websdk/send.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=LAIYEAKIAIOSFODNN7EE%2F20200924%2F%2Fs3%2Faws4_request&X-Amz-Date=20200924T112750Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=a8061061066893794038116614b88140988c5de5999ce70c947f4aa873b4f19a" />
+              <img src="http://172.17.202.22:9000/laiye-im-saas/websdk/send.png" />
             </div>
           </div>
         </div>

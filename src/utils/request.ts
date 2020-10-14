@@ -11,7 +11,7 @@ export default async function postForm<T>(
   ContentType = 'application/json; charset: UTF-8'
 ) {
   const nonce = getRandomString(32)
-  const secret = 'OoZyzuZ3DY7UhTEXrdvS'
+  const secret = 'SpHLWVaLJ53KSExIgkjV'
   const timestamp = Math.round(new Date().getTime() / 1000)
 
   const sign = CryptoJS.SHA1(nonce + timestamp + secret, '').toString(
@@ -24,16 +24,10 @@ export default async function postForm<T>(
     mode: 'cors' as RequestMode,
     headers: {
       'Content-Type': ContentType,
-      'Api-Auth-pubkey': 'qi8opGXC4v6oWTKyI245UoKPicEFIy9K001c421433e2b02edc',
+      'Api-Auth-pubkey': 'gRR54KImBfOLGWGtke4Msre7vO7RfZbf00775d15babf068950',
       'Api-Auth-nonce': nonce,
       'Api-Auth-sign': sign,
       'Api-Auth-timestamp': timestamp
-    }
-  }
-
-  if (url.split('https://newtestcb2.wul.ai')[1]) {
-    options.headers = {
-      'Content-Type': ContentType
     }
   }
 
