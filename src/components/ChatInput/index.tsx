@@ -234,8 +234,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     try {
-      const { msg_id } = await pushMsg(msg)
-      const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
+      // const { msg_id } = await pushMsg(msg)
+      const message = pushRtMessage(msg.msg_body, msg.msg_type, '')
 
       setRtMsgs(message)
       // 清空输入框 & 清空用户输入联想sug

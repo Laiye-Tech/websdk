@@ -1,7 +1,7 @@
 import { MSG_TYPE, DIRECTION } from '../../interfaces'
 import { MSG_DIRECTION, MSG_TYPE_CONST } from './config'
 import { getUserId } from '../utils/config'
-import { getBotReply } from '../data/message.data'
+import { getBotReply, pushMsg } from '../data/message.data'
 
 /** 文本消息 */
 export function createTextMsg(text: string) {
@@ -94,12 +94,23 @@ export function pushRtMessage(
  */
 export const getReply = async (setRtMsgs, msg_body) => {
   // 发送完成后调用机器人回复接口、取is_send为true 的回复
-  const { suggested_response: replyMsg }: any = await getBotReply(msg_body)
+
+  const body = {
+    msg_body,
+    user_id: getUserId(),
+    extra: ''
+  }
+
+  const {
+    suggested_response: replyMsg,
+    msg_id: replayMsgId
+  }: any = await getBotReply(body)
+
   const replyMsgList = replyMsg.filter(item => item.is_send)
 
   // 将历史数据格式化、保持和发送消息的数据格式一致
   replyMsgList.map(replyMsgItem => {
-    const { bot, response, quick_reply, msg_id: replayMsgId } = replyMsgItem
+    const { bot, response, quick_reply } = replyMsgItem
     if (response.length) {
       response.forEach(item => {
         const msg = item
@@ -115,6 +126,16 @@ export const getReply = async (setRtMsgs, msg_body) => {
           'TO_USER',
           msg.similar_response
         )
+
+        const body = {
+          msg_body: msg.msg_body,
+          user_id: getUserId(),
+          msg_ts: msg.msg_ts,
+          bot,
+          answer_id: msg.answer_id
+        }
+
+        pushMsg(body)
 
         setRtMsgs(message)
       })

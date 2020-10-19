@@ -78,13 +78,13 @@ class QuickReplyMsg extends Nerv.Component {
     const { setRtMsgs } = this.props
     const content = createTextMsg(msg)
 
-    const { msg_id } = await pushMsg(content)
+    // const { msg_id } = await pushMsg(content)
 
     // 发送完成后调用机器人回复接口
     getReply(setRtMsgs, content.msg_body)
 
     this.handleShowAll(false)
-    const message = pushRtMessage(content.msg_body, content.msg_type, msg_id)
+    const message = pushRtMessage(content.msg_body, content.msg_type, '')
     setRtMsgs(message)
   }
 

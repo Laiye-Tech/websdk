@@ -8,7 +8,8 @@ import { ISendMsgResponse, IHistoryMsg, EvaluateInfo } from '../../interfaces'
  * @return {Object<ISendMsgResponse>}
  */
 export function pushMsg(body: any): Promise<ISendMsgResponse> {
-  const url = `${OPEN_BASE_URL}/v2/msg/receive`
+  const url = `${OPEN_BASE_URL}/v2/msg/sync`
+  body.msg_ts = new Date().valueOf()
 
   return postForm(url, body)
 }
@@ -51,12 +52,6 @@ export function satisfactionEvaluate(body: EvaluateInfo): Promise<{}> {
  * @param {string} content  消息内容
  */
 export function getBotReply(msgBody): Promise<IHistoryMsg> {
-  const body = {
-    msg_body: msgBody,
-    user_id: getUserId(),
-    extra: ''
-  }
-
   const url = `${OPEN_BASE_URL}/v2/msg/bot-response`
-  return postForm(url, body)
+  return postForm(url, msgBody)
 }

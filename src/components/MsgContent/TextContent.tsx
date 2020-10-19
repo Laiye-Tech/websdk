@@ -86,12 +86,12 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
 
   const sendMsg = async (value: string) => {
     const msg = createTextMsg(value)
-    const { msg_id } = await pushMsg(msg)
+    // const { msg_id } = await pushMsg(msg)
 
     // 发送完成后调用机器人回复接口
     getReply(setRtMsgs, msg.msg_body)
 
-    const message = pushRtMessage(msg.msg_body, msg.msg_type, msg_id)
+    const message = pushRtMessage(msg.msg_body, msg.msg_type, '')
     setRtMsgs(message)
   }
 

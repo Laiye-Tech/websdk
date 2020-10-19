@@ -178,12 +178,6 @@ class App extends Nerv.Component<IProps, IState> {
   async componentDidMount() {
     const { pubkey, userInfo } = this.props
 
-    window.fn = value => () => {
-      console.log('value----websdk', value)
-
-      this.setState({ visibile: value })
-    }
-
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone }, () => {
       if (this.state.visibile && isPhone) {
