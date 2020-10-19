@@ -25,58 +25,43 @@ interface IProps {
 
 const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   let { content } = body.text
-
-  // document.addEventListener('click', event => {
-  //   // 如果是a标签并且是‘点击’
-  //   if (
-  //     event.target.nodeName === 'A' &&
-  //     event.target.getAttribute('classname') === 'serch-only'
-  //   ) {
-  //     const res = window.sessionStorage.getItem('test')
-  //     console.log('res-----', res)
-  //   }
-  // })
-
   if (typeof content === 'string' && content) {
     content = transformString(content)
   }
 
   // 展示emoji表情
-  if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
-    content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  // if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
+  //   content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  // }
+
+  // 如果是 任务机器人 中中配置的 去搜索 答案、则不进行 XSS
+  const regAlinkXss = /<a[^>]*href="\#"[^>]*>(.*?)<\/a>/g
+  if (!regAlinkXss.test(content)) {
+    content = xssFilter(content)
   }
 
-  content = xssFilter(content)
-
   // 链接
-  const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
+  const regLink = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
   // a标签
-  const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
+  const regALink = /<a[^>]*href=((['"]([^"]*)['"])|("\#"))[^>]*>(.*?)<\/a>/g
   // 换行
-  const reg2 = /\n|\\n/g
+  const regBr = /\n|\\n/g
   // img标签
   const imgReg = /<img.*?(?:>|\/>)/gi
 
   if (direction === MSG_DIRECTION.genius) {
-    // const reg = /<a\/?.+?\/?>/gi
-
-    // if (reg.test(content)) {
-    //   // 如果是a标签、判断内容是不是‘点击’
-
-    // }
-
-    if (imgReg.test(content) || reg1.test(content)) {
+    if (imgReg.test(content) || regALink.test(content)) {
       content = content
     } else {
-      const res = content.replace(reg, (kw: string) => {
+      const res = content.replace(regLink, (kw: string) => {
         return `<a href=${prefixUrl(kw)} target="_blank">${kw}</a>`
       })
 
       content = res
     }
 
-    if (reg2.test(content)) {
-      const test = content.replace(reg2, '<br />')
+    if (regBr.test(content)) {
+      const test = content.replace(regBr, '<br />')
       content = test
     }
   }
@@ -98,8 +83,7 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   return (
     <Nerv.Fragment key="text-content">
       <span
-        dangerouslySetInnerHTML={{ __html: body.text.content }}
-        // dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: content }}
         className={styles.textContent}
       />
 

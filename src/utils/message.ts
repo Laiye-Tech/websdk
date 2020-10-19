@@ -126,7 +126,6 @@ export const getReply = async (setRtMsgs, msg_body) => {
           'TO_USER',
           msg.similar_response
         )
-
         const body = {
           msg_body: msg.msg_body,
           user_id: getUserId(),

@@ -50,11 +50,6 @@ export async function request(url: string, options?: any) {
       return type && type.indexOf('json') !== -1 ? res.json() : res.text()
     }
 
-    // 登录接口获取session
-    if (url.indexOf('/user/login') !== -1) {
-      window.__SESSION__ = res.headers.get('session')
-    }
-
     const type = res.headers.get('Content-Type')
     return type && type.indexOf('json') !== -1 ? res.json() : res.text()
   } catch (err) {
