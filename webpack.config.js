@@ -98,20 +98,20 @@ const clientConfig = {
   devServer: {
     host: '0.0.0.0',
     port: 8082,
-    proxy: {
-      '/api': {
-        target: 'http://172.17.227.171',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      },
-      // '/openapi': {
-      //   target: 'http://testopenapi.laiye.com',
-      //   changeOrigin: true,
-      //   pathRewrite: { '^/openapi': '' }
-      // }
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://172.17.227.171',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   },
+    //   // '/openapi': {
+    //   //   target: 'http://testopenapi.laiye.com',
+    //   //   changeOrigin: true,
+    //   //   pathRewrite: { '^/openapi': '' }
+    //   // }
+    // }
   },
 
   resolve: {
