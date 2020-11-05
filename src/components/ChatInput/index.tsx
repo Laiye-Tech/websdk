@@ -124,11 +124,12 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     this.ws = new WebSocket(wsUrl)
 
     this.ws.onmessage = event => {
-      this.setState({ textContent: event.data })
+      this.setState({ textContent: event.data.content })
     }
   }
 
   componentWillMount() {
+    this.ws.close()
     clearTimeout(this.timer)
   }
 
@@ -321,9 +322,9 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     this.setState({ openVoice: !this.state.openVoice }, () => {
       if (openVoice) {
-        this.ws.open()
+        this.ws.send('start')
       } else {
-        this.ws.close()
+        this.ws.send('stop')
       }
     })
   }
