@@ -120,11 +120,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       }
     }
 
-    const wsUrl = 'ws://127.0.0.1:8089/astRecordEndpoint/22.100.10.10:4567'
+    const wsUrl = 'ws://127.0.0.1:8083/astRecordEndpoint/22.100.10.10:4567'
     this.ws = new WebSocket(wsUrl)
 
     this.ws.onmessage = event => {
-      this.setState({ textContent: event.data.content })
+      this.setState({ textContent: event.data.context })
     }
   }
 
