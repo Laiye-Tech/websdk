@@ -124,12 +124,24 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     this.ws = new WebSocket(wsUrl)
 
     this.ws.onmessage = event => {
-      this.setState({ textContent: event.data.context })
+      const _value = JSON.parse(event.data)
+
+      if (_value.context) {
+        this.setState({ textContent: _value.context })
+      }
+    }
+
+    this.ws.onopen = function(event) {
+      console.log('链接成功！！！')
+    }
+
+    this.ws.onclose = function(event) {
+      console.log('链接断开！！！')
     }
   }
 
   componentWillUnmount() {
-    this.ws.close()
+    // this.ws.close()
     clearTimeout(this.timer)
   }
 
@@ -318,10 +330,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 开始接收语音信息
   handleOpenVoice = () => {
-    const { openVoice } = this.state
-
     this.setState({ openVoice: !this.state.openVoice }, () => {
-      if (openVoice) {
+      if (this.state.openVoice) {
         this.ws.send('start')
       } else {
         this.ws.send('stop')
