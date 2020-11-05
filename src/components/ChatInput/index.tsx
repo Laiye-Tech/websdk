@@ -42,7 +42,6 @@ interface IState {
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
 const defaultHeight = 24
-const ws = window.websocket
 
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
@@ -52,6 +51,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   lastHeight = defaultHeight
   containerHeight = ''
   timer = null
+  ws = null
 
   state: IState = {
     textContent: '',
@@ -120,7 +120,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       }
     }
 
-    ws.onmessage = event => {
+    const wsUrl = 'ws://127.0.0.1:8089/astRecordEndpoint/22.100.10.10:4567'
+    this.ws = new WebSocket(wsUrl)
+
+    this.ws.onmessage = event => {
       this.setState({ textContent: event.data })
     }
   }
@@ -314,14 +317,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 开始接收语音信息
   handleOpenVoice = () => {
-    const ws = window.websocket
     const { openVoice } = this.state
 
     this.setState({ openVoice: !this.state.openVoice }, () => {
       if (openVoice) {
-        ws.open()
+        this.ws.open()
       } else {
-        ws.close()
+        this.ws.close()
       }
     })
   }

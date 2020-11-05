@@ -50,13 +50,6 @@ const html = `
           document.addEventListener('gesturestart', function (event) {
             event.preventDefault();
           });
-
-          const wsUrl = 'ws://127.0.0.1:8089/astRecordEndpoint/22.100.10.10:4567'
-
-          let ws = null
-
-          ws = new WebSocket(wsUrl)
-          window.websocket = ws
         }
       </script>
   </body>
