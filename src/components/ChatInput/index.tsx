@@ -128,7 +128,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     this.ws.close()
     clearTimeout(this.timer)
   }
