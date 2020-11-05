@@ -3,7 +3,6 @@ import * as styles from './ChatInput.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
-import { Upload, handleUpload } from '../../data/app.data'
 import { pushMsg } from '../../data/message.data'
 import { getUserInputSugList } from '../../data/user.data'
 
@@ -38,10 +37,13 @@ interface IState {
   textContent: string
   showSug: boolean
   isPhone: boolean
+  openVoice: boolean
 }
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
 const defaultHeight = 24
+const ws = window.websocket
+
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
   $input: HTMLInputElement | null = null
@@ -54,7 +56,8 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   state: IState = {
     textContent: '',
     showSug: interactionConfig.get('fuzzy_sug') as boolean,
-    isPhone: false
+    isPhone: false,
+    openVoice: false
   }
 
   componentDidMount() {
@@ -115,6 +118,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
           container.style.marginBottom = '0px'
         })
       }
+    }
+
+    ws.onmessage = event => {
+      this.setState({ textContent: event.data })
     }
   }
 
@@ -305,9 +312,23 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     xhr.send(fd)
   }
 
+  // 开始接收语音信息
+  handleOpenVoice = () => {
+    const ws = window.websocket
+    const { openVoice } = this.state
+
+    this.setState({ openVoice: !this.state.openVoice }, () => {
+      if (openVoice) {
+        ws.open()
+      } else {
+        ws.close()
+      }
+    })
+  }
+
   render() {
     const { userSugList, toogleAllArrowVisible } = this.props
-    const { textContent, isPhone } = this.state
+    const { textContent, isPhone, openVoice } = this.state
 
     const frameShape = PageConfig.get('frame_shape') as number
     const themeColor = PageConfig.get('theme_color') as string
@@ -345,6 +366,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
             </g>
           </svg>
         </div>
+
+        <div
+          className={`${
+            openVoice ? styles.voiceIconOpen : styles.voiceIconClose
+          }`}
+          onClick={this.handleOpenVoice}
+        />
       </div>
     )
 

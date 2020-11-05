@@ -10,4 +10,5 @@ interface Window {
   websdk: {
     toggleSDkVisible: (visible?: boolean) => void
   }
+  websocket: any
 }
