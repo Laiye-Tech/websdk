@@ -514,7 +514,9 @@ class App extends Nerv.Component<IProps, IState> {
               styles[`enterImg-${enterImgSize}`]
             }`}
             style={{
-              backgroundColor,
+              backgroundColor: !pageConfig.header_chose
+                ? backgroundColor
+                : 'initial',
               display: `${
                 (isPhone && visibile) || isFullScreen ? 'none' : 'inline-block'
               }`
