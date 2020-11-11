@@ -93,24 +93,24 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      if (isIOS && container) {
-        window.addEventListener('focusin', () => {
-          container.style.height = '45%'
+      // if (isIOS && container) {
+      //   window.addEventListener('focusin', () => {
+      //     container.style.height = '45%'
 
-          // // 让输入框到 view
-          // this.timer = setTimeout(() => {
-          //   this.$textarea.scrollIntoView({
-          //     behavior: 'smooth',
-          //     block: 'end',
-          //     inline: 'nearest'
-          //   })
-          // }, 200)
-        })
+      //     // // 让输入框到 view
+      //     // this.timer = setTimeout(() => {
+      //     //   this.$textarea.scrollIntoView({
+      //     //     behavior: 'smooth',
+      //     //     block: 'end',
+      //     //     inline: 'nearest'
+      //     //   })
+      //     // }, 200)
+      //   })
 
-        window.addEventListener('focusout', () => {
-          container.style.height = this.containerHeight
-        })
-      }
+      //   window.addEventListener('focusout', () => {
+      //     container.style.height = this.containerHeight
+      //   })
+      // }
 
       // 小米上输入法会盖住输入框部分
       if (isXiaomi && container) {
