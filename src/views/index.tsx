@@ -411,7 +411,7 @@ class App extends Nerv.Component<IProps, IState> {
     const borderShape = FRAME_SHAPE[pageConfig.frame_shape]
     // 是否展示历史消息
     const showHistory = !isError ? interactionConfig.get('show_history') : false
-    // header_chose 2表示禁用
+    // header_chose 0是默认 1是自定义 2表示禁用
     const isShowHeaderAvatar =
       pageConfig.header_chose !== 2 && Boolean(pageConfig.header_avatar)
     // 入口图标大小
@@ -457,7 +457,9 @@ class App extends Nerv.Component<IProps, IState> {
                     <img
                       className={avatarShape}
                       src={pageConfig.header_avatar}
-                      style={{ backgroundColor }}
+                      style={
+                        !pageConfig.header_chose ? { backgroundColor } : null
+                      }
                     />
                   </dt>
                 ) : null}
