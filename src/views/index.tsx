@@ -418,6 +418,7 @@ class App extends Nerv.Component<IProps, IState> {
     const enterImgSize = pageConfig.entry_image_size
 
     const enterImg = pageConfig.entry_image || initImg
+
     const enterImgStyle = visibile ? styles.closeImg : styles.enterAvatar
     const isFull = !isPhone && fullScreen
     const largePanel = isFull ? styles.fullScreen : ''
@@ -514,9 +515,10 @@ class App extends Nerv.Component<IProps, IState> {
               styles[`enterImg-${enterImgSize}`]
             }`}
             style={{
-              backgroundColor: !pageConfig.header_chose
-                ? backgroundColor
-                : 'initial',
+              backgroundColor:
+                visibile || !pageConfig.entry_image_chose
+                  ? backgroundColor
+                  : 'initial',
               display: `${
                 (isPhone && visibile) || isFullScreen ? 'none' : 'inline-block'
               }`

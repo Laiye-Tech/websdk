@@ -63,8 +63,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     this.setState({ isPhone })
 
     const container = document.getElementById('sdk-container')
-    const header = document.getElementById('sdk-header')
-
     if (container) {
       this.containerHeight = container.style.height
     }
@@ -94,19 +92,23 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastHeight = currentHeight
       })
 
-      if (isIOS && header) {
+      if (isIOS && container) {
         window.addEventListener('focusin', () => {
-          // container.style.height = '45%'
+          container.style.height = '45%'
 
           // // 让输入框到 view
-          this.timer = setTimeout(() => {
-            header.scrollIntoView(true)
-          }, 200)
+          // this.timer = setTimeout(() => {
+          //   this.$textarea.scrollIntoView({
+          //     behavior: 'smooth',
+          //     block: 'end',
+          //     inline: 'nearest'
+          //   })
+          // }, 200)
         })
 
-        // window.addEventListener('focusout', () => {
-        //   container.style.height = this.containerHeight
-        // })
+        window.addEventListener('focusout', () => {
+          container.style.height = this.containerHeight
+        })
       }
 
       // 小米上输入法会盖住输入框部分

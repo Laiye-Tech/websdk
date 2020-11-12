@@ -170,7 +170,11 @@ class GeniusMsg extends Nerv.Component {
             <dt className={styles.userInfo}>
               <div
                 className={`${styles.avatar} ${avatarShape}`}
-                style={{ backgroundColor: bgColor }}
+                style={{
+                  backgroundColor: !PageConfig.get('bot_avatar_chose')
+                    ? bgColor
+                    : 'initial'
+                }}
               >
                 <img
                   src={`${avatar}?x-oss-process=image/resize,w_72,h_72/quality,q_80`}
