@@ -35,6 +35,7 @@ export interface IPageConfig {
   entry_image_size: number
   screen_ratio: number
   language_code: string
+  pic_mode: number
 }
 
 export interface IInteractionConfig {
