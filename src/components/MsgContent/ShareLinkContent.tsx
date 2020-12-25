@@ -30,10 +30,14 @@ export default function VideoContent({ body }: IProps) {
         </dt>
         <dd
           className={`${
-            picMode === EPicMode.large ? styles.largePicContainer : null
+            picMode === EPicMode.large
+              ? styles.largePicContainer
+              : styles.smallPicContainer
           }`}
         >
-          <div className={styles.description}>{description}</div>
+          <div className={styles.descriptionContainer}>
+            <span className={styles.description}>{description}</span>
+          </div>
           <div className={`${styles.coverUrl}`}>
             {cover_url ? (
               <img src={cover_url} />
