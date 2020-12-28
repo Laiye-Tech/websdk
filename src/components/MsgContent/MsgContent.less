@@ -321,7 +321,6 @@
 
     & dt {
       width: 100%;
-      height: 20px;
       margin-left: 0;
       vertical-align: initial;
       float: none;
@@ -373,6 +372,15 @@
 
     .smallPicContainer {
       justify-content: space-between;
+    }
+
+    .largeTitle {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
     }
 
     .largePicContainer {

@@ -26,7 +26,9 @@ export default function VideoContent({ body }: IProps) {
     >
       <dl>
         <dt>
-          <h5>{title}</h5>
+          <h5 className={`${ picMode === EPicMode.large ? styles.largeTitle : null }`}>
+            {title}
+          </h5>
         </dt>
         <dd
           className={`${
