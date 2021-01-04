@@ -1,20 +1,16 @@
 import * as Nerv from 'nervjs'
-import * as styles from './MsgContent.less'
+import * as styles from './msg-content.less'
 import { connect, Dispatch } from 'nerv-redux'
 
-import { setRtMsgs } from '../../actions'
-import { log } from '../../data/app.data'
-import { simulateMessage } from '../../data/user.data'
-import { pushMsg } from '../../data/message.data'
+import { setRtMsgs } from '../../stores/actions'
 
 import { transformString, prefixUrl } from '../../utils'
 import {
   MSG_DIRECTION,
-  page as PageConfig,
-  TRACK_DIRECTION
+  page as PageConfig
 } from '../../utils/config'
 import { xssFilter } from '../../utils/xss'
-import { createTextMsg, pushRtMessage } from '../../utils/message'
+import { createTextMsg, pushRtMessage, getReply } from '../../utils/message'
 
 import { TextMessage, DIRECTION, IMsgBodyInfo } from '../../../interfaces'
 
@@ -27,36 +23,43 @@ interface IProps {
 
 const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   let { content } = body.text
-
   if (typeof content === 'string' && content) {
     content = transformString(content)
   }
 
   // 展示emoji表情
-  if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
-    content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  // if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
+  //   content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
+  // }
+
+  // 如果是 任务机器人 中中配置的 去搜索 答案、则不进行 XSS
+  const regAlinkXss = /<a[^>]*href="\#"[^>]*>(.*?)<\/a>/g
+  if (!regAlinkXss.test(content)) {
+    content = xssFilter(content)
   }
 
-  content = xssFilter(content)
-
-  const reg = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
-  const reg1 = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
-  const reg2 = /\n|\\n/g
+  // 链接
+  const regLink = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi
+  // a标签
+  const regALink = /<a[^>]*href=((['"]([^"]*)['"])|("\#"))[^>]*>(.*?)<\/a>/g
+  // 换行
+  const regBr = /\n|\\n/g
+  // img标签
   const imgReg = /<img.*?(?:>|\/>)/gi
 
   if (direction === MSG_DIRECTION.genius) {
-    if (imgReg.test(content) || reg1.test(content)) {
+    if (imgReg.test(content) || regALink.test(content)) {
       content = content
     } else {
-      const res = content.replace(reg, (kw: string) => {
+      const res = content.replace(regLink, (kw: string) => {
         return `<a href=${prefixUrl(kw)} target="_blank">${kw}</a>`
       })
 
       content = res
     }
 
-    if (reg2.test(content)) {
-      const test = content.replace(reg2, '<br />')
+    if (regBr.test(content)) {
+      const test = content.replace(regBr, '<br />')
       content = test
     }
   }
@@ -64,32 +67,13 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
   const bgColor = PageConfig.get('theme_color') as string
   const decoration = bgColor === '#000000' ? 'underline' : 'initial'
 
-  const sendMsg = async (evt: any) => {
-    if (evt && evt.target && evt.target.dataset && evt.target.dataset.key) {
-      const url = evt.target.dataset.key
-      const value = evt.target.innerText
+  const sendMsg = async (value: string) => {
+    const msg = createTextMsg(value)
+    // 发送完成后调用机器人回复接口
+    getReply(setRtMsgs, msg.msg_body)
 
-      const msg = createTextMsg(value)
-      let msgId = ''
-
-      if (url) {
-        simulateMessage(url)
-      } else {
-        const { msg_id } = await pushMsg(msg)
-        log({ msg_id, direction: TRACK_DIRECTION.user })
-        msgId = msg_id
-      }
-
-      // 记录发消息的时间
-      const msg_ts = new Date().valueOf()
-      const message = pushRtMessage(
-        msg.msg_body,
-        msg.msg_type,
-        msgId,
-        `${msg_ts}`
-      )
-      setRtMsgs(message)
-    }
+    const message = pushRtMessage(msg.msg_body, msg.msg_type, '')
+    setRtMsgs(message)
   }
 
   return (
@@ -104,9 +88,8 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
           {similarList.map(similar => (
             <li
               key={similar.url}
-              data-key={similar.url}
               style={{ color: bgColor, textDecoration: decoration }}
-              onClick={sendMsg}
+              onClick={() => sendMsg(similar.detail.qa.standard_question)}
             >
               {similar.detail.qa.standard_question}
             </li>

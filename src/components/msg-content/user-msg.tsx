@@ -1,7 +1,7 @@
 import * as Nerv from 'nervjs'
-import * as styles from './MsgContent.less'
+import * as styles from './msg-content.less'
 
-import MsgContent from './MsgContent'
+import MsgContent from './msg-content'
 
 import {
   AVATAR_SHAPE,

@@ -1,8 +1,8 @@
 import Nerv, { Fragment } from 'nervjs'
 
 import { MSG_DIRECTION } from '../../utils/config'
-import UserMsg from './UserMsg'
-import GeniusMsg from './GeniusMsg'
+import UserMsg from './user-msg'
+import GeniusMsg from './genius-msg'
 import { IMsgBodyInfo } from '../../../interfaces'
 
 interface IProps {

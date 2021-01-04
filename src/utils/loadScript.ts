@@ -1,6 +1,6 @@
 function loadScript(...scripts: string[]) {
   return Promise.all(
-    scripts.map((item) => {
+    scripts.map(item => {
       return getScript(item)
     })
   )
@@ -26,45 +26,6 @@ function getScript(scriptUrl: string, preload?: boolean) {
   })
 }
 
-async function loadRongCloud(): Promise<any> {
-  // AMD CMD引入
-  if (typeof window.require !== 'undefined') {
-    window.require.config({
-      paths: {
-        RongIMLib: 'https://cdn.ronghub.com/RongIMLib-2.5.5.min',
-        RongEmoji: 'https://cdn.ronghub.com/RongEmoji-2.2.7.min'
-      },
-      shim: {
-        'protobuf': {
-          deps: ['RongIMLib']
-        },
-        'RongEmoji': {
-          deps: ['RongIMLib']
-        }
-      }
-    })
-
-    return new Promise((resolve, reject) => {
-      window.require(['RongIMLib', 'RongEmoji', 'protobuf'], (RongIMLib: any, RongEmoji: RongIMLib.RongIMEmoji, protobuf: any) => {
-        window.RongIMLib = RongIMLib
-        window.RongIMLib.RongIMClient.Protobuf = window.RongIMLib.RongIMClient.Protobuf || protobuf
-        window.RongIMLib.RongIMEmoji = RongEmoji
-
-        resolve(RongIMLib)
-      })
-
-      window.require.onError = (err) => {
-        reject(err)
-      }
-    })
-  } else {
-    await loadScript('https://cdn.ronghub.com/RongIMLib-2.5.5.min.js')
-    await loadScript('https://cdn.ronghub.com/RongEmoji-2.2.7.min.js')
-
-    return new Promise(resolve => resolve(window.RongIMLib))
-  }
-}
-
 async function loadAliOSS() {
   // AMD CMD引入
   if (typeof window.require !== 'undefined') {
@@ -75,20 +36,22 @@ async function loadAliOSS() {
     })
 
     return new Promise((resolve, reject) => {
-      window.require(['oss'], (oss) => {
+      window.require(['oss'], oss => {
         window.OSS = oss
 
         resolve(oss)
       })
 
-      window.require.onError = (err) => {
+      window.require.onError = err => {
         reject(err)
       }
     })
   } else {
-     await loadScript('https://gosspublic.alicdn.com/aliyun-oss-sdk-6.9.0.min.js')
-     return window.OSS
+    await loadScript(
+      'https://gosspublic.alicdn.com/aliyun-oss-sdk-6.9.0.min.js'
+    )
+    return window.OSS
   }
 }
 
-export { loadScript, loadRongCloud, loadAliOSS }
+export { loadScript, loadAliOSS }

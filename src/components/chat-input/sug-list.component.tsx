@@ -1,6 +1,6 @@
 import * as Nerv from 'nervjs'
 import { connect } from 'nerv-redux'
-import * as styles from './ChatInput.less'
+import * as styles from './chat-input.less'
 
 import { ISugList, MSG_TYPE } from '../../../interfaces'
 

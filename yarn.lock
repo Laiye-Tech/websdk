@@ -1622,6 +1622,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-js@4.0.0:
+  version "4.0.0"
+  resolved "http://npm.laiye.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
+  integrity sha1-KQSrJnep0EKFai6i74DekuSjbcw=
+
 css-loader@2.1.0:
   version "2.1.0"
   resolved "https://npm.laiye.com/css-loader/-/css-loader-2.1.0.tgz#42952ac22bca5d076978638e9813abce49b8f0cc"
@@ -5003,10 +5008,6 @@ uuid@7.0.2:
   version "7.0.2"
   resolved "https://npm.laiye.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
 
-uuid@7.0.3:
-  version "7.0.3"
-  resolved "http://npm.laiye.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
-
 uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "http://npm.laiye.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
@@ -5048,13 +5049,6 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   resolved "http://npm.laiye.com/wbuf/-/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"
   dependencies:
     minimalistic-assert "^1.0.0"
-
-web-logger@1.0.7:
-  version "1.0.7"
-  resolved "http://npm.laiye.com/web-logger/-/web-logger-1.0.7.tgz#4ae74c0fb850b2077528a38bb9cb121f5f048f09"
-  dependencies:
-    uuid "7.0.3"
-    whatwg-fetch "3.0.0"
 
 webpack-cli@3.3.10:
   version "3.3.10"

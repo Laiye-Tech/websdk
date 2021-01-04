@@ -1,18 +1,15 @@
 import * as Nerv from 'nervjs'
 import { connect, Dispatch } from 'nerv-redux'
 
-import * as styles from './ChatInput.less'
+import * as styles from './chat-input.less'
 
 import {
   page as PageConfig,
-  TRACK_DIRECTION,
   interactionConfig
 } from '../../utils/config'
-import { createTextMsg, pushRtMessage } from '../../utils/message'
+import { createTextMsg, pushRtMessage, getReply } from '../../utils/message'
 
-import { setRtMsgs } from '../../actions'
-import { log } from '../../data/app.data'
-import { pushMsg } from '../../data/message.data'
+import { setRtMsgs } from '../../stores/actions'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
@@ -76,20 +73,17 @@ class QuickReplyMsg extends Nerv.Component {
 
   // 发送消息
   sendQuickReplyMsg = (msg: string) => async () => {
+    const { setRtMsgs } = this.props
     const content = createTextMsg(msg)
 
-    const { msg_id } = await pushMsg(content)
-    const msg_ts = new Date().valueOf()
-    log({ msg_id, direction: TRACK_DIRECTION.user })
+    // const { msg_id } = await pushMsg(content)
+
+    // 发送完成后调用机器人回复接口
+    getReply(setRtMsgs, content.msg_body)
 
     this.handleShowAll(false)
-    const message = pushRtMessage(
-      content.msg_body,
-      content.msg_type,
-      msg_id,
-      `${msg_ts}`
-    )
-    this.props.setRtMsgs(message)
+    const message = pushRtMessage(content.msg_body, content.msg_type, '')
+    setRtMsgs(message)
   }
 
   /**

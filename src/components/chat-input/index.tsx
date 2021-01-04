@@ -1,13 +1,11 @@
 import * as Nerv from 'nervjs'
-import * as styles from './ChatInput.less'
+import * as styles from './chat-input.less'
 import { connect, Dispatch } from 'nerv-redux'
 
-import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../actions'
-import { getStsToken, log } from '../../data/app.data'
-import { pushMsg } from '../../data/message.data'
+import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../stores/actions'
 import { getUserInputSugList } from '../../data/user.data'
 
-import SugList from './SugList'
+import SugList from './sug-list.component'
 
 import { debounce, getOssUrl } from '../../utils'
 import {
@@ -15,12 +13,14 @@ import {
   page as PageConfig,
   language,
   interactionConfig,
-  TRACK_DIRECTION
+  TRACK_DIRECTION,
+  PVT_URL
 } from '../../utils/config'
 import {
   createTextMsg,
   pushRtMessage,
-  createImageMsg
+  createImageMsg,
+  getReply
 } from '../../utils/message'
 import { IMsgBodyInfo, MSG_TYPE, ISugList } from '../../../interfaces'
 
@@ -40,6 +40,7 @@ interface IState {
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
 const defaultHeight = 24
+
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
   $input: HTMLInputElement | null = null
@@ -95,15 +96,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       if (isIOS && container) {
         window.addEventListener('focusin', () => {
           container.style.height = '45%'
-
-          // // 让输入框到 view
-          // this.timer = setTimeout(() => {
-          //   this.$textarea.scrollIntoView({
-          //     behavior: 'smooth',
-          //     block: 'end',
-          //     inline: 'nearest'
-          //   })
-          // }, 200)
         })
 
         window.addEventListener('focusout', () => {
@@ -124,7 +116,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearTimeout(this.timer)
   }
 
@@ -155,10 +147,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         if (userSugList.length && isPhone) {
           // 如果有sug的话、定位高度随之变化
           this.changeuserSugListBottom()
-        }
-        if (this.state.showSug) {
-          // 如果value是空 不需要调接口
-          value ? this.getUserSugList(value) : this.clearSugList()
         }
       }),
       500
@@ -221,6 +209,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   // 发消息
   sendMsg = async (msgType: MSG_TYPE, content: any) => {
+    const { setRtMsgs } = this.props
     let msg = null
 
     switch (msgType) {
@@ -239,22 +228,13 @@ class ChatInput extends Nerv.Component<IProps, IState> {
     }
 
     try {
-      const { msg_id } = await pushMsg(msg)
-      // 记录发消息的时间
-      const msg_ts = new Date().valueOf()
+      // const { msg_id } = await pushMsg(msg)
+      const message = pushRtMessage(msg.msg_body, msg.msg_type, '')
 
-      log({ msg_id, direction: TRACK_DIRECTION.user })
-      const message = pushRtMessage(
-        msg.msg_body,
-        msg.msg_type,
-        msg_id,
-        // 融云的数据是字符串
-        `${msg_ts}`
-      )
-      this.props.setRtMsgs(message)
-
+      setRtMsgs(message)
       // 清空输入框 & 清空用户输入联想sug
       this.setState({ textContent: '' })
+
       this.clearSugList()
 
       // 如果输入框变高的话、将其重置
@@ -263,25 +243,16 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         this.lastLength = 0
         this.lastHeight = defaultHeight
       }
+
+      // 发送完成后调用机器人回复接口
+      getReply(setRtMsgs, msg.msg_body)
     } catch (err) {
       console.log('err --->', err)
     }
   }
 
-  // 发送图片消息
-  onInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const urls = await this.handleUpload(evt)
-    if (urls) {
-      this.sendMsg('IMAGE', urls[0])
-    }
-
-    if (this.$input) {
-      this.$input.value = ''
-    }
-  }
-
   // 上传
-  handleUpload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+  upload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files.length) {
       return
     }
@@ -291,26 +262,41 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     const uploader = language.get('Uploader')
 
-    // 检查文件类型
-    if (['jpeg', 'png', 'gif'].indexOf(file.type.split('/')[1]) < 0) {
-      this.props.openToastPanel(uploader.imgType)
-      return
-    }
-
     // 文件大小限制
     if (file.size > imgMasSize) {
       this.props.openToastPanel(uploader.imgSize)
       return
     }
 
-    const stsToken = await getStsToken()
+    const formData = new FormData()
+    formData.append('img', file)
 
-    try {
-      const res = await getOssUrl(stsToken, file)
-      return res
-    } catch (err) {
-      this.props.openToastPanel(err.message)
-    }
+    const xhr = new XMLHttpRequest()
+
+    const data = xhr.addEventListener('readystatechange', () => {
+      if (xhr.readyState !== 4 || xhr.status !== 200) {
+        return
+      }
+
+      const data = JSON.parse(xhr.response)
+      const { successfully, rows } = data
+
+      if (successfully) {
+        if (rows[0].url) {
+          this.sendMsg('IMAGE', rows[0].url)
+        }
+
+        if (this.$input) {
+          this.$input.value = ''
+        }
+      }
+    })
+
+    xhr.open('post', `${PVT_URL}/paas-knowledge/oss/upload`, true)
+    const fd = new FormData()
+    fd.append('upfiles', file)
+
+    xhr.send(fd)
   }
 
   render() {
@@ -331,10 +317,11 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       <div className={`${styles.pullLeft} ${!isPhone ? styles.pcLeft : null}`}>
         <div className={`${styles.picture} wulai-web-sdk-upload-icon`}>
           <input
+            name="img"
+            accept=".jpeg, .png, .gif"
             type="file"
-            accept="image/*"
             className={styles.uploader}
-            onChange={this.onInputChange}
+            onChange={this.upload}
             ref={input => (this.$input = input)}
           />
           <svg
@@ -378,7 +365,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
               style={{ backgroundColor: bgColor }}
               onClick={this.onPressEnter}
             >
-              <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png" />
+              <img src="http://172.17.202.22:9000/laiye-im-saas/websdk/send.png" />
             </div>
           </div>
         </div>
@@ -388,14 +375,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
         {/* 免费版展示水印 */}
         {showLogo ? <img src={wulaiLogo} className={styles.logo} /> : null}
       </div>
-
-      // <div className={`${styles.chatInput} ${chatShape}`}>
-
-      //   {userSugList.length ? <SugList sendMsg={this.sendMsg}/> : null}
-
-      //   {/* 免费版展示水印 */}
-      //   {showLogo ? <img src={wulaiLogo} className={styles.logo}/> : null}
-      // </div>
     )
   }
 }

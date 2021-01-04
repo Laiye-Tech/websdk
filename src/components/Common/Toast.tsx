@@ -3,7 +3,7 @@ import * as styles from './style.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { toggleToastPanel } from '../../actions'
+import { toggleToastPanel } from '../../stores/actions'
 
 interface IProps {
   message: string

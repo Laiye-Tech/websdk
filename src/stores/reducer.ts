@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
-import { IAuthState } from '../interfaces'
-import { MSG_DIRECTION } from './utils/config'
+import { IAuthState } from '../../interfaces'
+import { MSG_DIRECTION } from '../utils/config'
 
 const initialState: IAuthState = {
   rtMsgList: [],

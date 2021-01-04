@@ -7,7 +7,7 @@ import { language } from '../../utils/config'
 import { throttle } from '../../utils'
 import { getMsgHistory } from '../../data/message.data'
 
-import Msg from '../MsgContent/Msg'
+import Msg from '../msg-content/msg'
 
 interface IProps {
   startTs: string
@@ -83,11 +83,6 @@ class RtMsgPanel extends Nerv.Component {
         const isEnterMsg =
           msg.msg_body.event && msg.msg_body.event.event_type === 'ENTER'
         return !isEnterMsg
-      })
-      // 消息记录可能会和融云推送的欢迎语重复，需要过滤一下
-      .filter(msg => {
-        const isHideMsg = parseInt(msg.msg_ts, 10) > parseInt(startTs, 10)
-        return !isHideMsg
       })
 
     return (

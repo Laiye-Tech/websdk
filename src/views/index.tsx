@@ -3,12 +3,15 @@ import * as styles from './index.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
-import { closeImageModal, closeVideoModal, toggleTipsModal } from '../actions'
+import {
+  closeImageModal,
+  closeVideoModal,
+  toggleTipsModal,
+  setRtMsgs
+} from '../stores/actions'
 
 // API
-import { login, log } from '../data/app.data'
-import { pushMsg } from '../data/message.data'
-import { createUserTag } from '../data/user.data'
+import { createUserTag, createUser } from '../data/user.data'
 
 import {
   getUserInfo,
@@ -18,20 +21,19 @@ import {
   language,
   interactionConfig
 } from '../utils/config'
-import { init as openSocket } from '../utils/rongcloud'
-import { loadRongCloud, loadAliOSS } from '../utils/loadScript'
-import { createEventMsg } from '../utils/message'
+import { loadAliOSS } from '../utils/loadScript'
+import { getRandomString } from '../utils/index'
 
 // components
-import ChatInput from '../components/ChatInput'
-import RtMsgPanel from '../components/MsgPanel/RtMsgPanel'
-import HistoryMsgPanel from '../components/MsgPanel/HistoryMsgPanel'
-import ImgModal from '../components/Common/ImageModal'
-import VideoModal from '../components/Common/VideoModal'
-import QuickReply from '../components/ChatInput/QuickReply'
-import ErrorHeader from '../components/Common/ErrorHeader'
-import TipsModal from '../components/Common/TipsModal'
-import Toast from '../components/Common/Toast'
+import ChatInput from '../components/chat-input'
+import RtMsgPanel from '../components/msg-panel/rt-msg-panel'
+import HistoryMsgPanel from '../components/msg-panel/history-msg-panel'
+import ImgModal from '../components/common/image-modal'
+import VideoModal from '../components/common/video-modal'
+import QuickReply from '../components/chat-input/quick-reply.component'
+import ErrorHeader from '../components/common/error-header'
+import TipsModal from '../components/common/tips-modal'
+import Toast from '../components/common/toast'
 
 // interfaces
 import {
@@ -65,6 +67,55 @@ interface IState {
   }
   isError: boolean
   allArrowVisible: boolean
+}
+
+/**
+ * 初始化用户的默认信息
+ */
+const defaultUserInfo = {
+  avatar_url:
+    'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534854173706-41534855030375.png',
+  interaction_config: {
+    auto_pop: 60,
+    // 举报按钮
+    enable_report: false,
+    enable_wulai_ad: false,
+    flow: 'SDK_ASR_TYPE_DEFAULT',
+    fuzzy_sug: true,
+    pop_after_close: -20,
+    reply_msg: [],
+    reply_type: 'SDK_USER_AUTO_REPLY_TYPE_DEFAULT',
+    show_history: true,
+    welcome: null,
+    nickname: '58db3d73d62f94d659f46aa70b91b61f'
+  },
+  page_config: {
+    avatar_shape: 0,
+    bot_avatar:
+      'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png',
+    bot_avatar_chose: 0,
+    chat_bar: 0,
+    entry_image:
+      'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png',
+    entry_image_chose: 0,
+    entry_image_size: 64,
+    font_color: '#ffffff',
+    frame_shape: 1,
+    header_avatar:
+      'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534856515077-31534856527229.png',
+    header_chose: 0,
+    language_code: 'zh-CN',
+    qa_feedback: 'SDK_QA_FEEDBACK_ON',
+    screen_ratio: 100,
+    theme_chose: 1,
+    theme_color: '#0e74b3',
+    title: '徐丽婧测试',
+    user_avatar:
+      'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534854173706-41534855030375.png',
+    user_avatar_chose: 0
+  },
+  start_ts: '1600842673886',
+  user_id: ''
 }
 
 const initialPage = {
@@ -124,7 +175,7 @@ class App extends Nerv.Component<IProps, IState> {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { pubkey, userInfo } = this.props
 
     const isPhone = document.body.clientWidth <= 414
@@ -136,13 +187,25 @@ class App extends Nerv.Component<IProps, IState> {
 
     const localUserInfo = getUserInfo() ? getUserInfo()[pubkey] : null
     const initUserInfo = {
-      userId: '',
+      userId: getRandomString(16),
       userAvatar: '',
       nickName: ''
     }
 
     // 传入的用户信息 > 端上存的信息，如果都没有新创建一个用户
     const user = userInfo || (localUserInfo ? localUserInfo : initUserInfo)
+
+    if (!(userInfo || localUserInfo)) {
+      // 如果没有用户的话、创建一个用户
+
+      try {
+        const data = await createUser(user)
+        // 返回{}\ 表明创建成功、此时user.userId就是之后调开放平台接口的userId
+      } catch (err) {
+        console.log('创建用户失败', err)
+      }
+    }
+
     this.startLogin(pubkey, user)
 
     setTimeout(() => {
@@ -206,62 +269,54 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   startLogin = async (pubkey, user) => {
-    const { userInfo } = this.props
-    const res = await login(pubkey, user)
-
     // @ts-ignore
-    if (res.code) {
+    if (defaultUserInfo.code) {
       // @ts-ignore
-      this.props.openTipsModal(res.message)
+      this.props.openTipsModal(defaultUserInfo.message)
       this.setState({ isError: true })
       return
     }
     // 功能设置
-    interactionConfig.set(res.interaction_config)
+    interactionConfig.set(defaultUserInfo.interaction_config)
 
     // 设置页面样式到全局
-    PageConfig.set(res.page_config)
+    PageConfig.set(defaultUserInfo.page_config)
 
     // 设置语言
-    language.set(res.page_config.language_code)
+    language.set(defaultUserInfo.page_config.language_code)
 
-    this.setState({ pageConfig: res.page_config, startTs: res.start_ts }, () =>
-      this.addStyleByJs()
+    this.setState(
+      {
+        pageConfig: defaultUserInfo.page_config,
+        startTs: defaultUserInfo.start_ts
+      },
+      () => this.addStyleByJs()
     )
 
     const input = {
       pubkey,
-      userId: userInfo ? userInfo.userId : res.user_id
+      userId: user.userId
     }
 
     // pubkey和用户信息存到端上
-    window.localStorage.setItem('SDK_PUBKEY', pubkey)
+    window.localStorage.setItem('PVT_SDK_PUBKEY', pubkey)
     if (!getUserInfo()) {
       const userInfo = {}
       userInfo[`${pubkey}`] = input
-      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(userInfo))
+      window.localStorage.setItem('PVT_SDK_USER_INFO', JSON.stringify(userInfo))
     } else {
       const info = getUserInfo()
       info[pubkey] = input
-      window.localStorage.setItem('SDK_USER_INFO', JSON.stringify(info))
+      window.localStorage.setItem('PVT_SDK_USER_INFO', JSON.stringify(info))
     }
 
     // 如果默认是关闭的状态 需要读取“自动邀请会话”配置
     if (!this.props.autoOpen) {
-      const autoPop = res.interaction_config.auto_pop
+      const autoPop = defaultUserInfo.interaction_config.auto_pop
       if (autoPop > 0) {
         this.applySillyCheck('autoPop', autoPop)
       }
     }
-
-    // 连接融云
-    await loadRongCloud()
-    await openSocket(res.rong_key, res.rong_token)
-
-    // 发送一条进入事件消息
-    const enterMsg = createEventMsg('ENTER')
-    const { msg_id } = await pushMsg(enterMsg)
-    log({ msg_id })
 
     this.setUserTag()
 
@@ -269,7 +324,7 @@ class App extends Nerv.Component<IProps, IState> {
     await loadAliOSS()
 
     window.websdk = {
-      toggleSDkVisible: this.togglePanel
+      toggleSDkVisible: (visible?: boolean) => this.togglePanel(visible)
     }
 
     window.addEventListener('offline', this.onOfflineChange)
@@ -378,8 +433,8 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   // 控制会话框显示/隐藏
-  togglePanel = () => {
-    this.setState({ visibile: !this.state.visibile }, this.handleVisible())
+  togglePanel = (visible: boolean = !this.state.visibile) => {
+    this.setState({ visibile: visible }, this.handleVisible())
   }
 
   render() {
@@ -484,10 +539,8 @@ class App extends Nerv.Component<IProps, IState> {
               ref={this.setContentRef}
               id="msg-scroll-panel"
             >
-              <div className={styles.message}>
-                {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
-                <RtMsgPanel />
-              </div>
+              {showHistory ? <HistoryMsgPanel startTs={startTs} /> : null}
+              <RtMsgPanel />
             </main>
 
             <footer className={styles.footer} id="footer">
@@ -557,6 +610,7 @@ const mapStateToProps = ({ todos }: { todos: IAuthState }) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  setRtMsgs: message => dispatch(setRtMsgs(message)),
   closeImageModal: () => dispatch(closeImageModal(null)),
   closeVideoModal: () => dispatch(closeVideoModal(null)),
   openTipsModal: (message: string) =>

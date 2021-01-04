@@ -11,13 +11,13 @@ import {
   VoiceMessage
 } from '../../../interfaces'
 
-import TextContent from './TextContent'
-import ImgContent from './ImgContent'
-import VideoContent from './VideoContent'
-import FileContent from './FileContent'
-import ShareLinkContent from './ShareLinkContent'
-import RichTextContent from './RichTextContent'
-import VoiceContent from './VoiceContent'
+import TextContent from './text-content'
+import ImgContent from './img-content'
+import VideoContent from './video-content'
+import FileContent from './file-content'
+import ShareLinkContent from './share-link-content'
+import RichTextContent from './rich-text-content'
+import VoiceContent from './voice-content'
 
 interface IProps {
   message: IMsgBodyInfo

@@ -5,6 +5,7 @@
   right: 7px;
   bottom: 9px;
   font-family: "PingFangSC-Regular, 微软雅黑, sans-serif, Microsoft Yahei, Source Han Sans CN, Arial, Helvetica, Tahoma ";
+  top: 64px;
 
   ::-webkit-scrollbar {
     display: none;
@@ -83,13 +84,11 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 
-    .message {
-      .tips {
+      & .tips {
         font-size: 12px;
         text-align: center;
         color: #8e9ca8;
         margin: 20px 0;
-      }
     }
   }
 
@@ -240,5 +239,12 @@
 @media screen and (min-height: 1080px) {
   .container {
     height: 700px;
+  }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: red
   }
 }

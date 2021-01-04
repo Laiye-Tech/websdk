@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions'
-import { IMsgBodyInfo, ISugList, IToastPanel, ITipsModal } from '../interfaces'
+import { IMsgBodyInfo, ISugList, IToastPanel, ITipsModal } from '../../interfaces'
 
 import {
   RT_MSG_LIST,

@@ -3,7 +3,7 @@ import { connect } from 'nerv-redux'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 
-import Msg from '../MsgContent/Msg'
+import Msg from '../msg-content/msg'
 
 interface IProps {
   messageList: IMsgBodyInfo[]
@@ -15,12 +15,6 @@ class RtMsgPanel extends Nerv.Component<IProps> {
 
   render() {
     const { messageList } = this.props
-    // const sortMsgList = messageList.sort((a: any, b: any) => {
-    //   return parseInt(a.msg_ts, 10) - parseInt(b.msg_ts, 10)
-    // })
-
-    // console.log('sortMsgList----', sortMsgList)
-
     return (
       <div>
         {messageList.map(msg => (

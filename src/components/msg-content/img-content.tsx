@@ -1,10 +1,10 @@
 import * as Nerv from 'nervjs'
 import { connect, Dispatch } from 'nerv-redux'
 
-import * as styles from './MsgContent.less'
+import * as styles from './msg-content.less'
 
 // actions
-import { showImageModal } from '../../actions'
+import { showImageModal } from '../../stores/actions'
 
 import { ImageMessage } from '../../../interfaces'
 import { prefixUrl } from '../../utils'

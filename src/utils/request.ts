@@ -1,16 +1,34 @@
 require('whatwg-fetch')
+const CryptoJS = require('crypto-js')
+
+import { getRandomString } from './index'
 
 type RequestMode = 'cors' | 'navigate' | 'no-cors' | 'same-origin'
 
 export default async function postForm<T>(
   url: string,
-  data: T
+  data: T,
+  ContentType = 'application/json; charset: UTF-8'
 ) {
-  const options = {
+  const nonce = getRandomString(32)
+  const secret = 'XOHsAJ0xbDHAVZHC6bsJ'
+  const timestamp = Math.round(new Date().getTime() / 1000)
+
+  const sign = CryptoJS.SHA1(nonce + timestamp + secret, '').toString(
+    CryptoJS.enc.Hex
+  )
+
+  const options: any = {
     method: 'POST',
     body: JSON.stringify(data),
     mode: 'cors' as RequestMode,
-    headers: { 'Content-Type': 'application/json; charset: UTF-8' }
+    headers: {
+      'Content-Type': ContentType,
+      'Api-Auth-pubkey': 'FeX7qVoNSK3rrlzdH8zmQlbbvcdaSzOO001ca284c57ada01a7',
+      'Api-Auth-nonce': nonce,
+      'Api-Auth-sign': sign,
+      'Api-Auth-timestamp': timestamp
+    }
   }
 
   return request(url, options)
@@ -30,11 +48,6 @@ export async function request(url: string, options?: any) {
     if (!res.ok) {
       const type = res.headers.get('Content-Type')
       return type && type.indexOf('json') !== -1 ? res.json() : res.text()
-    }
-
-    // 登录接口获取session
-    if (url.indexOf('/user/login') !== -1) {
-      window.__SESSION__ = res.headers.get('session')
     }
 
     const type = res.headers.get('Content-Type')

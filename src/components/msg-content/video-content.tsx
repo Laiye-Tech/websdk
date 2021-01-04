@@ -1,9 +1,9 @@
 import * as Nerv from 'nervjs'
 import { connect, Dispatch } from 'nerv-redux'
-import * as styles from './MsgContent.less'
+import * as styles from './msg-content.less'
 
 // actions
-import { showVideoModal } from '../../actions'
+import { showVideoModal } from '../../stores/actions'
 
 import { VideoMessage } from '../../../interfaces'
 

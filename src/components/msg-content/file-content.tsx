@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './MsgContent.less'
+import * as styles from './msg-content.less'
 
 import { prefixUrl } from '../../utils'
 import { EXT_COLOR, page as PageConfig, language } from '../../utils/config'

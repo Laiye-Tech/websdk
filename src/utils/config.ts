@@ -1,6 +1,6 @@
 import * as style from '../views/index.less'
-import * as msgStyle from '../components/MsgContent/MsgContent.less'
-import * as chatInputStyle from '../components/ChatInput/ChatInput.less'
+import * as msgStyle from '../components/msg-content/msg-content.less'
+import * as chatInputStyle from '../components/chat-input/chat-input.less'
 import { DIRECTION, IPageConfig, IInteractionConfig } from '../../interfaces'
 
 let pageConfig: IPageConfig
@@ -9,24 +9,15 @@ let interaction: IInteractionConfig
 const MODE = process.env.MODE
 const pkg = require('../../package.json')
 
-let BASE_URL = ''
-let REPORT_URL = 'https://newtesttracking.wul.ai/v1/log/track'
+// 不分环境、统一使用开放接口
+const OPEN_BASE_URL = 'openapi'
 
-if (MODE === 'dev') {
-  BASE_URL = 'https://newtestcb2.wul.ai'
-} else if (MODE === 'qa') {
-  BASE_URL = 'https://newtestcb2.wul.ai'
-} else if (MODE === 'pre') {
-  BASE_URL = 'https://precb2.wul.ai'
-  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
-} else {
-  BASE_URL = 'https://cb2.wul.ai'
-  REPORT_URL = 'https://tracking.wul.ai/v1/log/track'
-}
+// 私有部署
+const PVT_URL = 'http://172.17.227.171/api'
 
 const page = {
   set: (configOb: IPageConfig): void => {
-    pageConfig = {...configOb}
+    pageConfig = { ...configOb }
   },
   get: (propertyKey: keyof IPageConfig) => {
     return typeof interaction !== 'undefined' ? pageConfig[propertyKey] : null
@@ -34,7 +25,7 @@ const page = {
 }
 
 const language = {
-  set: (languageCode) => {
+  set: languageCode => {
     envLanguage = require(`../../locales/${languageCode}`).default
   },
   get: propertyKey => {
@@ -44,14 +35,14 @@ const language = {
 
 const interactionConfig = {
   set: (configOb: IInteractionConfig): void => {
-    interaction = {...configOb}
+    interaction = { ...configOb }
   },
   get: (propertyKey: keyof IInteractionConfig) => {
     return typeof interaction !== 'undefined' ? interaction[propertyKey] : null
   }
 }
 
-const MSG_DIRECTION: {[key: string]: DIRECTION} = {
+const MSG_DIRECTION: { [key: string]: DIRECTION } = {
   /** 用户发出的消息 */
   user: 'FROM_USER',
   /** 客服发出的消息 */
@@ -125,8 +116,8 @@ function getAppInfo() {
 }
 
 function getUserInfo() {
-  if (window.localStorage.getItem('SDK_USER_INFO')) {
-    const result = JSON.parse(window.localStorage.getItem('SDK_USER_INFO'))
+  if (window.localStorage.getItem('PVT_SDK_USER_INFO')) {
+    const result = JSON.parse(window.localStorage.getItem('PVT_SDK_USER_INFO'))
     return result
   }
 
@@ -135,7 +126,7 @@ function getUserInfo() {
 
 function getUserId() {
   if (getUserInfo()) {
-    const pubkey = window.localStorage.getItem('SDK_PUBKEY')
+    const pubkey = window.localStorage.getItem('PVT_SDK_PUBKEY')
     const userId = getUserInfo()[pubkey].userId
     return userId
   }
@@ -143,9 +134,21 @@ function getUserId() {
   return ''
 }
 
+const MSG_TYPE_CONST = {
+  text: 'TEXT',
+  image: 'IMAGE',
+  custom: 'CUSTOM',
+  rich_text: 'RICH_TEXT',
+  video: 'VIDEO',
+  file: 'FILE',
+  voice: 'VOICE',
+  event: 'EVENT',
+  share_link: 'SHARELINK'
+}
+
 export {
-  REPORT_URL,
-  BASE_URL,
+  PVT_URL,
+  OPEN_BASE_URL,
   MSG_DIRECTION,
   getAppInfo,
   getUserInfo,
@@ -160,5 +163,6 @@ export {
   language,
   interactionConfig,
   BACKGROUND_COLOR,
-  TRACK_DIRECTION
+  TRACK_DIRECTION,
+  MSG_TYPE_CONST
 }

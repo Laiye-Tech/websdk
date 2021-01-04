@@ -5,7 +5,7 @@ import { connect, Dispatch } from 'nerv-redux'
 import { language } from '../../utils/config'
 
 // actions
-import { toggleTipsModal } from '../../actions'
+import { toggleTipsModal } from '../../stores/actions'
 
 import { ITipsModal } from '../../../interfaces'
 

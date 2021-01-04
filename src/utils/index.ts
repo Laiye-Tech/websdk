@@ -15,13 +15,10 @@ export function prefixUrl(url: string) {
   return url
 }
 
-export function debounce(
-  func: (...args) => any,
-  timeout: number = 500
-) {
+export function debounce(func: (...args) => any, timeout: number = 500) {
   let timer: NodeJS.Timeout = null
 
-  return function (...args) {
+  return function(...args) {
     if (timer) clearTimeout(timer)
 
     timer = setTimeout(() => {
@@ -33,13 +30,10 @@ export function debounce(
   }
 }
 
-export function throttle(
-  func: (...args) => any,
-  timeout: number = 300
-) {
+export function throttle(func: (...args) => any, timeout: number = 300) {
   let timer: NodeJS.Timeout = null
 
-  return function (...args) {
+  return function(...args) {
     if (timer) return
 
     timer = setTimeout(() => {
@@ -66,7 +60,8 @@ export function getOssUrl(stsToken: IOSSAuth, file: any) {
   })
 
   const ext = file.name.split('.').slice(-1)[0] || 'unknown'
-  const storeAs = `${stsToken.access_dir}/${file.uid || file.name}${Date.now()}.${ext}`
+  const storeAs = `${stsToken.access_dir}/${file.uid ||
+    file.name}${Date.now()}.${ext}`
 
   return client
     .multipartUpload(storeAs, file)
@@ -91,4 +86,14 @@ export function query(name: string) {
 
   if (!res) return null
   return res[2]
+}
+
+export const getRandomString = function(length) {
+  let text = ''
+  const possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
+  return text
 }
