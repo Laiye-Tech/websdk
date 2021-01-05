@@ -1,6 +1,5 @@
-import { MSG_TYPE, DIRECTION } from '../../interfaces'
-import { MSG_DIRECTION, MSG_TYPE_CONST } from './config'
-import { getUserId } from '../utils/config'
+import { MSG_TYPE } from '../../interfaces'
+import { MSG_DIRECTION, MSG_TYPE_CONST, getUserId } from './config'
 import { getBotReply, pushMsg } from '../data/message.data'
 
 /** 文本消息 */
@@ -9,7 +8,7 @@ export function createTextMsg(text: string) {
     text: { content: text }
   }
 
-  return createMsg(body, 'TEXT')
+  return createMsg(body, MSG_TYPE_CONST.text)
 }
 
 /** 图片消息 */
@@ -20,7 +19,7 @@ export function createImageMsg(url: string, thumbUrl: string = '') {
     }
   }
 
-  return createMsg(body, 'IMAGE')
+  return createMsg(body, MSG_TYPE_CONST.image)
 }
 
 /** 事件消息 */
@@ -31,16 +30,16 @@ export function createEventMsg(eventType: string) {
     }
   }
 
-  return createMsg(body, 'EVENT')
+  return createMsg(body, MSG_TYPE_CONST.event)
 }
 
 /** 通知消息 */
 export function createNoticeMsg(msg: string) {
   const body = msg
-  return createMsg(body, 'NOTICE')
+  return createMsg(body, MSG_TYPE_CONST.notice)
 }
 
-export function createMsg(body: any, type: MSG_TYPE) {
+export function createMsg(body: any, type: string) {
   return {
     user_id: getUserId(),
     msg_body: body,
@@ -50,7 +49,7 @@ export function createMsg(body: any, type: MSG_TYPE) {
 
 export function pushRtMessage(
   msgBody: any,
-  msgType: MSG_TYPE,
+  msgType: string,
   msgId: string,
   quick_reply = [],
   bot: any = null,

@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './index.less'
+import * as styles from './index.module.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions
@@ -21,7 +21,6 @@ import {
   language,
   interactionConfig
 } from '../utils/config'
-import { loadAliOSS } from '../utils/loadScript'
 import { getRandomString } from '../utils/index'
 
 // components
@@ -109,7 +108,7 @@ const defaultUserInfo = {
     screen_ratio: 100,
     theme_chose: 1,
     theme_color: '#0e74b3',
-    title: '徐丽婧测试',
+    title: '吾来智能助理',
     user_avatar:
       'https://aibici-test.oss-cn-beijing.aliyuncs.com/rc-upload-1534854173706-41534855030375.png',
     user_avatar_chose: 0
@@ -176,7 +175,11 @@ class App extends Nerv.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const { pubkey, userInfo } = this.props
+    const { pubkey, userInfo, secret } = this.props
+
+    // pubkey和用户信息存到端上
+    window.localStorage.setItem('PVT_SDK_PUBKEY', pubkey)
+    window.localStorage.setItem('PVT_SDK_SECRET', secret)
 
     const isPhone = document.body.clientWidth <= 414
     this.setState({ isPhone }, () => {
@@ -206,7 +209,7 @@ class App extends Nerv.Component<IProps, IState> {
       }
     }
 
-    this.startLogin(pubkey, user)
+    this.startLogin(pubkey, user, secret)
 
     setTimeout(() => {
       this.scrollToBottom()
@@ -268,7 +271,7 @@ class App extends Nerv.Component<IProps, IState> {
     }
   }
 
-  startLogin = async (pubkey, user) => {
+  startLogin = async (pubkey, user, secret) => {
     // @ts-ignore
     if (defaultUserInfo.code) {
       // @ts-ignore
@@ -298,8 +301,6 @@ class App extends Nerv.Component<IProps, IState> {
       userId: user.userId
     }
 
-    // pubkey和用户信息存到端上
-    window.localStorage.setItem('PVT_SDK_PUBKEY', pubkey)
     if (!getUserInfo()) {
       const userInfo = {}
       userInfo[`${pubkey}`] = input
@@ -319,9 +320,6 @@ class App extends Nerv.Component<IProps, IState> {
     }
 
     this.setUserTag()
-
-    // 加载阿里云OSS
-    await loadAliOSS()
 
     window.websdk = {
       toggleSDkVisible: (visible?: boolean) => this.togglePanel(visible)

@@ -61,15 +61,16 @@ const clientConfig = {
         }
       },
       {
-        test: /\.less$/,
+        test: /\.module\.less$/,
         exclude: /node_modules/,
         use: [
           'style-loader',
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-              localIdentName: '[local]_[hash:base64:5]'
+              modules: {
+                localIdentName: '[local]___[hash:base64:5]'
+              }
             }
           },
           'less-loader'
@@ -98,28 +99,17 @@ const clientConfig = {
   devServer: {
     host: '0.0.0.0',
     port: 8082,
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://172.17.227.171',
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   },
+    proxy: {
       '/openapi': {
-        target: 'http://testopenapi.laiye.com',
+        target: 'https://openapi.wul.ai',
         changeOrigin: true,
         pathRewrite: { '^/openapi': '' }
       }
-    // }
+    }
   },
 
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx']
-  },
-
-  externals: {
-    RongIMLib: 'RongIMLib'
   }
 }
 

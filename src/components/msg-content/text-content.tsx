@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs } from '../../stores/actions'
@@ -27,16 +27,11 @@ const TextContent = ({ body, direction, similarList, setRtMsgs }: IProps) => {
     content = transformString(content)
   }
 
-  // 展示emoji表情
-  // if (window.RongIMLib && window.RongIMLib.RongIMEmoji) {
-  //   content = window.RongIMLib.RongIMEmoji.symbolToEmoji(content)
-  // }
-
   // 如果是 任务机器人 中中配置的 去搜索 答案、则不进行 XSS
-  const regAlinkXss = /<a[^>]*href="\#"[^>]*>(.*?)<\/a>/g
-  if (!regAlinkXss.test(content)) {
-    content = xssFilter(content)
-  }
+  // const regAlinkXss = /<a[^>]*href="\#"[^>]*>(.*?)<\/a>/g
+  // if (!regAlinkXss.test(content)) {
+  //   content = xssFilter(content)
+  // }
 
   // 链接
   const regLink = /((http[s]?\:\/\/)?([\w\-]+\.)+[A-Za-z]{2,}([\:\d]*)?([\/\?][\w\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/gi

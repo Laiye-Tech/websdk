@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 import MsgContent from './msg-content'
 
@@ -9,7 +9,8 @@ import {
   CHAT_BAR,
   page as PageConfig,
   language,
-  interactionConfig
+  interactionConfig,
+  MSG_TYPE_CONST
 } from '../../utils/config'
 
 import {
@@ -40,14 +41,14 @@ const ANSWER_LIST: {
   {
     title: '满意',
     icon:
-      'http://172.17.202.22:9000/laiye-im-saas/websdk/invalid-name%403x.png',
+      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/68e7fdd9-1e93-4993-b668-6dd4554093e0.png',
     satisfaction: SATISFACTION_ENUM.THUMB_UP,
     type: 'thumbUp'
   },
   {
     title: '内容不满意',
     icon:
-      'http://172.17.202.22:9000/laiye-im-saas/websdk/invalid-name%403x%20%281%29.png',
+      'https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/14ab3428-57ec-460b-b33e-408d399a4e94.png',
     satisfaction: SATISFACTION_ENUM.BAD_ANSWER,
     type: 'badAnswer'
   },
@@ -148,10 +149,10 @@ class GeniusMsg extends Nerv.Component {
     const reportTxt = Satisfaction.report
 
     const hasOwnContent =
-      message.msg_type === 'IMAGE' ||
-      message.msg_type === 'FILE' ||
-      message.msg_type === 'SHARELINK' ||
-      message.msg_type === 'VIDEO'
+      message.msg_type === MSG_TYPE_CONST.image ||
+      message.msg_type === MSG_TYPE_CONST.file ||
+      message.msg_type === MSG_TYPE_CONST.share_link ||
+      message.msg_type === MSG_TYPE_CONST.video
 
     const alRight = posRight ? styles['answer-pos-right'] : ''
     const alTop = posTop ? styles['answer-pos-top'] : ''

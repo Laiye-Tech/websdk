@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './chat-input.less'
+import * as styles from './chat-input.module.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 import { setRtMsgs, setUserSugList, toggleToastPanel } from '../../stores/actions'
@@ -7,14 +7,14 @@ import { getUserInputSugList } from '../../data/user.data'
 
 import SugList from './sug-list.component'
 
-import { debounce, getOssUrl } from '../../utils'
+import { debounce } from '../../utils'
 import {
   TEXTAREA_SHAPE,
   page as PageConfig,
   language,
   interactionConfig,
-  TRACK_DIRECTION,
-  PVT_URL
+  PVT_URL,
+  MSG_TYPE_CONST
 } from '../../utils/config'
 import {
   createTextMsg,
@@ -39,14 +39,14 @@ interface IState {
 }
 
 const KEY = { DEL: 8, TAB: 9, RETURN: 13, ESC: 27, UP: 38, DOWN: 40 }
-const defaultHeight = 24
+const DEFAULT_HEIGHT = 24
 
 class ChatInput extends Nerv.Component<IProps, IState> {
   $textarea: HTMLTextAreaElement | null
   $input: HTMLInputElement | null = null
   props: IProps
   lastLength = 0
-  lastHeight = defaultHeight
+  lastHeight = DEFAULT_HEIGHT
   containerHeight = ''
   timer = null
 
@@ -58,8 +58,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
   componentDidMount() {
     const isPhone = document.body.clientWidth <= 414
-    const clientHeight =
-      document.body.clientHeight || document.documentElement.clientHeight
 
     this.setState({ isPhone })
 
@@ -70,7 +68,6 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
     const ua = window.navigator.userAgent.toLocaleLowerCase()
     const isIOS = /iphone|ipad|ipod/.test(ua)
-    const isAndroid = /android/.test(ua)
     const isXiaomi = /mi\s | redmi | mix\s/.test(ua)
 
     if (isPhone && this.$textarea) {
@@ -208,15 +205,15 @@ class ChatInput extends Nerv.Component<IProps, IState> {
   }
 
   // 发消息
-  sendMsg = async (msgType: MSG_TYPE, content: any) => {
+  sendMsg = async (msgType: string, content: any) => {
     const { setRtMsgs } = this.props
     let msg = null
 
     switch (msgType) {
-      case 'TEXT':
+      case MSG_TYPE_CONST.text:
         msg = createTextMsg(content)
         break
-      case 'IMAGE':
+      case MSG_TYPE_CONST.image:
         msg = createImageMsg(content)
         break
       default:
@@ -238,10 +235,10 @@ class ChatInput extends Nerv.Component<IProps, IState> {
       this.clearSugList()
 
       // 如果输入框变高的话、将其重置
-      if (this.lastHeight !== defaultHeight && this.$textarea) {
-        this.$textarea.style.height = defaultHeight + 'px'
+      if (this.lastHeight !== DEFAULT_HEIGHT && this.$textarea) {
+        this.$textarea.style.height = DEFAULT_HEIGHT + 'px'
         this.lastLength = 0
-        this.lastHeight = defaultHeight
+        this.lastHeight = DEFAULT_HEIGHT
       }
 
       // 发送完成后调用机器人回复接口
@@ -283,7 +280,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
 
       if (successfully) {
         if (rows[0].url) {
-          this.sendMsg('IMAGE', rows[0].url)
+          this.sendMsg(MSG_TYPE_CONST.image, rows[0].url)
         }
 
         if (this.$input) {
@@ -365,7 +362,7 @@ class ChatInput extends Nerv.Component<IProps, IState> {
               style={{ backgroundColor: bgColor }}
               onClick={this.onPressEnter}
             >
-              <img src="http://172.17.202.22:9000/laiye-im-saas/websdk/send.png" />
+              <img src="https://laiye-im-saas.oss-cn-beijing.aliyuncs.com/c90a8872-8913-43cc-943b-f496c6c8fdf5.png" />
             </div>
           </div>
         </div>

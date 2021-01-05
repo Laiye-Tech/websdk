@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 import MsgContent from './msg-content'
 
@@ -7,7 +7,8 @@ import {
   AVATAR_SHAPE,
   CHAT_BAR,
   page as PageConfig,
-  BACKGROUND_COLOR
+  BACKGROUND_COLOR,
+  MSG_TYPE_CONST
 } from '../../utils/config'
 
 import { IMsgBodyInfo } from '../../../interfaces'
@@ -41,10 +42,10 @@ const UserMsg = (props: IProps) => {
   }
 
   const hasOwnContent =
-    message.msg_type === 'IMAGE' ||
-    message.msg_type === 'FILE' ||
-    message.msg_type === 'SHARELINK' ||
-    message.msg_type === 'VIDEO'
+    message.msg_type === MSG_TYPE_CONST.image ||
+    message.msg_type === MSG_TYPE_CONST.file ||
+    message.msg_type === MSG_TYPE_CONST.share_link ||
+    message.msg_type === MSG_TYPE_CONST.video
 
   const cls = !hasOwnContent ? styles.content : ''
   const style = !hasOwnContent

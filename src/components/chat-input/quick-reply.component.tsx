@@ -1,7 +1,7 @@
 import * as Nerv from 'nervjs'
 import { connect, Dispatch } from 'nerv-redux'
 
-import * as styles from './chat-input.less'
+import * as styles from './chat-input.module.less'
 
 import {
   page as PageConfig,
@@ -75,8 +75,6 @@ class QuickReplyMsg extends Nerv.Component {
   sendQuickReplyMsg = (msg: string) => async () => {
     const { setRtMsgs } = this.props
     const content = createTextMsg(msg)
-
-    // const { msg_id } = await pushMsg(content)
 
     // 发送完成后调用机器人回复接口
     getReply(setRtMsgs, content.msg_body)

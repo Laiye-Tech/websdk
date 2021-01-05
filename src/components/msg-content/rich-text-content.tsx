@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 import { request } from '../../utils/request'
 import { RichTextMessage } from '../../../interfaces'

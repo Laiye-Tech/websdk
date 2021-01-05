@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 import { ShareLinkMessage } from '../../../interfaces'
 import { page as PageConfig } from '../../utils/config'

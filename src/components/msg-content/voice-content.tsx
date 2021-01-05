@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 import { VoiceMessage } from '../../../interfaces'
 import { page as PageConfig, language } from '../../utils/config'

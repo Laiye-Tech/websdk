@@ -1,7 +1,7 @@
 import * as Nerv from 'nervjs'
 import { connect, Dispatch } from 'nerv-redux'
 
-import * as styles from './msg-content.less'
+import * as styles from './msg-content.module.less'
 
 // actions
 import { showImageModal } from '../../stores/actions'

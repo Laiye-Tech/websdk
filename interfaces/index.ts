@@ -23,6 +23,7 @@ export interface IPositionInput {
 }
 
 export type AppInfo = {
+  secret: string
   pubkey: string
   autoOpen?: boolean
   fullScreen?: boolean

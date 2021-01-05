@@ -1,5 +1,5 @@
 import * as Nerv from 'nervjs'
-import * as styles from './style.less'
+import * as styles from './style.module.less'
 import { connect, Dispatch } from 'nerv-redux'
 
 // actions

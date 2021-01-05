@@ -17,7 +17,7 @@ export default {
     audioPlaying: 'Audio is playing'
   },
   Logo: {
-    waterMark: 'http://172.17.202.22:9000/laiye-im-saas/websdk/logo_en.png'
+    waterMark: 'https://cdn.wul.ai/sdk/logo_en.png'
   },
   Tips: {
     delete: 'The bot has been deleted and can not be used',

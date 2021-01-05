@@ -1,6 +1,6 @@
-import * as style from '../views/index.less'
-import * as msgStyle from '../components/msg-content/msg-content.less'
-import * as chatInputStyle from '../components/chat-input/chat-input.less'
+import * as style from '../views/index.module.less'
+import * as msgStyle from '../components/msg-content/msg-content.module.less'
+import * as chatInputStyle from '../components/chat-input/chat-input.module.less'
 import { DIRECTION, IPageConfig, IInteractionConfig } from '../../interfaces'
 
 let pageConfig: IPageConfig
@@ -143,7 +143,8 @@ const MSG_TYPE_CONST = {
   file: 'FILE',
   voice: 'VOICE',
   event: 'EVENT',
-  share_link: 'SHARELINK'
+  share_link: 'SHARELINK',
+  notice: 'NOTICE'
 }
 
 export {

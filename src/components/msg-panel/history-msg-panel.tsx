@@ -1,5 +1,5 @@
 import Nerv from 'nervjs'
-import * as styles from '../../views/index.less'
+import * as styles from '../../views/index.module.less'
 
 import { IMsgBodyInfo } from '../../../interfaces'
 

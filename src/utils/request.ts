@@ -10,10 +10,11 @@ export default async function postForm<T>(
   data: T,
   ContentType = 'application/json; charset: UTF-8'
 ) {
-  const nonce = getRandomString(32)
-  const secret = 'XOHsAJ0xbDHAVZHC6bsJ'
-  const timestamp = Math.round(new Date().getTime() / 1000)
+  const pubkey = window.localStorage.getItem('PVT_SDK_PUBKEY')
+  const secret = window.localStorage.getItem('PVT_SDK_SECRET')
 
+  const nonce = getRandomString(32)
+  const timestamp = Math.round(new Date().getTime() / 1000)
   const sign = CryptoJS.SHA1(nonce + timestamp + secret, '').toString(
     CryptoJS.enc.Hex
   )
@@ -24,7 +25,7 @@ export default async function postForm<T>(
     mode: 'cors' as RequestMode,
     headers: {
       'Content-Type': ContentType,
-      'Api-Auth-pubkey': 'FeX7qVoNSK3rrlzdH8zmQlbbvcdaSzOO001ca284c57ada01a7',
+      'Api-Auth-pubkey': pubkey,
       'Api-Auth-nonce': nonce,
       'Api-Auth-sign': sign,
       'Api-Auth-timestamp': timestamp
