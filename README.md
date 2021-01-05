@@ -71,7 +71,8 @@ pubkey 为必传参数，可从吾来平台->渠道设置->WebSdk 界面获取
 <script>
     new websdk({
         data: {
-            pubkey: 'xxxxxxxxxxxxxxxxxxxx'
+            pubkey: 'xxxxxxxxxxxxxxxxxxxx',
+            secret: 'xxxxxxxxxxxxxxxxxxxx'
         }
     })
 </script>
@@ -82,6 +83,7 @@ pubkey 为必传参数，可从吾来平台->渠道设置->WebSdk 界面获取
 | 参数名     | 说明                                    |  类型   |             默认值              | 版本   |
 | :--------- | :-------------------------------------- | :-----: | :-----------------------------: | :----- |
 | pubkey     | 必填，必须是从吾来平台->渠道设置->WebSdk 获取的Pubkey | string  |               ''                |        |
+| secret     | 必填，必须是从吾来平台->渠道设置->WebSdk 获取的secret | string  |               ''                |        |
 | autoOpen   | SDK 默认是否打开聊天窗口                | boolean |              false              |        |
 | fullScreen | 是否全屏                                | boolean |              false              |        |
 | userInfo   | 设置用户信息                            | Object  |                                 | 3.30.0 |
